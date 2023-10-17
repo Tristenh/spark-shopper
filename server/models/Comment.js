@@ -14,15 +14,10 @@ const commentSchema = new Schema({
     trim: true,
   },
   //   get current date
-  date_created: {
+  dateCreated: {
     type: Date,
     required: true,
     default: Date.now(),
-  },
-  // define products ,references the Product model
-  products: {
-    type: Schema.Types.ObjectId,
-    ref: "Product",
   },
 
   // define user, that references the User model

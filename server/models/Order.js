@@ -5,17 +5,19 @@ const orderSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  // define products as an array that references the Product model
+  // define products as an array that references the Product model and quantity feild
   products: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "Product",
+      product: {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+      },
+      quantity: {
+        type: Number,
+        required: true,
+      },
     },
   ],
-  quantity: {
-    type: Number,
-    required: true,
-  },
   totalPrice: {
     type: Number,
     required: true,

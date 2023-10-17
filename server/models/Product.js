@@ -29,6 +29,12 @@ const productSchema = new Schema({
     ref: "Category",
     required: true,
   },
+  // reference Comments model
+  comments: {
+    type: Schema.Types.ObjectId,
+    ref: "Comment",
+    required: true,
+  },
 });
 
 // export the Product model
