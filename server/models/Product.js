@@ -23,10 +23,10 @@ const productSchema = new Schema({
     min: 0,
     default: 0,
   },
-  // reference Category model
-  category: {
+  // reference SubCategory model
+  subcategory: {
     type: Schema.Types.ObjectId,
-    ref: "Category",
+    ref: "SubCategory",
     required: true,
   },
   // reference Comments model
