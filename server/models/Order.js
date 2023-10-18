@@ -8,14 +8,8 @@ const orderSchema = new Schema({
   // define products as an array that references the Product model and quantity feild
   products: [
     {
-      product: {
-        type: Schema.Types.ObjectId,
-        ref: "Product",
-      },
-      quantity: {
-        type: Number,
-        required: true,
-      },
+      type: Schema.Types.ObjectId,
+      ref: "Product",
     },
   ],
   totalPrice: {

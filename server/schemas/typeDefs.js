@@ -2,13 +2,13 @@
 const typeDefs = `
  
 type Category{
-  _id:ID!
-  name:String!
+  _id:ID
+  name:String
 }
 
 type Product{
-  _id:ID!
-  name:String!
+  _id:ID
+  name:String
   description:String
   image:String
   price:Float
@@ -18,8 +18,8 @@ type Product{
 }
 
 type Order{
-  _id:ID!
-  purchaseDate:String!
+  _id:ID
+  purchaseDate:String
   products:[OrderedProducts]
   totalPrice:Float
 }
@@ -30,7 +30,7 @@ type OrderedProducts{
 }
 
 type Comment{
-    _id:ID!
+    _id:ID
     rating:Int
     commentDesc:String
     dateCreated:String
@@ -38,7 +38,7 @@ type Comment{
 }
 
 type User{
-  _id:ID!
+  _id:ID
   username:String
   password:String
   email:String
@@ -67,7 +67,7 @@ type Query {
 type Mutation {
     addCategory(name:String!):Category
     addProduct(name:String!,description:String!,image:String,price:Float!,quantity:Int!,category:ID!):Product
-    addComment(rating:Int,commentDesc:String):Product
+    addComment(rating:Int!,commentDesc:String):Product
     addUser(username: String!,email: String!,password: String!): Auth
     addOrder(products: [ID]!): Order
     updateUser(username: String,email: String,password: String): User
