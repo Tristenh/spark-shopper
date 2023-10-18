@@ -6,6 +6,7 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { useState } from "react";
+// import { LOGIN } from "../utils/mutations";
 
 // Here we import a helper function that will check if the email is valid
 import { validateEmail } from "../utils/helpers";
@@ -16,25 +17,29 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  //   const [login, { error }] = useMutation(LOGIN);
+  const [formState, setFormState] = useState({ email: "", userName: "" });
 
-//   const handleFormSubmit = async (event) => {
-//     event.preventDefault();
-//     try {
-//       const mutationResponse = await login({
-//         variables: { email: formState.email, password: formState.password },
-//       });
-//       const token = mutationResponse.data.login.token;
-//       Auth.login(token);
-//     } catch (e) {
-//       console.log(e);
-//     }
-//   };
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const mutationResponse = await login({
+        variables: { email: formState.email, password: formState.password },
+      });
+      const token = mutationResponse.data.login.token;
+      Auth.login(token);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const handleInputChange = (e) => {
     // Getting the value and name of the input which triggered the change
-    const { target } = e;
-    const inputType = target.name;
-    const inputValue = target.value;
+    const { name, value } = e.target;
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
 
     // Based on the input type, we set the state of either email, username, and password
     if (inputType === "email") {
@@ -58,7 +63,7 @@ export default function Login() {
       setErrorMessage("");
     }
   };
-  const handleFormSubmit = (e) => {
+  const handleInvalid = (e) => {
     // Preventing the default behavior of the form submit (which is to refresh the page)
     e.preventDefault();
     // Clear the error message if there are no errors
@@ -92,9 +97,20 @@ export default function Login() {
   return (
     <>
       <Center mt={"5rem"} maxW="100vw">
-        <form onSubmit={handleFormSubmit}>
-            <FormLabel ml="1rem">Sign up</FormLabel>
-          <FormControl onSubmit={handleFormSubmit} isRequired>
+        <form
+          onSubmit={(e) => {
+            handleInvalid(e);
+            handleFormSubmit(e);
+          }}
+        >
+          <FormLabel ml="1rem">Sign up</FormLabel>
+          <FormControl
+            onSubmit={(e) => {
+              handleInvalid(e);
+              handleFormSubmit(e);
+            }}
+            isRequired
+          >
             <FormLabel ml="1rem">Name:</FormLabel>
             <Input
               value={userName}
