@@ -1,4 +1,4 @@
-//type definitions for `Category`, `Product`, `Order` and `User` above the `Auth` type
+//type definitions for `Category`, `Product`, `Order`,`Comment` and `User` above the `Auth` type
 const typeDefs = `
  
 type Category{
@@ -20,13 +20,8 @@ type Product{
 type Order{
   _id:ID
   purchaseDate:String
-  products:[OrderedProducts]
+  products:[Product]
   totalPrice:Float
-}
-
-type OrderedProducts{
-    product:Product
-    quantity:Int
 }
 
 type Comment{
