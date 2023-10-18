@@ -42,10 +42,10 @@ export default function Login() {
     });
 
     // Based on the input type, we set the state of either email, username, and password
-    if (inputType === "email") {
-      setEmail(inputValue);
-    } else if (inputType === "userName") {
-      setUserName(inputValue);
+    if (name === "email") {
+      setEmail(value);
+    } else if (name === "userName") {
+      setUserName(value);
     }
   };
   const handleBlur = (e) => {
