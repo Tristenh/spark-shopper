@@ -56,7 +56,7 @@ export const QUERY_CATEGORIES = gql`
 
 export const QUERY_SUBCATEGORIES = gql`
   {
-    subcategories {
+       categories {
       _id
       name
     }
