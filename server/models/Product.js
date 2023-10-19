@@ -33,7 +33,7 @@ const productSchema = new Schema({
   comments: {
     type: Schema.Types.ObjectId,
     ref: "Comment",
-    required: true,
+    
   },
 });
 
