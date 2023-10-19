@@ -6,12 +6,12 @@ const resolvers = {
     categories: async () => {
       return await Category.find();
     },
-    products: async (parent, { category, name }) => {
+    products: async (parent, { subcategory, name }) => {
       try {
         const params = {};
 
-        if (category) {
-          params.category = category;
+        if (subcategory) {
+          params.subcategory = subcategory;
         }
 
         if (name) {
@@ -20,14 +20,14 @@ const resolvers = {
           };
         }
 
-        return await Product.find(params).populate("category");
+        return await Product.find(params).populate("subcategory");
       } catch (error) {
         console.log(error);
       }
     },
     product: async (parent, { _id }) => {
       try {
-        return await Product.findById(_id).populate("category");
+        return await Product.findById(_id).populate("subcategory");
       } catch (error) {
         console.log("product not found", error);
       }
