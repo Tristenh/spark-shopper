@@ -41,6 +41,7 @@ type User{
   username:String
   password:String
   email:String
+  isAdmin:Boolean
   orders:[Order]
   wishList:[Product]
 }
@@ -53,7 +54,14 @@ type Auth {
   token: ID
   user: User
 }
-
+input ProductInput {
+    name: String!
+    description: String!
+    image: String 
+    price:Float!     
+    quantity:Int!
+    subcategory:ID! 
+  }
 type Query {
     categories: [Category]
     subcategories(category: ID!): [SubCategory]
@@ -67,10 +75,13 @@ type Query {
 type Mutation {
     addCategory(name:String!):Category
     addSubCategory(name:String!,category:ID!):SubCategory
-    addProduct(name:String!,description:String!,image:String,price:Float!,quantity:Int!,subcategory:ID!):Product
+    addProduct(productDetails:ProductInput):Product
     addComment(rating:Int!,commentDesc:String):Product
     addUser(username: String!,email: String!,password: String!): Auth
     addOrder(products: [ID]!): Order
+    updateCategory(name:String!):Category
+    updateSubCategory(name:String!,):SubCategory
+
     updateUser(username: String,email: String,password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth
