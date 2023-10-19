@@ -24,7 +24,10 @@ const userSchema = new Schema({
     unique: true,
     match: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
   },
-
+  isAdmin: {
+    type:Boolean,
+    default:false
+  },
   // define oders as an array that references the order model
   orders: [
     {
@@ -32,6 +35,7 @@ const userSchema = new Schema({
       ref: "Order",
     },
   ],
+  
   wishList: [
     {
       type: Schema.Types.ObjectId,

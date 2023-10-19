@@ -6,4 +6,4 @@ const Product = require("./Product");
 const User = require("./User");
 
 // export models
-module.exports = { Category, Comment, Order, Product, User, WishList };
+module.exports = { Category, Comment, Order, Product, User };
