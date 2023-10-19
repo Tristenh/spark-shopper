@@ -1,14 +1,12 @@
 // export const ADD_USER = gql`
 //   mutation addUser(
-//     $firstName: String!
-//     $lastName: String!
+//     $username: String!   
 //     $email: String!
 //     $password: String!
 //     $isAdmin:Boolean
 //   ) {
 //     addUser(
-//       firstName: $firstName
-//       lastName: $lastName
+//       username: $username//       
 //       email: $email
 //       password: $password
 //       isAdmin:$isAdmin
@@ -19,3 +17,14 @@
 //       }
 //     }
 //   }
+
+// export const ADD_PRODUCT = gql`
+//   mutation addProduct($productDetails: ProductInput) {
+//     addProduct(productDetails: $productDetails) {
+//       _id
+      
+      
+     
+//     }
+//   }
+// `;

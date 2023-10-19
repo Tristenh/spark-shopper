@@ -79,6 +79,9 @@ type Mutation {
     addComment(rating:Int!,commentDesc:String):Product
     addUser(username: String!,email: String!,password: String!): Auth
     addOrder(products: [ID]!): Order
+    updateCategory(name:String!):Category
+    updateSubCategory(name:String!,):SubCategory
+
     updateUser(username: String,email: String,password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth

@@ -130,12 +130,24 @@ const resolvers = {
       addProduct: async (parent, { productDetails }, context) => {
         if (context.user.isAdmin) {
           try {
-              return SubCategory.create({name,category });
+              return SubCategory.create({productDetails });
           } catch (error) {
             console.log("unable to add sub category",error);
               
           }
         }
+      },
+      addComment: async (parent, {productId, rating, commentDesc,userId }) => {
+        return Product.findOneAndUpdate(
+          { _id: productId },
+          {
+            $addToSet: { comments: { rating,commentDesc,userId } },
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
       },
     addUser: async (parent, args) => {
       try {
@@ -177,6 +189,32 @@ const resolvers = {
 
       throw AuthenticationError;
     },
+    updateCategory: async (parent, {_id,name}, context) => {
+        if (context.user.isAdmin) {
+          try {
+            return await Product.findByIdAndUpdate(_id, name, {
+              new: true,
+            });
+          } catch (error) {
+            console.log("unable to update category", error);
+          }
+        }
+  
+        throw AuthenticationError;
+      },
+      updateSubCategory: async (parent, {_id,name,category}, context) => {
+        if (context.user.isAdmin) {
+          try {
+            return await Product.findByIdAndUpdate(_id, {name,category}, {
+              new: true,
+            });
+          } catch (error) {
+            console.log("unable to update subcategory", error);
+          }
+        }
+  
+        throw AuthenticationError;
+      },
     updateProduct: async (parent, { _id, quantity }) => {
       try {
         const decrement = Math.abs(quantity) * -1;
@@ -190,6 +228,7 @@ const resolvers = {
         console.log("unable to update product", error);
       }
     },
+    
     login: async (parent, { email, password }) => {
       try {
         const user = await User.findOne({ email });
