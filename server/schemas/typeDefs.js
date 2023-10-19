@@ -38,8 +38,7 @@ type Comment{
 
 type User{
   _id:ID
-  username:String
-  password:String
+  username:String  
   email:String
   isAdmin:Boolean
   orders:[Order]
@@ -64,6 +63,7 @@ input ProductInput {
   }
 type Query {
     categories: [Category]
+
     subcategories(category: ID!): [SubCategory]
     products(subcategory: ID, name: String): [Product]
     product(_id: ID!): Product
@@ -80,7 +80,7 @@ type Mutation {
     addUser(username: String!,email: String!,password: String!): Auth
     addOrder(products: [ID]!): Order
     updateCategory(name:String!):Category
-    updateSubCategory(name:String!,):SubCategory
+    updateSubCategory(name:String!):SubCategory
 
     updateUser(username: String,email: String,password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product

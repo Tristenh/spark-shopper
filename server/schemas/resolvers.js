@@ -6,6 +6,9 @@ const resolvers = {
     categories: async () => {
       return await Category.find();
     },
+    subcategories:async(parent, { category})=>{
+      return await SubCategory.find(category);
+    },
     products: async (parent, { subcategory, name }) => {
       try {
         const params = {};
@@ -109,7 +112,7 @@ const resolvers = {
   },
   Mutation: {
     addCategory: async (parent, { name }, context) => {
-      if (context.user.isAdmin) {
+      if (context.user?.isAdmin) {
         try {
             return Category.create({name });
         } catch (error) {
@@ -118,7 +121,7 @@ const resolvers = {
       }
     },
     addSubCategory: async (parent, { name,category }, context) => {
-        if (context.user.isAdmin) {
+        if (context.user?.isAdmin) {
           try {
               return SubCategory.create({name,category });
           } catch (error) {
@@ -128,7 +131,7 @@ const resolvers = {
         }
       },
       addProduct: async (parent, { productDetails }, context) => {
-        if (context.user.isAdmin) {
+        if (context.user?.isAdmin) {
           try {
               return SubCategory.create({productDetails });
           } catch (error) {
@@ -190,7 +193,7 @@ const resolvers = {
       throw AuthenticationError;
     },
     updateCategory: async (parent, {_id,name}, context) => {
-        if (context.user.isAdmin) {
+        if (context.user?.isAdmin) {
           try {
             return await Product.findByIdAndUpdate(_id, name, {
               new: true,
@@ -203,7 +206,7 @@ const resolvers = {
         throw AuthenticationError;
       },
       updateSubCategory: async (parent, {_id,name,category}, context) => {
-        if (context.user.isAdmin) {
+        if (context.user?.isAdmin) {
           try {
             return await Product.findByIdAndUpdate(_id, {name,category}, {
               new: true,
