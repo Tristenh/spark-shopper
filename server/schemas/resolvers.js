@@ -88,7 +88,12 @@ const resolvers = {
     }
   },
   Mutation: {
-    
+    addCategory: async(parent,{name},context){
+        if(context.user.isAdmin){
+            
+        }
+
+    },
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);

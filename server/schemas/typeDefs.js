@@ -41,6 +41,7 @@ type User{
   username:String
   password:String
   email:String
+  isAdmin:Boolean
   orders:[Order]
   wishList:[Product]
 }
