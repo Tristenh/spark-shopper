@@ -55,10 +55,11 @@ export const QUERY_CATEGORIES = gql`
 `;
 
 export const QUERY_SUBCATEGORIES = gql`
-  {
-       categories {
-      _id
-      name
+query getSubCategories($category: ID) {
+    subcategories(category: $category) {
+        _id
+        name
+        category{  _id    name }
     }
   }
 `;
