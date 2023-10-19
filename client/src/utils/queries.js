@@ -89,6 +89,7 @@ export const QUERY_PRODUCTS = gql`
       price
       quantity
       subcategory {
+        _id
         name
       }
       comments {
