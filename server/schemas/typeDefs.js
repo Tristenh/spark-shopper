@@ -60,7 +60,7 @@ input ProductInput {
     image: String 
     price:Float!     
     quantity:Int!
-    subcategory:ID  
+    subcategory:ID! 
   }
 type Query {
     categories: [Category]
