@@ -11,11 +11,17 @@ import {
   Icon,
   Text,
   Button,
+  Image,
+  chakra,
+  Heading,
+  Center,
+  Tooltip,
+  Stack,
 } from "@chakra-ui/react";
-import { FaRegHeart } from "react-icons/fa";
+import { FaPlayCircle, FaRegHeart } from "react-icons/fa";
 
 //Importing the required component for linking between pages
-import pic from "../assets/camera1.webp";
+import pic from "../assets/drone.webp";
 import { Link } from "react-router-dom";
 const pulseRing = keyframes`
 0%{transform:scale(0.001);}
@@ -54,7 +60,7 @@ const Home = () => {
   // Iterate over each  product to display its details
   return (
     <>
-      <Box m={{ base: 10, md: 20, lg: 60 }}>
+      <Box p={{ base: 10, md: 20, lg: "200px" }}>
         <Grid
           templateRows={{
             base: "repeat(1, 1fr)",
@@ -69,78 +75,132 @@ const Home = () => {
         >
           {products.map((product, index) => (
             // individual grid item with card inside
-            <GridItem key={index} p={3}>
-              <Card p={30}>
+            <GridItem
+              key={index}
+              p={{ base: 0, md: 1 }}
+              pb={{ base: 1, md: 1 }}
+            >
+              <Card p={{ base: 0, md: 10 }}>
                 <CardHeader>
                   <Link href={product.github}>
                     <Box
                       as="div"
-                      _before={{
-                        content: "''",
-                        position: "relative",
-                        display: "block",
-                        width: "150%",
-                        height: "150%",
-                        boxSizing: "border-box",
-                        marginLeft: "-25%",
-                        bgColor: "black",
-                        borderRadius: "50%",
-
-                        animation: `2.25s ${pulseRing} cubic-bezier(0.455, 0.03, 0.515, 0.955) -0.4s infinite`,
-                      }}
+                      bgGradient="linear(to-r, gray.300, orange.100, yellow.400)"
+                      align={"end"}
+                      mr={10}
                     >
-                      <Icon
-                        position="absolute"
-                        as={FaRegHeart}
-                        boxSize={{ base: "24px", md: "24px" }}
-                      ></Icon>
+                      <Tooltip
+                        label="Add to Wish list"
+                        bg="white"
+                        placement={"top"}
+                        color={"gray.800"}
+                        fontSize={"1.2em"}
+                      >
+                        <chakra.a href={"#"} display={"flex"}>
+                          <Icon
+                            position="absolute"
+                            as={FaRegHeart}
+                            boxSize={{ base: "24px", md: "24px" }}
+                            _hover={{
+                              color: "red.600",
+                            }}
+                            _click={{ color: "red.600",}}
+                          />
+                        </chakra.a>
+                      </Tooltip>
                     </Box>
                   </Link>
                 </CardHeader>
-                <CardBody>
-                  <center>
+                <Center py={12}>
+                  <Box
+                    role={"group"}
+                    p={6}
+                    maxW={"330px"}
+                    w={"full"}
+                    bg={"white"}
+                    boxShadow={"2xl"}
+                    rounded={"lg"}
+                    pos={"relative"}
+                    zIndex={1}
+                  >
                     <Link href={product.href}>
-                      <img src={pic} alt={product.name} />
-                      <Text
-                        fontSize={"md"}
-                        pb={"10px"}
-                        align={"center"}
-                        mb={10}
-                        fontWeight={700}
-                      >
-                        Panasonic LUMIX S5II Full-Frame Mirrorless Camera with
-                        20-60mm Lens [6K Video]
-                      </Text>
                       <Box
-                        mt={10}
-                        p={2}
-                        colorScheme="black"
-                        bgGradient="linear(to-r, gray.300, orange.100, yellow.400)"
-                        align={"center"}
-                        borderTopLeftRadius={40}
-                        borderBottomRightRadius={40}
-                        width="150px"
+                        rounded={"lg"}
+                        mt={-12}
+                        pos={"relative"}
+                        height={"230px"}
+                        _after={{
+                          transition: "all .3s ease",
+                          content: '""',
+                          w: "full",
+                          h: "full",
+                          pos: "absolute",
+                          top: 5,
+                          left: 0,
+                          backgroundImage: `url(${pic})`,
+                          filter: "blur(15px)",
+                          zIndex: -1,
+                        }}
+                        _groupHover={{
+                          _after: {
+                            filter: "blur(20px)",
+                          },
+                        }}
                       >
-                        $ 1999
+                        <Image
+                          rounded={"lg"}
+                          // height={230}
+                          // width={282}
+                          objectFit={"cover"}
+                          src={pic}
+                          alt="#"
+                        />
                       </Box>
+                      <Stack pt={10} align={"center"}>
+                        <Text
+                          fontSize={"md"}
+                          pb={"10px"}
+                          align={"center"}
+                          mb={10}
+                          fontWeight={700}
+                        >
+                          Panasonic LUMIX S5II Full-Frame Mirrorless Camera with
+                          20-60mm Lens [6K Video]
+                        </Text>
+                        <Box
+                          mt={1}
+                          p={2}
+                          bgGradient="linear(to-r, gray.300, orange.100, orange.100)"
+                          align={"center"}
+                          borderTopLeftRadius={40}
+                          borderBottomRightRadius={40}
+                          width="150px"
+                          fontWeight={700}
+                        >
+                          $ 1999
+                        </Box>
+                        <Button
+                          mt={10}
+                          p={2}
+                          colorScheme="black"
+                          type="submit"
+                          bgGradient={["linear(to-b, blue.700, gray.800)"]}
+                          borderRadius="full"
+                          boxShadow={
+                            "0px 1px 25px -5px (blue.700 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+                          }
+                          _hover={{
+                            bg: "gray.700",
+                          }}
+                          width="250px"
+                          align={"center"}
+                        >
+                          Add To Cart
+                        </Button>
+                      </Stack>
                     </Link>
-                    <Button
-                      mt={10}
-                      p={2}
-                      colorScheme="black"
-                      type="submit"
-                      bgGradient={["linear(to-b, blue.700, gray.800)"]}
-                      borderRadius="full"
-                      _hover={{
-                        bg: "gray.700",
-                      }}
-                      width="250px"
-                      align={"center"}
-                    >
-                      Add To Cart
-                    </Button>
-                  </center>
-                </CardBody>
+                  </Box>
+                </Center>
               </Card>
             </GridItem>
           ))}
