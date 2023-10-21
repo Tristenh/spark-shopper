@@ -35,7 +35,7 @@ export default function WithAction() {
     <>
       <Box
         bg={useColorModeValue("back.700", "back.900")}
-        px={{ base: "30", md: "20" }}
+        px={{ base: "30", md: "20" }} size={"md"}
       >
         <Flex h={"auto"} alignItems={"center"} justifyContent={"flex-start"}>
           <IconButton
@@ -54,7 +54,7 @@ export default function WithAction() {
               spacing={4}
               display={{ base: "none", lg: "flex" }}
             >
-              <InputGroup borderRadius={5} size="lg" w={{ base: "600px" }}>
+              <InputGroup borderRadius={5} size="md" w={{ base: "500px" }} my={3}>
                 <InputLeftElement
                   pointerEvents="none"
                   // children={<Search2Icon color="gray.600" />}
@@ -66,7 +66,7 @@ export default function WithAction() {
                 />
                 <InputRightAddon p={0} border="none">
                   <Button
-                    size="lg"
+                    size="md"
                     borderLeftRadius={0}
                     borderRightRadius={5}
                     border="2px solid #949494"
@@ -87,7 +87,7 @@ export default function WithAction() {
                         as={Button}
                         rightIcon={<ChevronDownIcon />}
                       >
-                        {isOpen ? "Close" : "Categories"}
+                        {isOpen ? "Close" : "Products"}
                       </MenuButton>
                       <MenuList>
                         {Links.map((link, i) => (
@@ -132,8 +132,9 @@ export default function WithAction() {
         </Flex>
 
         {isOpen ? (
-          <Box pb={4} display={{ md: "none" }}>
-            <Stack as={"nav"} spacing={4}>
+          <Box pb={4} display={{ lg: "none" }}>
+            <Stack as={"nav"} spacing={4} align="center"
+        justify={{ base: "center", md: "space-between" }} >
               <InputGroup borderRadius={5} size="md">
                 <InputLeftElement
                   pointerEvents="none"
@@ -144,7 +145,7 @@ export default function WithAction() {
                   placeholder="Search..."
                   border="1px solid #949494"
                 />
-                <InputRightAddon p={0} border="none" mr={20}>
+                <InputRightAddon p={0} border="none" >
                   <Button
                     size="md"
                     borderLeftRadius={0}
@@ -165,7 +166,7 @@ export default function WithAction() {
                         as={Button}
                         rightIcon={<ChevronDownIcon />}
                       >
-                        {isOpen ? "Close" : "Categories"}
+                        {isOpen ? "Close" : "Products"}
                       </MenuButton>
                       <MenuList>
                         {Links.map((link, i) => (
