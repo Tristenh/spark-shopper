@@ -6,7 +6,6 @@ import {
   Card,
   CardBody,
   CardHeader,
-  keyframes,
   Box,
   Text,
   Button,
@@ -16,35 +15,17 @@ import {
   Tooltip,
   IconButton,
   Stack,
+  VStack,
 } from "@chakra-ui/react";
-import { FaPlayCircle, FaRegHeart } from "react-icons/fa";
-// import { QUERY_PRODUCTS } from "../utils/queries";
+import { FaRegHeart } from "react-icons/fa";
+
 import { useQuery } from "@apollo/client";
 //Importing the required component for linking between pages
 import pic from "../assets/drone.webp";
 import { Link } from "react-router-dom";
-const pulseRing = keyframes`
-0%{transform:scale(0.001);}
-40%
-50%{
-  opacity:0;
-}
-100%{
-  opacity:0;
-}
-`;
+
 const Home = () => {
   const [products, setProducts] = useState([]);
-  // const { loading, data } = useQuery(QUERY_PRODUCTS);
-
-  // const productData = data?.products || {};
-
-  // useEffect(() => {
-  //   if (data) {
-  //     console.log(data);
-  //     setProducts(data.products);
-  //   }
-  // }, []);
 
   // When the component mounts to the VDOM, run this callback to retrieve the information about all projects
   useEffect(() => {
@@ -68,7 +49,7 @@ const Home = () => {
   // Iterate over each  product to display its details
   return (
     <>
-      <Box p={{ base: 10, md: 20, lg: "200px" }}>
+      <Box p={{ base: 10, md: 20, lg: "150px" }}>
         <Grid
           templateRows={{
             base: "repeat(1, 1fr)",
@@ -88,38 +69,31 @@ const Home = () => {
               p={{ base: 0, md: 1 }}
               pb={{ base: 1, md: 1 }}
             >
-              <Card p={{ base: 0, md: 10 }}>
+              <Card p={{ base: 0, md: 5 }} h={700}>
                 <CardHeader>
                   <Link href={product.github}>
-                    <Box
-                      as="div"
-                      // bgGradient="linear(to-r, gray.300, orange.100, yellow.400)"
-                      align={"right"}
-                      mr={10}
+                    <Tooltip
+                      label="Add to Wish list"
+                      bg="white"
+                      placement={"top"}
+                      color={"gray.800"}
+                      fontSize={"1.2em"}
                     >
-                      <Tooltip
-                        label="Add to Wish list"
-                        bg="white"
-                        placement={"top"}
-                        color={"gray.800"}
-                        fontSize={"1.2em"}
-                      >
-                        <chakra.a href={"#"} display={"flex"}>
-                          <IconButton
-                            isRound={true}
-                            variant="solid"
-                            colorScheme="gray"
-                            aria-label="Done"
-                            fontSize="20px"
-                            icon={<FaRegHeart />}
-                            _hover={{
-                              color: "red.600",
-                              fontSize: { base: "20px", md: "24px" },
-                            }}
-                          />
-                        </chakra.a>
-                      </Tooltip>
-                    </Box>
+                      <chakra.a href={"#"} display={"flex"}>
+                        <IconButton
+                          isRound={true}
+                          variant="solid"
+                          colorScheme="gray"
+                          aria-label="Done"
+                          fontSize="20px"
+                          icon={<FaRegHeart />}
+                          _hover={{
+                            color: "red.600",
+                            fontSize: { base: "20px", md: "24px" },
+                          }}
+                        />
+                      </chakra.a>
+                    </Tooltip>
                   </Link>
                 </CardHeader>
                 <CardBody>
@@ -134,11 +108,12 @@ const Home = () => {
                       rounded={"lg"}
                       pos={"relative"}
                       zIndex={1}
+                      h={500}
                     >
                       <Link href={product.href}>
                         <Box
                           rounded={"lg"}
-                          mt={-12}
+                          mt={-20}
                           pos={"relative"}
                           height={"230px"}
                           _after={{
@@ -164,7 +139,7 @@ const Home = () => {
                             // height={230}
                             // width={282}
                             objectFit={"cover"}
-                            src={pic}
+                            src={`/images/${product.image}`}
                             alt="#"
                           />
                         </Box>
@@ -173,42 +148,47 @@ const Home = () => {
                             fontSize={"md"}
                             pb={"10px"}
                             align={"center"}
-                            mb={10}
                             fontWeight={700}
                           >
-                            Panasonic LUMIX S5II Full-Frame Mirrorless Camera
-                            with 20-60mm Lens [6K Video]
+                            {product.name}
                           </Text>
-                          <Box
-                            mt={1}
-                            p={2}
-                            bgGradient="linear(to-r, gray.300, orange.100, orange.100)"
-                            align={"center"}
-                            borderTopLeftRadius={40}
-                            borderBottomRightRadius={40}
-                            width="150px"
-                            fontWeight={700}
-                          >
-                            $ 1999
-                          </Box>
-                          <Button
-                            mt={10}
-                            p={2}
-                            colorScheme="black"
-                            type="submit"
-                            bgGradient={["linear(to-b, blue.700, gray.800)"]}
-                            borderRadius="full"
-                            boxShadow={
-                              "0px 1px 25px -5px (blue.700 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-                            }
-                            _hover={{
-                              bg: "gray.700",
-                            }}
-                            width="250px"
-                            align={"center"}
-                          >
-                            Add To Cart
-                          </Button>
+                          <VStack pos={"absolute"} zIndex={-1} mt={"100px"}>
+                            <Box
+                              p={2}
+                              bgGradient="linear(to-r, gray.300, orange.100, orange.100)"
+                              align={"center"}
+                              borderTopLeftRadius={40}
+                              borderBottomRightRadius={40}
+                              width="150px"
+                              fontWeight={700}
+                              mb={-2}
+                              mt={4}
+                            >
+                              {`$${product.price}`}
+                            </Box>
+                            <Button
+                              mt={10}
+                              p={2}
+                              colorScheme="black"
+                              type="submit"
+                              bgGradient={["linear(to-b, blue.700, gray.800)"]}
+                              borderRadius="full"
+                              // boxShadow={
+                              //   "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+                              // }
+                              _hover={{
+                                bg: "gray.700",
+                              }}
+                              width={{
+                                base: "150px",
+                                md: "200px",
+                                lg: "250px",
+                              }}
+                              align={"center"}
+                            >
+                              Add To Cart
+                            </Button>
+                          </VStack>
                         </Stack>
                       </Link>
                     </Box>
