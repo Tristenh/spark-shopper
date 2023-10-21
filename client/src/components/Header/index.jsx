@@ -15,8 +15,15 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightAddon,
+  Text,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon, ChevronDownIcon,SearchIcon } from "@chakra-ui/icons";
+import {
+  HamburgerIcon,
+  CloseIcon,
+  ChevronDownIcon,
+  SearchIcon,
+} from "@chakra-ui/icons";
+import { BsSuitHeart, BsCart4 } from "react-icons/bs";
 import Nav from "../Nav";
 
 const Links = ["TV", "Home Appliances", "Laptop"];
@@ -26,25 +33,28 @@ export default function WithAction() {
 
   return (
     <>
-      <Box bg={useColorModeValue("back.700", "back.900")}  px={{base:"20",md:"30"}}>
+      <Box
+        bg={useColorModeValue("back.700", "back.900")}
+        px={{ base: "30", md: "20" }}
+      >
         <Flex h={"auto"} alignItems={"center"} justifyContent={"flex-start"}>
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={"Open Menu"}
-            display={{ md: "none" }}
+            display={{ lg: "none" }}
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={12} alignItems={"center"}>
-            <Box size={{base:"none", md:"flex"}}>
+            <Box ml={20}>
               <img src={"../../src/assets/images/logo.jpg"} />
             </Box>
             <HStack
               as={"nav"}
-              spacing={4}              
-              display={{ base: "none", md: "flex" }}
+              spacing={4}
+              display={{ base: "none", lg: "flex" }}
             >
-              <InputGroup borderRadius={5} size="lg" w={{base:"600px"}}>
+              <InputGroup borderRadius={5} size="lg" w={{ base: "600px" }}>
                 <InputLeftElement
                   pointerEvents="none"
                   // children={<Search2Icon color="gray.600" />}
@@ -60,15 +70,15 @@ export default function WithAction() {
                     borderLeftRadius={0}
                     borderRightRadius={5}
                     border="2px solid #949494"
-                    bgGradient='linear(to-r, orange.300, yellow.400)'
+                    bgGradient="linear(to-r, orange.300, yellow.400)"
                   >
-                   < SearchIcon/>
+                    <SearchIcon />
                   </Button>
                 </InputRightAddon>
               </InputGroup>
             </HStack>
-            <HStack spacing={12}  display={{ base: "none", md: "flex" }}>
-              <Flex alignItems={"center"} >
+            <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
+              <Flex alignItems={"center"}>
                 <Menu>
                   {({ isOpen }) => (
                     <>
@@ -95,15 +105,28 @@ export default function WithAction() {
                             {link}
                           </MenuItem>
                         ))}
-                        
                       </MenuList>
                     </>
                   )}
                 </Menu>
               </Flex>
-              </HStack >
-              <HStack spacing={12}  display={{ base: "none", md: "flex" }}>
+            </HStack>
+            <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
               <Nav />
+              <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
+                <Button variant="ghost">
+                  <BsSuitHeart />{" "}
+                  <Text fontSize={"1xl"} ml={2}>
+                    Wishlist
+                  </Text>
+                </Button>
+                <Button variant="ghost">
+                  <BsCart4 />{" "}
+                  <Text fontSize={"1xl"} ml={2}>
+                    Cart
+                  </Text>
+                </Button>
+              </HStack>
             </HStack>
           </HStack>
         </Flex>
@@ -111,7 +134,7 @@ export default function WithAction() {
         {isOpen ? (
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>
-              <InputGroup borderRadius={5} size="sm">
+              <InputGroup borderRadius={5} size="md">
                 <InputLeftElement
                   pointerEvents="none"
                   // children={<Search2Icon color="gray.600" />}
@@ -121,14 +144,15 @@ export default function WithAction() {
                   placeholder="Search..."
                   border="1px solid #949494"
                 />
-                <InputRightAddon p={0} border="none">
+                <InputRightAddon p={0} border="none" mr={20}>
                   <Button
-                    size="sm"
+                    size="md"
                     borderLeftRadius={0}
-                    borderRightRadius={3.3}
-                    border="1px solid #949494"
+                    borderRightRadius={5}
+                    border="2px solid #949494"
+                    bgGradient="linear(to-r, orange.300, yellow.400)"
                   >
-                    Search
+                    <SearchIcon />
                   </Button>
                 </InputRightAddon>
               </InputGroup>
@@ -160,19 +184,32 @@ export default function WithAction() {
                             {link}
                           </MenuItem>
                         ))}
-                       
                       </MenuList>
                     </>
                   )}
                 </Menu>
               </Flex>
+
               <Nav />
+              <Flex alignItems={"center"}>
+              <Button variant="ghost">
+                  <BsSuitHeart />{" "}
+                  <Text fontSize={"1xl"} ml={2}>
+                    Wishlist
+                  </Text>
+                </Button>
+                <Button variant="ghost">
+                  <BsCart4 />{" "}
+                  <Text fontSize={"1xl"} ml={2}>
+                    Cart
+                  </Text>
+                </Button>
+              </Flex>
+             
             </Stack>
           </Box>
         ) : null}
       </Box>
-
-      <Box p={4}>Main Content Here</Box>
     </>
   );
 }

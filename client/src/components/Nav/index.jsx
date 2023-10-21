@@ -16,6 +16,11 @@ import {
   Input,
   useDisclosure,
   HStack,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
@@ -26,7 +31,7 @@ function Nav() {
   const initialRef = React.useRef(null);
 
   return (
-    <HStack>
+    <HStack spacing={0}>
       {Auth.loggedIn() ? (
         <>
           <Nav.Link as={Link} to="/saved">
@@ -42,7 +47,9 @@ function Nav() {
             aria-label="Focus moved to this box"
           ></Box>
 
-          <Button onClick={onOpen}>Login</Button>
+          <Button variant="ghost" onClick={onOpen}>
+            Login/Signup
+          </Button>
           <Modal
             size="lg"
             show={showModal}
@@ -54,47 +61,42 @@ function Nav() {
           >
             <ModalOverlay />
             <ModalContent>
-              <ModalHeader>Login Form</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                {" "}
-                <FormControl>
-                  <FormLabel>Email</FormLabel>
-                  <Input type='email' ref={initialRef} placeholder="Email" />
-                </FormControl>
-                <FormControl mt={4}>
-                  <FormLabel>Password</FormLabel>
-                  <Input  type="password" placeholder="*******" />
-                </FormControl>
-              </ModalBody>
+              <Tabs>
+                <TabList>
+                  <Tab>Login</Tab>
+                  <Tab>Signup</Tab>
+                </TabList>
 
-              <ModalFooter>
-                <Button colorScheme="blue" mr={3} onClick={onClose}>
-                  Close
-                </Button>
-                <Button variant="ghost">Login</Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-          <Box
-            ref={finalRef}
-            tabIndex={-1}
-            aria-label="Focus moved to this box"
-          ></Box>
+                <TabPanels>
+                  <TabPanel>
+                    <ModalHeader>Login Form</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                      {" "}
+                      <FormControl>
+                        <FormLabel>Email</FormLabel>
+                        <Input
+                          type="email"
+                          ref={initialRef}
+                          placeholder="Email"
+                        />
+                      </FormControl>
+                      <FormControl mt={4}>
+                        <FormLabel>Password</FormLabel>
+                        <Input type="password" placeholder="*******" />
+                      </FormControl>
+                    </ModalBody>
 
-          <Button onClick={onOpen}>SignUp</Button>
-          <Modal
-            size="lg"
-            show={showModal}
-            onHide={() => setShowModal(false)}
-            aria-labelledby="signup-modal"
-            finalFocusRef={finalRef}
-            isOpen={isOpen}
-            onClose={onClose}
-          >
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Signup Form</ModalHeader>
+                    <ModalFooter>
+                      <Button colorScheme="blue" mr={3} onClick={onClose}>
+                        Close
+                      </Button>
+                      <Button variant="ghost">Login</Button>
+                    </ModalFooter>
+                  </TabPanel>
+                  <TabPanel>
+                
+                    <ModalHeader>Signup Form</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
                 {" "}
@@ -104,13 +106,12 @@ function Nav() {
                 </FormControl>
                 <FormControl mt={4}>
                   <FormLabel>Email</FormLabel>
-                  <Input type='email' placeholder="Email" />
+                  <Input type="email" placeholder="Email" />
                 </FormControl>
                 <FormControl mt={4}>
                   <FormLabel>Password</FormLabel>
-                  <Input  type="password" placeholder="*******" />
+                  <Input type="password" placeholder="*******" />
                 </FormControl>
-
               </ModalBody>
 
               <ModalFooter>
@@ -119,8 +120,12 @@ function Nav() {
                 </Button>
                 <Button variant="ghost">Create my Account</Button>
               </ModalFooter>
+                  </TabPanel>
+                </TabPanels>
+              </Tabs>
             </ModalContent>
           </Modal>
+         
         </>
       )}
     </HStack>
