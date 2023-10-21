@@ -1,56 +1,129 @@
+import React from "react";
 import Auth from "../../utils/auth";
+import { useState } from "react";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  useDisclosure,
+  HStack,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 function Nav() {
-
-  function showNavigation({links}) {
-    if (Auth.loggedIn()) {
-      return (
-        <ul className="flex-row">
-          <li className="mx-1">
-            <Link to="/orderHistory">
-              Order History
-            </Link>
-          </li>
-          <li className="mx-1">
-            {/* this is not using the Link component to logout or user and then refresh the application to the start */}
-            <a href="/" onClick={() => Auth.logout()}>
-              Logout
-            </a>
-          </li>
-        </ul>
-      );
-    } else {
-      return (
-        <ul className="flex-row">
-          <li className="mx-1">
-            <Link to="/signup">
-              Signup
-            </Link>
-          </li>
-          <li className="mx-1">
-            <Link to="/login">
-              Login
-            </Link>
-          </li>
-        </ul>
-      );
-    }
-  }
+  const [showModal, setShowModal] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const finalRef = React.useRef(null);
+  const initialRef = React.useRef(null);
 
   return (
-    <header className="flex-row px-1">
-      <h1>
-        <Link to="/">
-          <span role="img" aria-label="shopping bag">🛍️</span>
-          -Shop-Shop
-        </Link>
-      </h1>
+    <HStack>
+      {Auth.loggedIn() ? (
+        <>
+          <Nav.Link as={Link} to="/saved">
+            See Your Books
+          </Nav.Link>
+          <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+        </>
+      ) : (
+        <>
+          <Box
+            ref={finalRef}
+            tabIndex={-1}
+            aria-label="Focus moved to this box"
+          ></Box>
 
-      <nav>
-        {showNavigation()}
-      </nav>
-    </header>
+          <Button onClick={onOpen}>Login</Button>
+          <Modal
+            size="lg"
+            show={showModal}
+            onHide={() => setShowModal(false)}
+            aria-labelledby="login-modal"
+            finalFocusRef={finalRef}
+            isOpen={isOpen}
+            onClose={onClose}
+          >
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Login Form</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                {" "}
+                <FormControl>
+                  <FormLabel>Email</FormLabel>
+                  <Input type='email' ref={initialRef} placeholder="Email" />
+                </FormControl>
+                <FormControl mt={4}>
+                  <FormLabel>Password</FormLabel>
+                  <Input  type="password" placeholder="*******" />
+                </FormControl>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button colorScheme="blue" mr={3} onClick={onClose}>
+                  Close
+                </Button>
+                <Button variant="ghost">Login</Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+          <Box
+            ref={finalRef}
+            tabIndex={-1}
+            aria-label="Focus moved to this box"
+          ></Box>
+
+          <Button onClick={onOpen}>SignUp</Button>
+          <Modal
+            size="lg"
+            show={showModal}
+            onHide={() => setShowModal(false)}
+            aria-labelledby="signup-modal"
+            finalFocusRef={finalRef}
+            isOpen={isOpen}
+            onClose={onClose}
+          >
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Signup Form</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                {" "}
+                <FormControl>
+                  <FormLabel>Username</FormLabel>
+                  <Input ref={initialRef} placeholder="Username" />
+                </FormControl>
+                <FormControl mt={4}>
+                  <FormLabel>Email</FormLabel>
+                  <Input type='email' placeholder="Email" />
+                </FormControl>
+                <FormControl mt={4}>
+                  <FormLabel>Password</FormLabel>
+                  <Input  type="password" placeholder="*******" />
+                </FormControl>
+
+              </ModalBody>
+
+              <ModalFooter>
+                <Button colorScheme="blue" mr={3} onClick={onClose}>
+                  Close
+                </Button>
+                <Button variant="ghost">Create my Account</Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </>
+      )}
+    </HStack>
   );
 }
 
