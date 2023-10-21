@@ -21,9 +21,10 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  Text
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-
+import { MdOutlineCreate } from "react-icons/md";
 function Nav() {
   const [showModal, setShowModal] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -48,7 +49,15 @@ function Nav() {
           ></Box>
 
           <Button variant="ghost" onClick={onOpen}>
-            Login/Signup
+          <Box
+                    display={"inline-block"}
+                    verticalAlign={"middle"}
+                    align="center"
+                  >
+                     <MdOutlineCreate/> <Text>  Login/Signup</Text>
+                  </Box>
+           
+          
           </Button>
           <Modal
             size="lg"

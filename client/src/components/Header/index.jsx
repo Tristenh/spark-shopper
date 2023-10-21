@@ -18,6 +18,8 @@ import {
   Text,
   Image,
   Link,
+  Avatar,
+  Badge,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -26,6 +28,7 @@ import {
   SearchIcon,
 } from "@chakra-ui/icons";
 import { BsSuitHeart, BsCart4 } from "react-icons/bs";
+
 import Nav from "../Nav";
 
 const Links = ["TV", "Home Appliances", "Laptop"];
@@ -37,7 +40,7 @@ export default function WithAction() {
     <>
       <Box
         bg={useColorModeValue("back.700", "back.900")}
-        px={{ base: "30", md: "20" }}
+        px={{ base: "30", md: "10" }}
         size={"md"}
       >
         <Flex h={"auto"} alignItems={"center"} justifyContent={"flex-start"}>
@@ -50,7 +53,7 @@ export default function WithAction() {
             mr={10}
           />
           <HStack spacing={12} alignItems={"center"}>
-            <Box >
+            <Box>
               <Link to={"/login"}>
                 {" "}
                 <Image
@@ -108,7 +111,7 @@ export default function WithAction() {
                       <MenuList bg={"back.900"}>
                         {Links.map((link, i) => (
                           <MenuItem
-                            as="subcategories"
+                            as="sub"
                             key={i}
                             px={2}
                             py={1}
@@ -129,19 +132,52 @@ export default function WithAction() {
               </Flex>
             </HStack>
             <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
-              <Nav />
               <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
                 <Button variant="ghost">
-                  <BsSuitHeart />{" "}
-                  <Text fontSize={"1xl"} ml={2}>
-                    Wishlist
-                  </Text>
+                  <Box
+                    display={"inline-block"}
+                    verticalAlign={"middle"}
+                    align="center"
+                  >
+                    <BsSuitHeart /> <Text fontSize={"1xl"}>Wishlist</Text>
+                  </Box>
                 </Button>
-                <Button variant="ghost">
-                  <BsCart4 />{" "}
-                  <Text fontSize={"1xl"} ml={2}>
-                    Cart
-                  </Text>
+                <Button
+                  variant="ghost"
+                  display={"inline-block"}
+                  verticalAlign={"middle"}
+                >
+                  <Box
+                    display={"inline-block"}
+                    verticalAlign={"middle"}
+                    align="center"
+                  >
+                    <BsCart4 />
+                    <Text fontSize={"1xl"}>
+                      Cart{" "}
+                      <Badge
+                        boxSize="1.25em"
+                        bgGradient="linear(to-r, orange.300, yellow.400)"
+                      >
+                        4
+                      </Badge>
+                    </Text>
+                  </Box>
+                </Button>
+              </HStack>
+              <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
+                <Nav />
+
+                <Button
+                  variant="ghost"
+                  cursor={"pointer"}
+                  minW={0}
+                  display={"inline-block"}
+                  verticalAlign={"middle"}
+                >
+                  <Avatar size={"xs"} />
+
+                  <Text ml={2}> Profile</Text>
                 </Button>
               </HStack>
             </HStack>

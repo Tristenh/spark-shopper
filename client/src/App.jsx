@@ -10,7 +10,7 @@ import { setContext } from "@apollo/client/link/context";
 import { theme } from "./styles/theme.jsx";
 
 import Header from './components/Header';
-// import { StoreProvider } from './utils/GlobalState';
+import { StoreProvider } from './utils/GlobalState';
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -35,10 +35,10 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <ChakraProvider theme={theme}>
-        {/* <StoreProvider> */}
+        <StoreProvider>
         <Header/>
         <Outlet />
-        {/* </StoreProvider> */}
+        </StoreProvider>
       </ChakraProvider>
     </ApolloProvider>
   );
