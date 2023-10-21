@@ -1,3 +1,5 @@
+//exports function to validate email
+
 export function validateEmail(email) {
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -9,10 +11,12 @@ export function pluralize(name, count) {
   }
   return name + "s";
 }
+//creates a db spark-shopper and object stores in indexedDB and
+//perform get, put and delete operations based on method inside products, categories and cart
 
 export function idbPromise(storeName, method, object) {
   return new Promise((resolve, reject) => {
-    const request = window.indexedDB.open("shop-shop", 1);
+    const request = window.indexedDB.open("spark-shopper", 1);
     let db, tx, store;
     request.onupgradeneeded = function (e) {
       const db = request.result;
@@ -33,7 +37,7 @@ export function idbPromise(storeName, method, object) {
       db.onerror = function (e) {
         console.log("error", e);
       };
-
+      //performs the operations put, get and delete based on method
       switch (method) {
         case "put":
           store.put(object);

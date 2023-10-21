@@ -15,7 +15,10 @@ import {
   Stack,
   VStack,
 } from "@chakra-ui/react";
+
+//import icon used for wishlist
 import { FaRegHeart } from "react-icons/fa";
+//import GlobalState
 import { useStoreContext } from "../../utils/GlobalState";
 //Importing the required component for linking between pages
 
@@ -23,8 +26,8 @@ import { Link } from "react-router-dom";
 function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
 
-  const { image, name, _id, price, quantity } = item;
-
+  const { image, name, _id, price } = item;
+  //displays product details in card such as name ,image,price, buttons to add to cart and wish list
   return (
     <GridItem p={{ base: 0, md: 1 }} pb={{ base: 1, md: 1 }}>
       <Card p={{ base: 0, md: 5 }} h={700}>
@@ -92,8 +95,6 @@ function ProductItem(item) {
                 >
                   <Image
                     rounded={"lg"}
-                    // height={230}
-                    // width={282}
                     objectFit={"cover"}
                     src={`/images/${image}`}
                     alt="#"
@@ -111,7 +112,7 @@ function ProductItem(item) {
                   <VStack pos={"absolute"} zIndex={-1} mt={"100px"}>
                     <Box
                       p={2}
-                      bgGradient="linear(to-r, gray.300, orange.100, orange.100)"
+                      bgGradient="linear(to-r, #94948C, yellow.400, #94948C)"
                       align={"center"}
                       borderTopLeftRadius={40}
                       borderBottomRightRadius={40}
@@ -127,11 +128,8 @@ function ProductItem(item) {
                       p={2}
                       colorScheme="black"
                       type="submit"
-                      bgGradient={["linear(to-b, blue.700, gray.800)"]}
+                      bgColor="#495C62"
                       borderRadius="full"
-                      // boxShadow={
-                      //   "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
-                      // }
                       _hover={{
                         bg: "gray.700",
                       }}
