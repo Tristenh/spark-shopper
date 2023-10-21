@@ -26,6 +26,9 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const { currentCategory } = state;
+
+  const { loading, data } = useQuery(QUERY_PRODUCTS);
 
   // When the component mounts to the VDOM, run this callback to retrieve the information about all projects
   useEffect(() => {
