@@ -16,6 +16,8 @@ import {
   InputLeftElement,
   InputRightAddon,
   Text,
+  Image,
+  Link,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -35,7 +37,8 @@ export default function WithAction() {
     <>
       <Box
         bg={useColorModeValue("back.700", "back.900")}
-        px={{ base: "30", md: "20" }} size={"md"}
+        px={{ base: "30", md: "20" }}
+        size={"md"}
       >
         <Flex h={"auto"} alignItems={"center"} justifyContent={"flex-start"}>
           <IconButton
@@ -44,17 +47,30 @@ export default function WithAction() {
             aria-label={"Open Menu"}
             display={{ lg: "none" }}
             onClick={isOpen ? onClose : onOpen}
+            mr={10}
           />
           <HStack spacing={12} alignItems={"center"}>
-            <Box ml={20}>
-              <img src={"../../src/assets/images/logo.jpg"} />
+            <Box >
+              <Link to={"/login"}>
+                {" "}
+                <Image
+                  href="/portfolio"
+                  src={"../../src/assets/images/logo.jpg"}
+                />
+              </Link>
             </Box>
+
             <HStack
               as={"nav"}
               spacing={4}
               display={{ base: "none", lg: "flex" }}
             >
-              <InputGroup borderRadius={5} size="md" w={{ base: "500px" }} my={3}>
+              <InputGroup
+                borderRadius={5}
+                size="md"
+                w={{ base: "500px" }}
+                my={3}
+              >
                 <InputLeftElement
                   pointerEvents="none"
                   // children={<Search2Icon color="gray.600" />}
@@ -87,16 +103,17 @@ export default function WithAction() {
                         as={Button}
                         rightIcon={<ChevronDownIcon />}
                       >
-                        {isOpen ? "Close" : "Products"}
+                        {isOpen ? "Products" : "Products"}
                       </MenuButton>
-                      <MenuList>
+                      <MenuList bg={"back.900"}>
                         {Links.map((link, i) => (
                           <MenuItem
-                            as="a"
+                            as="subcategories"
                             key={i}
                             px={2}
                             py={1}
                             rounded={"md"}
+                            bg={"back.900"}
                             _hover={{
                               textDecoration: "none",
                             }}
@@ -133,8 +150,12 @@ export default function WithAction() {
 
         {isOpen ? (
           <Box pb={4} display={{ lg: "none" }}>
-            <Stack as={"nav"} spacing={4} align="center"
-        justify={{ base: "center", md: "space-between" }} >
+            <Stack
+              as={"nav"}
+              spacing={4}
+              align="center"
+              justify={{ base: "center", md: "space-between" }}
+            >
               <InputGroup borderRadius={5} size="md">
                 <InputLeftElement
                   pointerEvents="none"
@@ -145,7 +166,7 @@ export default function WithAction() {
                   placeholder="Search..."
                   border="1px solid #949494"
                 />
-                <InputRightAddon p={0} border="none" >
+                <InputRightAddon p={0} border="none">
                   <Button
                     size="md"
                     borderLeftRadius={0}
@@ -166,7 +187,7 @@ export default function WithAction() {
                         as={Button}
                         rightIcon={<ChevronDownIcon />}
                       >
-                        {isOpen ? "Close" : "Products"}
+                        {isOpen ? "Products" : "Products"}
                       </MenuButton>
                       <MenuList>
                         {Links.map((link, i) => (
@@ -193,7 +214,7 @@ export default function WithAction() {
 
               <Nav />
               <Flex alignItems={"center"}>
-              <Button variant="ghost">
+                <Button variant="ghost">
                   <BsSuitHeart />{" "}
                   <Text fontSize={"1xl"} ml={2}>
                     Wishlist
@@ -206,7 +227,6 @@ export default function WithAction() {
                   </Text>
                 </Button>
               </Flex>
-             
             </Stack>
           </Box>
         ) : null}

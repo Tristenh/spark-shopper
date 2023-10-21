@@ -61,7 +61,7 @@ function Nav() {
           
           >
             <ModalOverlay />
-            <ModalContent>
+            <ModalContent bg={"back.900"}>
               <Tabs>
                 <TabList>
                   <Tab>Login</Tab>
@@ -89,10 +89,10 @@ function Nav() {
                     </ModalBody>
 
                     <ModalFooter>
-                      <Button colorScheme="blue" mr={3} onClick={onClose}>
+                      <Button mr={3} onClick={onClose}>
                         Close
                       </Button>
-                      <Button variant="ghost">Login</Button>
+                      <Button >Login</Button>
                     </ModalFooter>
                   </TabPanel>
                   <TabPanel>
@@ -116,10 +116,10 @@ function Nav() {
               </ModalBody>
 
               <ModalFooter>
-                <Button colorScheme="blue" mr={3} onClick={onClose}>
+                <Button  mr={3} onClick={onClose}>
                   Close
                 </Button>
-                <Button variant="ghost">Create my Account</Button>
+                <Button >Create my Account</Button>
               </ModalFooter>
                   </TabPanel>
                 </TabPanels>
