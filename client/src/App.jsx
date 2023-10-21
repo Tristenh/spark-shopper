@@ -9,7 +9,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 
 // import Nav from './components/Nav';
-// import { StoreProvider } from './utils/GlobalState';
+import { StoreProvider } from "./utils/GlobalState";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -34,10 +34,10 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <ChakraProvider>
-        {/* <StoreProvider> */}
-        {/* <Nav /> */}
-        <Outlet />
-        {/* </StoreProvider> */}
+        <StoreProvider>
+          {/* <Nav /> */}
+          <Outlet />
+        </StoreProvider>
       </ChakraProvider>
     </ApolloProvider>
   );
