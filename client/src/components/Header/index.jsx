@@ -30,6 +30,7 @@ import {
 import { BsSuitHeart, BsCart4 } from "react-icons/bs";
 
 import Nav from "../Nav";
+import { CategoryMenu } from "../CategoryMenu";
 
 const Links = ["TV", "Home Appliances", "Laptop"];
 
@@ -96,41 +97,7 @@ export default function WithAction() {
                 </InputRightAddon>
               </InputGroup>
             </HStack>
-            <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
-              <Flex alignItems={"center"}>
-                <Menu>
-                  {({ isOpen }) => (
-                    <>
-                      <MenuButton
-                        isActive={isOpen}
-                        as={Button}
-                        rightIcon={<ChevronDownIcon />}
-                      >
-                        {isOpen ? "Products" : "Products"}
-                      </MenuButton>
-                      <MenuList bg={"back.900"}>
-                        {Links.map((link, i) => (
-                          <MenuItem
-                            as="sub"
-                            key={i}
-                            px={2}
-                            py={1}
-                            rounded={"md"}
-                            bg={"back.900"}
-                            _hover={{
-                              textDecoration: "none",
-                            }}
-                            href={"#"}
-                          >
-                            {link}
-                          </MenuItem>
-                        ))}
-                      </MenuList>
-                    </>
-                  )}
-                </Menu>
-              </Flex>
-            </HStack>
+<CategoryMenu/>
             <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
               <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
                 <Button variant="ghost">
@@ -225,7 +192,7 @@ export default function WithAction() {
                       >
                         {isOpen ? "Products" : "Products"}
                       </MenuButton>
-                      <MenuList>
+                      <MenuList bg={"back.900"}>
                         {Links.map((link, i) => (
                           <MenuItem
                             as="a"
@@ -233,6 +200,7 @@ export default function WithAction() {
                             px={2}
                             py={1}
                             rounded={"md"}
+                            bg={"back.900"}
                             _hover={{
                               textDecoration: "none",
                             }}
@@ -248,21 +216,54 @@ export default function WithAction() {
                 </Menu>
               </Flex>
 
+              <Button
+                variant="ghost"
+                display={"inline-block"}
+                verticalAlign={"middle"}
+              >
+                <Box
+                  display={"inline-block"}
+                  verticalAlign={"middle"}
+                  align="center"
+                >
+                  <BsSuitHeart /> <Text fontSize={"1xl"}>Wishlist</Text>
+                </Box>
+              </Button>
+              <Button
+                variant="ghost"
+                display={"inline-block"}
+                verticalAlign={"middle"}
+              >
+                <Box
+                  display={"inline-block"}
+                  verticalAlign={"middle"}
+                  align="center"
+                >
+                  <BsCart4 />
+                  <Text fontSize={"1xl"}>
+                    Cart{" "}
+                    <Badge
+                      boxSize="1.25em"
+                      bgGradient="linear(to-r, orange.300, yellow.400)"
+                    >
+                      4
+                    </Badge>
+                  </Text>
+                </Box>
+              </Button>
               <Nav />
-              <Flex alignItems={"center"}>
-                <Button variant="ghost">
-                  <BsSuitHeart />{" "}
-                  <Text fontSize={"1xl"} ml={2}>
-                    Wishlist
-                  </Text>
-                </Button>
-                <Button variant="ghost">
-                  <BsCart4 />{" "}
-                  <Text fontSize={"1xl"} ml={2}>
-                    Cart
-                  </Text>
-                </Button>
-              </Flex>
+
+              <Button
+                variant="ghost"
+                cursor={"pointer"}
+                minW={0}
+                display={"inline-block"}
+                verticalAlign={"middle"}
+              >
+                <Avatar size={"xs"} />
+
+                <Text ml={2}> Profile</Text>
+              </Button>
             </Stack>
           </Box>
         ) : null}
