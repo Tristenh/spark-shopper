@@ -1,4 +1,14 @@
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  Stack,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 
@@ -8,7 +18,7 @@ import Auth from "../../utils/auth";
 // Here we import a helper function that will check if the email is valid
 import { validateEmail } from "../../utils/helpers";
 
-export default function LoginForm() {
+export default function LoginForm(props) {
   // Create state variables for the fields in the form
   // We are also setting their initial values to an empty string
 
@@ -61,119 +71,60 @@ export default function LoginForm() {
       setErrorMessage("");
     }
   };
-  // const handleInvalid = (e) => {
-  //   // Preventing the default behavior of the form submit (which is to refresh the page)
-  //   e.preventDefault();
-  //   // Clear the error message if there are no errors
-  //   setErrorMessage("");
-  //   // First we check to see if the email is not valid or if the userName is empty. If so we set an error message to be displayed on the page.
-  //   if (!validateEmail(email) || !email) {
-  //     setErrorMessage("Email invalid");
-  //     // We want to exit out of this code block if something is wrong so that the user can correct it
-  //     return;
-  //   }
-  //   if (!userName) {
-  //     setErrorMessage("username is invalid");
-  //     // We want to exit out of this code block if something is wrong so that the user can correct it
-  //     return;
-  //   }
-  //   if (userName.length < 3) {
-  //     setErrorMessage("username minimum 3 characters");
-  //     // We want to exit out of this code block if something is wrong so that the user can correct it
-  //     return;
-  //   }
-  //   if (userName.length > 30) {
-  //     setErrorMessage("username max 30 characters");
-  //     // We want to exit out of this code block if something is wrong so that the user can correct it
-  //     return;
-  //   }
 
-  //   // If everything goes according to plan, we want to clear out the input after a successful registration.
-  //   setUserName("");
-  //   setEmail("");
-  // };
   return (
-    <>
+    <Stack spacing={4} justify={{ base: "center", md: "space-between" }}>
+      <ModalHeader>Login Form</ModalHeader>
+      <ModalCloseButton />{" "}
       <form
         onSubmit={(e) => {
           handleFormSubmit(e);
         }}
       >
-        <FormControl>
-          <FormLabel>Email</FormLabel>
-          <Input
-            value={formState.email}
-            type="email"
-            name="email"
-            onChange={handleInput}
-            onBlur={handleInputOnFocusOut}
-            // ref={initialRef}
-            placeholder="Email"
-          />
-        </FormControl>
-        <FormControl mt={4}>
-          <FormLabel>Password</FormLabel>
-          <Input
-            type="password"
-            name="password"
-            value={formState.password}
-            onChange={handleInput}
-            onBlur={handleInputOnFocusOut}
-            placeholder="*******"
-          />
-        </FormControl>
+        <ModalBody>
+          <FormControl>
+            <FormLabel>Email</FormLabel>
+            <Input
+              value={formState.email}
+              type="email"
+              name="email"
+              onChange={handleInput}
+              onBlur={handleInputOnFocusOut}
+              // ref={initialRef}
+              placeholder="Email"
+            />
+          </FormControl>
+          <FormControl mt={4}>
+            <FormLabel>Password</FormLabel>
+            <Input
+              type="password"
+              name="password"
+              value={formState.password}
+              onChange={handleInput}
+              onBlur={handleInputOnFocusOut}
+              placeholder="*******"
+            />
+          </FormControl>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button
+            mr={3}
+            onClick={() => {
+              props.close();
+            }}
+          >
+            Close
+          </Button>
+          <Button type="submit">Login</Button>
+        </ModalFooter>
+
         {errorMessage && (
           <div>
             <p style={{ color: "red" }}>{errorMessage}</p>
           </div>
         )}
       </form>
-      {/* <form
-            onSubmit={(e) => {
-              handleInvalid(e);
-              handleFormSubmit(e);
-            }}
-          >
-            <FormLabel ml="1rem">Sign up</FormLabel>
-            <FormControl
-              onSubmit={(e) => {
-                handleInvalid(e);
-                handleFormSubmit(e);
-              }}
-              isRequired
-            >
-              <FormLabel ml="1rem">Name:</FormLabel>
-              <Input
-                value={userName}
-                onChange={handleInputChange}
-                onBlur={handleBlur}
-                name="userName"
-                type="text"
-                w="100vw"
-                maxW="50rem"
-              />
-              <FormLabel ml="1rem">Email address:</FormLabel>
-              <Input
-                value={email}
-                onChange={handleInputChange}
-                onBlur={handleBlur}
-                type="email"
-                name="email"
-                w="100vw"
-                maxW="50rem"
-              />
-              <Center>
-                <Button type="submit" w={"20rem"} mt={"2rem"} colorscheme="green">
-                  Submit
-                </Button>
-              </Center>
-              {errorMessage && (
-                <div>
-                  <p style={{ color: "red" }}>{errorMessage}</p>
-                </div>
-              )}
-            </FormControl>
-          </form> */}
-    </>
+    </Stack>
   );
 }

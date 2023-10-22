@@ -5,12 +5,8 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   Box,
-  Button, 
+  Button,
   useDisclosure,
   HStack,
   Tabs,
@@ -19,17 +15,17 @@ import {
   Tab,
   TabPanel,
   Text,
+  Avatar
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { MdOutlineCreate } from "react-icons/md";
 import LoginForm from "../LoginForm";
-import SignupForm  from "../SignupForm";
-
+import SignupForm from "../SignupForm";
 
 function Nav() {
   const [showModal, setShowModal] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {open,setOpen}=useState(false)
+  ;
   const finalRef = React.useRef(null);
   // const initialRef = React.useRef(null);
 
@@ -41,16 +37,16 @@ function Nav() {
             See Your Books
           </Box> */}
           <Button
-                  variant="ghost"
-                  cursor={"pointer"}
-                  minW={0}
-                  display={"inline-block"}
-                  verticalAlign={"middle"}
-                >
-                  <Avatar size={"xs"} />
+            variant="ghost"
+            cursor={"pointer"}
+            minW={0}
+            display={"inline-block"}
+            verticalAlign={"middle"}
+          >
+            <Avatar size={"xs"} />
 
-                  <Text ml={2}> Profile</Text>
-                </Button>
+            <Text ml={2}> Profile</Text>
+          </Button>
           <Button onClick={Auth.logout}>Logout</Button>
         </>
       ) : (
@@ -60,9 +56,8 @@ function Nav() {
             tabIndex={-1}
             aria-label="Focus moved to this box"
           ></Box>
-          <Button variant="ghost"  onClick={onOpen}>
-
-          {/* <Button variant="ghost" onClick={() => setShowModal(true)} > */}
+          <Button variant="ghost" onClick={onOpen}>
+            {/* <Button variant="ghost" onClick={() => setShowModal(true)} > */}
             <Box
               display={"inline-block"}
               verticalAlign={"middle"}
@@ -72,7 +67,7 @@ function Nav() {
             </Box>
           </Button>
           <Modal
-            size={{base:"xs", md:"lg"}}
+            size={{ base: "xs", md: "lg" }}
             show={showModal}
             onHide={() => setShowModal(false)}
             aria-labelledby="login-modal"
@@ -84,28 +79,16 @@ function Nav() {
             <ModalContent bg={"back.900"}>
               <Tabs>
                 <TabList>
-                  <Tab >Login</Tab>
+                  <Tab>Login</Tab>
                   <Tab>Signup</Tab>
                 </TabList>
 
                 <TabPanels>
-                  <TabPanel >
-                  <ModalHeader>Login Form</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                      {" "}
-                     <LoginForm/>
-                    </ModalBody>
-
-                    <ModalFooter>
-                      <Button mr={3} onClick={onClose}>
-                        Close
-                      </Button>
-                      <Button>Login</Button>
-                    </ModalFooter>
+                  <TabPanel>
+                    <LoginForm />
                   </TabPanel>
                   <TabPanel>
-                    <SignupForm close={onClose}/>
+                    <SignupForm close={onClose} />
                   </TabPanel>
                 </TabPanels>
               </Tabs>
