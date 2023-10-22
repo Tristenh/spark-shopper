@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Input,Stack } from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, Stack } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
@@ -16,32 +16,28 @@ function SignupForm() {
   const [addUser] = useMutation(ADD_USER);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleInputOnFocusOut = (e) => {
-    const type = e.target.name;
-    const value = e.target.value;
-    // check if field left empty and email is invalid and set errormessage
-    if (type === "email" && !validateEmail(value)) {
-      setErrorMessage("Please enter valid email address");
-    } else if (type === "password" && !value) {
-      setErrorMessage("Please enter password");
-    } else {
-      setErrorMessage("");
-    }
-  };
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const mutationResponse = await addUser({
-      variables: {
-        email: formState.email,
-        password: formState.password,
-        firstName: formState.firstName,
-        lastName: formState.lastName,
-        isAdmin: formState.isAdmin,
-      },
-    });
-    const token = mutationResponse.data.addUser.token;
+    try {
+      const mutationResponse = await addUser({
+        variables: {
+          email: formState.email,
+          password: formState.password,
+          userName: formState.userName,
+          isAdmin: formState.isAdmin,
+        },
+      });
+      const token = mutationResponse.data.addUser.token;
 
-    Auth.login(token);
+      Auth.login(token);
+    } catch (error) {
+      console.log(error);
+    }
+    setFormState({
+      userName: "",
+      email: "",
+      password: "",
+    });
   };
 
   const handleInput = (e) => {
@@ -52,13 +48,23 @@ function SignupForm() {
       setFormState({ ...formState, [type]: value });
     }
   };
+  const handleInputOnFocusOut = (e) => {
+    const type = e.target.name;
+    const value = e.target.value;
+    // check if field left empty and email is invalid and set errormessage
+    if (type === "email" && !validateEmail(value)) {
+      setErrorMessage("Please enter valid email address");
+    } else if (type === "userName" && (!value || value.length < 3)) {
+      setErrorMessage("Please enter valid username  ");
+    } else if (type === "password" && !value) {
+      setErrorMessage("Please enter password");
+    } else {
+      setErrorMessage("");
+    }
+  };
 
   return (
-    <Stack
-      spacing={4}
-      
-      justify={{ base: "center", md: "space-between" }}
-    >
+    <Stack spacing={4} justify={{ base: "center", md: "space-between" }}>
       <h2>Signup</h2>
       <form
         onSubmit={(e) => {
@@ -70,8 +76,8 @@ function SignupForm() {
           {/* <Input ref={initialRef} placeholder="Username" /> */}
           <Input
             type="username"
-            value={formState.user}
-            name="email"
+            value={formState.userName}
+            name="userName"
             onChange={handleInput}
             onBlur={handleInputOnFocusOut}
             placeholder="Username"
@@ -79,12 +85,31 @@ function SignupForm() {
         </FormControl>
         <FormControl mt={4}>
           <FormLabel>Email</FormLabel>
-          <Input type="email" placeholder="Email" />
+          <Input
+            value={formState.email}
+            type="email"
+            name="email"
+            onChange={handleInput}
+            onBlur={handleInputOnFocusOut}
+            placeholder="Email"
+          />
         </FormControl>
         <FormControl mt={4}>
           <FormLabel>Password</FormLabel>
-          <Input type="password" placeholder="*******" />
+          <Input
+            type="password"
+            name="password"
+            value={formState.password}
+            onChange={handleInput}
+            onBlur={handleInputOnFocusOut}
+            placeholder="*******"
+          />
         </FormControl>
+        {errorMessage && (
+          <div>
+            <p style={{ color: "red" }}>{errorMessage}</p>
+          </div>
+        )}
       </form>
     </Stack>
   );

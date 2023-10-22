@@ -1,15 +1,9 @@
-import React, { useEffect } from "react";
-
 import {
   Box,
   Flex,
   HStack,
   IconButton,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
+  Button,  
   useDisclosure,
   useColorModeValue,
   Stack,
@@ -26,14 +20,12 @@ import {
 import {
   HamburgerIcon,
   CloseIcon,
-  ChevronDownIcon,
   SearchIcon,
 } from "@chakra-ui/icons";
 import { BsSuitHeart, BsCart4 } from "react-icons/bs";
 
 import Nav from "../Nav";
 import CategoryMenu from "../CategoryMenu";
-const Links = ["TV", "Home Appliances", "Laptop"];
 
 export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
