@@ -90,27 +90,45 @@ const Cart = () => {
   //   );
   // }
   if (state.cartOpen) {
-    console.log(state.cart);
-
-    let qty = 0;
+    let totalQuantity = 0;
     {
-      state.cart.map((item) => (qty = qty + item.purchaseQuantity));
+      state.cart.map(
+        (item) => (totalQuantity = totalQuantity + item.purchaseQuantity)
+      );
     }
 
     return (
       <>
-        <Drawer isOpen={onOpen} placement="right" onClose={onclose} size={"xl"}>
+        <Drawer
+          isOpen={onOpen}
+          placement="right"
+          onClose={onclose}
+          size={"lg"}
+          bgColor={"#51636C"}
+        >
           <DrawerOverlay />
           <DrawerContent>
-            <DrawerCloseButton onClick={toggleCart} />
-            <DrawerHeader></DrawerHeader>
+            <DrawerCloseButton
+              m={2}
+              onClick={toggleCart}
+              color="yellow.300"
+              fontWeight="extrabold"
+            />
+            <DrawerHeader bgColor={"#51636C"}>
+              <Heading
+                fontSize="xl"
+                fontWeight="extrabold"
+                bgGradient="linear(to-r,yellow.400, orange.200, yellow.400)"
+                bgClip="text"
+              >
+                Shopping Cart ({totalQuantity} items)
+              </Heading>
+            </DrawerHeader>
 
             <DrawerBody>
               <Box
-                maxW={{ base: "3xl", lg: "7xl" }}
+                maxW={{ base: "2xl", lg: "2xl" }}
                 mx="auto"
-                px={{ base: "4", md: "8", lg: "12" }}
-                py={{ base: "6", md: "8", lg: "12" }}
                 zIndex={4}
                 overflow={"auto"}
                 bgColor={"white"}
@@ -122,9 +140,6 @@ const Cart = () => {
                   zIndex={3}
                 >
                   <Stack spacing={{ base: "8", md: "10" }} flex="2">
-                    <Heading fontSize="2xl" fontWeight="extrabold">
-                      Shopping Cart ({qty} items)
-                    </Heading>
                     <Stack spacing="40">
                       {state.cart.length ? (
                         <Box>
@@ -132,29 +147,55 @@ const Cart = () => {
                             <CartItem key={item._id} item={item} />
                           ))}
                           <Box>
-                            <strong>Total: ${calculateTotal()}</strong>
+                            <HStack>
+                              <Text w={480} fontWeight={"bold"}>
+                                Total:
+                              </Text>
+                              <Text fontWeight={"bold"} align="right">
+                                ${calculateTotal()}
+                              </Text>
+                            </HStack>
+
                             {Auth.loggedIn() ? (
-                              <Button onClick={submitCheckout}>Checkout</Button>
+                              <Button
+                                mt={10}
+                                p={2}
+                                colorScheme="black"
+                                type="submit"
+                                bgColor="#495C62"
+                                borderRadius="full"
+                                _hover={{
+                                  bg: "gray.700",
+                                }}
+                                width={{
+                                  base: "150px",
+                                  md: "200px",
+                                  lg: "250px",
+                                }}
+                                align={"center"}
+                                onClick={submitCheckout}
+                              >
+                                Checkout
+                              </Button>
                             ) : (
-                              <Link>(log in to check out)</Link>
+                              <Flex direction="column" align="left" flex="1">
+                                <HStack mt="6" fontWeight="semibold">
+                                  <Link>Log in to check out</Link>
+                                  <p>or</p>
+                                  <Link color={"black"}>Continue shopping</Link>
+                                </HStack>
+                              </Flex>
                             )}
                           </Box>
                         </Box>
                       ) : (
-                        <h3>
+                        <Heading>
                           <Text>😱</Text>
                           You haven't added anything to your cart yet!
-                        </h3>
+                        </Heading>
                       )}
                     </Stack>
                   </Stack>
-                  <Flex direction="column" align="center" flex="1">
-                    {/*<CartOrderSummary />*/}
-                    <HStack mt="6" fontWeight="semibold">
-                      <p>or</p>
-                      <Link color={"black"}>Continue shopping</Link>
-                    </HStack>
-                  </Flex>
                 </VStack>
               </Box>
             </DrawerBody>

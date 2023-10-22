@@ -4,16 +4,14 @@ import { idbPromise } from "../../utils/helpers";
 import {
   CloseButton,
   Flex,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
+  useColorModeValue,
   Divider,
   VStack,
   HStack,
   Text,
+  Select,
 } from "@chakra-ui/react";
+
 const CartItem = ({ item }) => {
   const [state, dispatch] = useStoreContext();
 
@@ -27,6 +25,7 @@ const CartItem = ({ item }) => {
 
   const onChange = (e) => {
     const value = e.target.value;
+    console.log(e.target.value);
     if (value === "0") {
       dispatch({
         type: REMOVE_FROM_CART,
@@ -43,34 +42,6 @@ const CartItem = ({ item }) => {
     }
   };
 
-  // return (
-  //   <div className="flex-row">
-  //     <div>
-  //       <img src={`/images/${item.image}`} alt="" />
-  //     </div>
-  //     <div>
-  //       <div>
-  //         {item.name}, ${item.price}
-  //       </div>
-  //       <div>
-  //         <span>Qty:</span>
-  //         <input
-  //           type="number"
-  //           placeholder="1"
-  //           value={item.purchaseQuantity}
-  //           onChange={onChange}
-  //         />
-  //         <span
-  //           role="img"
-  //           aria-label="trash"
-  //           onClick={() => removeFromCart(item)}
-  //         >
-  //           🗑️
-  //         </span>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
   return (
     <Flex
       direction={{ base: "column", md: "row" }}
@@ -94,20 +65,20 @@ const CartItem = ({ item }) => {
             alt=""
           />
           <Text w={380}> {item.name}</Text>
-          <NumberInput
-            defaultValue={item.purchaseQuantity}
-            min={1}
-            max={10}
-            w={100}
+          <Select
+            maxW="64px"
+            aria-label="Select quantity"
+            focusBorderColor={useColorModeValue("blue.500", "blue.200")}
+            value={item.purchaseQuantity}
             onChange={onChange}
             mr={5}
           >
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="4">5</option>
+          </Select>
           <Text mr={5}>${item.price}</Text>
           <CloseButton
             aria-label={`Delete ${item.name} from cart`}

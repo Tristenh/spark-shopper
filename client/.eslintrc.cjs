@@ -12,5 +12,6 @@ module.exports = {
   rules: {
     "react-refresh/only-export-components": "warn",
     "no-case-declarations": 0,
+    "react/prop-types": 0,
   },
 };
