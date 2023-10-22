@@ -166,6 +166,7 @@ function ProductItem(item) {
                       lg: "250px",
                     }}
                     align={"center"}
+                    onClick={addToCart}
                   >
                     Add To Cart
                   </Button>

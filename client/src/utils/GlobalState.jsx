@@ -9,8 +9,8 @@ const StoreProvider = ({ value = [], ...props }) => {
   // Initialize `useReducer` hook. Returns state and a dispatch function. Accepts arguments of our reducer and initial state
   const [state, dispatch] = useReducer(reducer, {
     products: [],
-    // cart: [],
-    // cartOpen: false,
+    cart: [],
+    cartOpen: false,
     // categories: [],
     currentSubCategory: "",
   });
