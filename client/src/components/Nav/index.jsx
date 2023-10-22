@@ -40,7 +40,7 @@ function Nav() {
             See Your Books
           </Box> */}
           <HStack as={"nav"} spacing={8}>
-            <Button
+           <Link to ="/order"><Button
               variant="ghost"
               cursor={"pointer"}
               display={"inline-block"}
@@ -55,7 +55,7 @@ function Nav() {
                 <Avatar size={"2xs"} />
                 <Text> Profile</Text>
               </Box>
-            </Button>
+            </Button></Link> 
             <Button
               variant="ghost"
               cursor={"pointer"}

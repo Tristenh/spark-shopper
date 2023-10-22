@@ -45,7 +45,7 @@ const resolvers = {
         try {
           const user = await User.findById(context.user._id).populate({
             path: "orders.products",
-            populate: "subcategory",
+            populate: "category",
           });
           //sorting as per latest purchase to oldest purchase date
           user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);

@@ -4,7 +4,6 @@ export const QUERY_USER = gql`
   {
     user {
       username
-      email
       isAdmin
       orders {
         _id
@@ -28,19 +27,19 @@ export const QUERY_USER = gql`
           }
         }
       }
-      wishList {
-        products {
-          _id
-          name
-          description
-          image
-          price
-          quantity
-          subcategory {
-            name
-          }
-        }
-      }
+      # wishList {
+      #   products {
+      #     _id
+      #     name
+      #     description
+      #     image
+      #     price
+      #     quantity
+      #     subcategory {
+      #       name
+      #     }
+      #   }
+      # }
     }
   }
 `;
@@ -55,11 +54,14 @@ export const QUERY_CATEGORIES = gql`
 `;
 
 export const QUERY_SUBCATEGORIES = gql`
-query getSubCategories($category: ID) {
+  query getSubCategories($category: ID) {
     subcategories(category: $category) {
+      _id
+      name
+      category {
         _id
         name
-        category{  _id    name }
+      }
     }
   }
 `;
