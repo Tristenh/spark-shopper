@@ -1,11 +1,15 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import Auth from '../utils/auth';
-import { ADD_USER } from '../utils/mutations';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import Auth from "../utils/auth";
+import { ADD_USER } from "../utils/mutations";
 
 function Signup(props) {
-  const [formState, setFormState] = useState({ email: '', password: '',isAdmin:false });
+  const [formState, setFormState] = useState({
+    email: "",
+    password: "",
+    isAdmin: false,
+  });
   const [addUser] = useMutation(ADD_USER);
 
   const handleFormSubmit = async (event) => {
@@ -16,11 +20,11 @@ function Signup(props) {
         password: formState.password,
         firstName: formState.firstName,
         lastName: formState.lastName,
-        isAdmin:formState.isAdmin
+        isAdmin: formState.isAdmin,
       },
     });
     const token = mutationResponse.data.addUser.token;
-    
+
     Auth.login(token);
   };
 
