@@ -10,8 +10,7 @@ import {
   ModalBody,
   ModalCloseButton,
   Box,
-  Button,
- 
+  Button, 
   useDisclosure,
   HStack,
   Tabs,
@@ -25,9 +24,12 @@ import { Link } from "react-router-dom";
 import { MdOutlineCreate } from "react-icons/md";
 import LoginForm from "../LoginForm";
 import SignupForm  from "../SignupForm";
+
+
 function Nav() {
   const [showModal, setShowModal] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {open,setOpen}=useState(false)
   const finalRef = React.useRef(null);
   // const initialRef = React.useRef(null);
 
@@ -35,10 +37,21 @@ function Nav() {
     <HStack spacing={0}>
       {Auth.loggedIn() ? (
         <>
-          <Nav.Link as={Link} to="/saved">
+          {/* <Box as={Link} to="/">
             See Your Books
-          </Nav.Link>
-          <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+          </Box> */}
+          <Button
+                  variant="ghost"
+                  cursor={"pointer"}
+                  minW={0}
+                  display={"inline-block"}
+                  verticalAlign={"middle"}
+                >
+                  <Avatar size={"xs"} />
+
+                  <Text ml={2}> Profile</Text>
+                </Button>
+          <Button onClick={Auth.logout}>Logout</Button>
         </>
       ) : (
         <>
@@ -72,7 +85,7 @@ function Nav() {
               <Tabs>
                 <TabList>
                   <Tab >Login</Tab>
-                  <Tab >Signup</Tab>
+                  <Tab>Signup</Tab>
                 </TabList>
 
                 <TabPanels>
@@ -92,19 +105,7 @@ function Nav() {
                     </ModalFooter>
                   </TabPanel>
                   <TabPanel>
-                    <ModalHeader>Signup Form</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                      {" "}
-                      <SignupForm/>
-                    </ModalBody>
-
-                    <ModalFooter>
-                      <Button mr={3} onClick={onClose}>
-                        Close
-                      </Button>
-                      <Button>Create my Account</Button>
-                    </ModalFooter>
+                    <SignupForm close={onClose}/>
                   </TabPanel>
                 </TabPanels>
               </Tabs>

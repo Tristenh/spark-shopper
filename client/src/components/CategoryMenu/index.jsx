@@ -21,7 +21,6 @@ function CategoryMenu() {
   const [state, dispatch] = useStoreContext();
 
   const { categories } = state;
-  console.log(categories);
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
 
   useEffect(() => {
@@ -30,13 +29,11 @@ function CategoryMenu() {
         type: UPDATE_CATEGORIES,
         categories: categoryData.categories,
       });
-      console.log(categoryData, "category data");
       categoryData.categories.forEach((category) => {
         idbPromise("categories", "put", category);
       });
     } else if (!loading) {
       idbPromise("categories", "get").then((categories) => {
-        console.log(categories, "categories not loading");
 
         dispatch({
           type: UPDATE_CATEGORIES,

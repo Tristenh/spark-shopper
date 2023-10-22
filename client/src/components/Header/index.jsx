@@ -34,10 +34,10 @@ export default function Header() {
     <>
       <Box
         bg={useColorModeValue("back.700", "back.900")}
-        px={{ base: "30", md: "10" }}
+        px={{ base: "30", md: "20" }}
         size={"md"}
       >
-        <Flex h={"auto"} alignItems={"center"} justifyContent={"flex-start"}>
+        <Flex h={"auto"} alignItems={"center"} justifyContent={"flex-start"} w={"100%"}>
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -63,7 +63,7 @@ export default function Header() {
                 borderRadius={5}
                 size="md"
                 w={{ base: "500px" }}
-                my={3}
+                my={5}
               >
                 <InputLeftElement
                   pointerEvents="none"
@@ -128,17 +128,7 @@ export default function Header() {
               <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
                 <Nav />
 
-                <Button
-                  variant="ghost"
-                  cursor={"pointer"}
-                  minW={0}
-                  display={"inline-block"}
-                  verticalAlign={"middle"}
-                >
-                  <Avatar size={"xs"} />
-
-                  <Text ml={2}> Profile</Text>
-                </Button>
+                
               </HStack>
             </HStack>
           </HStack>
@@ -212,17 +202,7 @@ export default function Header() {
               </Button>
               <Nav />
 
-              <Button
-                variant="ghost"
-                cursor={"pointer"}
-                minW={0}
-                display={"inline-block"}
-                verticalAlign={"middle"}
-              >
-                <Avatar size={"xs"} />
-
-                <Text ml={2}> Profile</Text>
-              </Button>
+              
             </Stack>
           </Box>
         ) : null}

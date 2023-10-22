@@ -39,23 +39,27 @@ export const ADD_COMMENT = gql`
 // Mutation to add a new user
 export const ADD_USER = gql`
   mutation addUser(
-    $username: String!   
+    $username: String!
     $email: String!
     $password: String!
-    $isAdmin:Boolean
-  ) {
+  ) # $isAdmin:Boolean
+  {
     addUser(
-      username: $username    
+      username: $username
       email: $email
       password: $password
-      isAdmin: $isAdmin
-    ) {
+    ) # isAdmin: $isAdmin
+    {
       token
       user {
         _id
+        email
+        isAdmin
+        username
       }
     }
-  }`;
+  }
+`;
 
 // Mutation to add a new order
 export const ADD_ORDER = gql`
@@ -97,13 +101,13 @@ export const UPDATE_SUBCATEGORY = gql`
 // Mutation to update a user
 export const UPDATE_USER = gql`
   mutation updateUser(
-    $username: String!   
+    $username: String!
     $email: String!
     $password: String!
-    $isAdmin:Boolean
+    $isAdmin: Boolean
   ) {
     updateUser(
-      username: $username       
+      username: $username
       email: $email
       password: $password
       isAdmin: $isAdmin
@@ -113,7 +117,8 @@ export const UPDATE_USER = gql`
         _id
       }
     }
-  }`;
+  }
+`;
 
 // Mutation to update a product
 export const UPDATE_PRODUCT = gql`
