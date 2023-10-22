@@ -21,7 +21,7 @@ import {
   TabPanels,
   Tab,
   TabPanel,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { MdOutlineCreate } from "react-icons/md";
@@ -49,15 +49,13 @@ function Nav() {
           ></Box>
 
           <Button variant="ghost" onClick={onOpen}>
-          <Box
-                    display={"inline-block"}
-                    verticalAlign={"middle"}
-                    align="center"
-                  >
-                     <MdOutlineCreate/> <Text>  Login/Signup</Text>
-                  </Box>
-           
-          
+            <Box
+              display={"inline-block"}
+              verticalAlign={"middle"}
+              align="center"
+            >
+              <MdOutlineCreate /> <Text> Login/Signup</Text>
+            </Box>
           </Button>
           <Modal
             size="lg"
@@ -67,7 +65,6 @@ function Nav() {
             finalFocusRef={finalRef}
             isOpen={isOpen}
             onClose={onClose}
-          
           >
             <ModalOverlay />
             <ModalContent bg={"back.900"}>
@@ -101,41 +98,39 @@ function Nav() {
                       <Button mr={3} onClick={onClose}>
                         Close
                       </Button>
-                      <Button >Login</Button>
+                      <Button>Login</Button>
                     </ModalFooter>
                   </TabPanel>
                   <TabPanel>
-                
                     <ModalHeader>Signup Form</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                {" "}
-                <FormControl>
-                  <FormLabel>Username</FormLabel>
-                  <Input ref={initialRef} placeholder="Username" />
-                </FormControl>
-                <FormControl mt={4}>
-                  <FormLabel>Email</FormLabel>
-                  <Input type="email" placeholder="Email" />
-                </FormControl>
-                <FormControl mt={4}>
-                  <FormLabel>Password</FormLabel>
-                  <Input type="password" placeholder="*******" />
-                </FormControl>
-              </ModalBody>
+                    <ModalCloseButton />
+                    <ModalBody>
+                      {" "}
+                      <FormControl>
+                        <FormLabel>Username</FormLabel>
+                        <Input ref={initialRef} placeholder="Username" />
+                      </FormControl>
+                      <FormControl mt={4}>
+                        <FormLabel>Email</FormLabel>
+                        <Input type="email" placeholder="Email" />
+                      </FormControl>
+                      <FormControl mt={4}>
+                        <FormLabel>Password</FormLabel>
+                        <Input type="password" placeholder="*******" />
+                      </FormControl>
+                    </ModalBody>
 
-              <ModalFooter>
-                <Button  mr={3} onClick={onClose}>
-                  Close
-                </Button>
-                <Button >Create my Account</Button>
-              </ModalFooter>
+                    <ModalFooter>
+                      <Button mr={3} onClick={onClose}>
+                        Close
+                      </Button>
+                      <Button>Create my Account</Button>
+                    </ModalFooter>
                   </TabPanel>
                 </TabPanels>
               </Tabs>
             </ModalContent>
           </Modal>
-         
         </>
       )}
     </HStack>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Flex,
   HStack,
@@ -17,13 +17,11 @@ import {
 import { QUERY_CATEGORIES } from "../../utils/queries";
 import { idbPromise } from "../../utils/helpers";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-const Links = ["TV", "Home Appliances", "Laptop"];
-
 function CategoryMenu() {
   const [state, dispatch] = useStoreContext();
 
   const { categories } = state;
-
+  console.log(categories);
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
 
   useEffect(() => {
@@ -57,7 +55,39 @@ function CategoryMenu() {
 
   return (
     <div>
-      <h2>Choose a Category:</h2>
+      <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
+        <Flex alignItems={"center"}>          
+          <Menu>
+            {({ isOpen }) => (
+              <>
+                <MenuButton
+                  isActive={isOpen}
+                  as={Button}
+                  rightIcon={<ChevronDownIcon />}
+                >
+                  {isOpen ? "Products" : "Products"}
+                </MenuButton>
+                <MenuList bg={"back.900"}>
+                  {categories.map((item) => (
+                    <MenuItem
+                      as="a"
+                      key={item._id}
+                      px={2}
+                      py={1}                      
+                      bg={"back.900"}
+                      
+                      onClick={()=>handleClick(item._id)}
+                    >
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </>
+            )}
+          </Menu>
+        </Flex>
+      </HStack>
+      {/* <h2>Choose a Category:</h2>
       {categories.map((item) => (
         <button
           key={item._id}
@@ -70,46 +100,11 @@ function CategoryMenu() {
       ))}
       <button
         onClick={() => {
-          handleClick("");
+          handleClick('');
         }}
       >
         All
-      </button>
-      <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
-        <Flex alignItems={"center"}>
-          <Menu>
-            {({ isOpen }) => (
-              <>
-                <MenuButton
-                  isActive={isOpen}
-                  as={Button}
-                  rightIcon={<ChevronDownIcon />}
-                >
-                  {isOpen ? "Products" : "Products"}
-                </MenuButton>
-                <MenuList bg={"back.900"}>
-                  {Links.map((link, i) => (
-                    <MenuItem
-                      as="a"
-                      key={i}
-                      px={2}
-                      py={1}
-                      rounded={"md"}
-                      bg={"back.900"}
-                      _hover={{
-                        textDecoration: "none",
-                      }}
-                      href={"#"}
-                    >
-                      {link}
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </>
-            )}
-          </Menu>
-        </Flex>
-      </HStack>
+      </button> */}
     </div>
   );
 }

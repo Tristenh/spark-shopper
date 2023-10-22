@@ -1,3 +1,5 @@
+import React, { useEffect } from 'react';
+
 import {
   Box,
   Flex,
@@ -28,14 +30,46 @@ import {
   SearchIcon,
 } from "@chakra-ui/icons";
 import { BsSuitHeart, BsCart4 } from "react-icons/bs";
+// import { QUERY_CATEGORIES } from '../../utils/queries';
+// import { useStoreContext } from '../../utils/GlobalState';
+// import { useQuery } from '@apollo/client';
+
 
 import Nav from "../Nav";
-import { CategoryMenu } from "../CategoryMenu";
-
+import CategoryMenu from "../CategoryMenu"
 const Links = ["TV", "Home Appliances", "Laptop"];
-
+// import {
+//   UPDATE_CATEGORIES,
+//   // UPDATE_CURRENT_CATEGORY,
+// } from '../../utils/actions';
 export default function WithAction() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // const [state, dispatch] = useStoreContext();
+  // const { categories } = state;
+  // const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
+ 
+  // useEffect(() => {
+  //   if (categoryData) {
+  //     dispatch({
+  //       type: UPDATE_CATEGORIES,
+  //       categories: categoryData.categories,
+  //     });
+  //     console.log(categoryData,"category data")
+  //     // categoryData.categories.forEach((category) => {
+  //     //   // idbPromise('categories', 'put', category);
+  //     // });
+  //   } else if (!loading) {
+  //     // idbPromise('categories', 'get').then((categories) => {
+  //     console.log(categories,"categories not loading")
+
+  //       dispatch({
+  //         type: UPDATE_CATEGORIES,
+  //         categories: categories,
+  //       });
+  //     // });
+  //   }
+  // }, [categoryData, loading, dispatch]);
+  // console.log(categoryData,categories)
 
   return (
     <>
@@ -97,7 +131,8 @@ export default function WithAction() {
                 </InputRightAddon>
               </InputGroup>
             </HStack>
-<CategoryMenu/>
+            <CategoryMenu/>
+          
             <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
               <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
                 <Button variant="ghost">
@@ -216,54 +251,55 @@ export default function WithAction() {
                 </Menu>
               </Flex>
 
-              <Button
-                variant="ghost"
-                display={"inline-block"}
-                verticalAlign={"middle"}
-              >
-                <Box
+             
+                <Button
+                  variant="ghost"
                   display={"inline-block"}
                   verticalAlign={"middle"}
-                  align="center"
                 >
-                  <BsSuitHeart /> <Text fontSize={"1xl"}>Wishlist</Text>
-                </Box>
-              </Button>
-              <Button
-                variant="ghost"
-                display={"inline-block"}
-                verticalAlign={"middle"}
-              >
-                <Box
+                  <Box
+                    display={"inline-block"}
+                    verticalAlign={"middle"}
+                    align="center"
+                  >
+                    <BsSuitHeart /> <Text fontSize={"1xl"}>Wishlist</Text>
+                  </Box>
+                </Button>
+                <Button
+                  variant="ghost"
                   display={"inline-block"}
                   verticalAlign={"middle"}
-                  align="center"
                 >
-                  <BsCart4 />
-                  <Text fontSize={"1xl"}>
-                    Cart{" "}
-                    <Badge
-                      boxSize="1.25em"
-                      bgGradient="linear(to-r, orange.300, yellow.400)"
-                    >
-                      4
-                    </Badge>
-                  </Text>
-                </Box>
-              </Button>
-              <Nav />
+                  <Box
+                    display={"inline-block"}
+                    verticalAlign={"middle"}
+                    align="center"
+                  >
+                    <BsCart4 />
+                    <Text fontSize={"1xl"}>
+                      Cart{" "}
+                      <Badge
+                        boxSize="1.25em"
+                        bgGradient="linear(to-r, orange.300, yellow.400)"
+                      >
+                        4
+                      </Badge>
+                    </Text>
+                  </Box>
+                </Button>
+                <Nav />
 
-              <Button
-                variant="ghost"
-                cursor={"pointer"}
-                minW={0}
-                display={"inline-block"}
-                verticalAlign={"middle"}
-              >
-                <Avatar size={"xs"} />
+                <Button
+                  variant="ghost"
+                  cursor={"pointer"}
+                  minW={0}
+                  display={"inline-block"}
+                  verticalAlign={"middle"}
+                >
+                  <Avatar size={"xs"} />
 
-                <Text ml={2}> Profile</Text>
-              </Button>
+                  <Text ml={2}> Profile</Text>
+                </Button>
             </Stack>
           </Box>
         ) : null}
