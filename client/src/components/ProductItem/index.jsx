@@ -20,13 +20,37 @@ import {
 import { FaRegHeart } from "react-icons/fa";
 //import GlobalState
 import { useStoreContext } from "../../utils/GlobalState";
+import { idbPromise } from "../../utils/helpers";
 //Importing the required component for linking between pages
 
 import { Link } from "react-router-dom";
+import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
 
   const { image, name, _id, price } = item;
+  const { cart } = state;
+
+  const addToCart = () => {
+    const itemInCart = cart.find((cartItem) => cartItem._id === _id);
+    if (itemInCart) {
+      dispatch({
+        type: UPDATE_CART_QUANTITY,
+        _id: _id,
+        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+      });
+      idbPromise("cart", "put", {
+        ...itemInCart,
+        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+      });
+    } else {
+      dispatch({
+        type: ADD_TO_CART,
+        product: { ...item, purchaseQuantity: 1 },
+      });
+      idbPromise("cart", "put", { ...item, purchaseQuantity: 1 });
+    }
+  };
   //displays product details in card such as name ,image,price, buttons to add to cart and wish list
   return (
     <GridItem p={{ base: 0, md: 1 }} pb={{ base: 1, md: 1 }}>
@@ -100,7 +124,9 @@ function ProductItem(item) {
                     alt="#"
                   />
                 </Box>
-                <Stack pt={10} align={"center"}>
+              </Link>
+              <Stack pt={10} align={"center"}>
+                <Link to={`/products/${_id}`}>
                   <Text
                     fontSize={"md"}
                     pb={"10px"}
@@ -109,42 +135,42 @@ function ProductItem(item) {
                   >
                     {name}
                   </Text>
-                  <VStack pos={"absolute"} zIndex={-1} mt={"100px"}>
-                    <Box
-                      p={2}
-                      bgGradient="linear(to-r, #94948C, yellow.400, #94948C)"
-                      align={"center"}
-                      borderTopLeftRadius={40}
-                      borderBottomRightRadius={40}
-                      width="150px"
-                      fontWeight={700}
-                      mb={-2}
-                      mt={4}
-                    >
-                      {`$${price}`}
-                    </Box>
-                    <Button
-                      mt={10}
-                      p={2}
-                      colorScheme="black"
-                      type="submit"
-                      bgColor="#495C62"
-                      borderRadius="full"
-                      _hover={{
-                        bg: "gray.700",
-                      }}
-                      width={{
-                        base: "150px",
-                        md: "200px",
-                        lg: "250px",
-                      }}
-                      align={"center"}
-                    >
-                      Add To Cart
-                    </Button>
-                  </VStack>
-                </Stack>
-              </Link>
+                </Link>
+                <VStack pos={"absolute"} zIndex={-1} mt={"100px"}>
+                  <Box
+                    p={2}
+                    bgGradient="linear(to-r, #94948C, yellow.400, #94948C)"
+                    align={"center"}
+                    borderTopLeftRadius={40}
+                    borderBottomRightRadius={40}
+                    width="150px"
+                    fontWeight={700}
+                    mb={-2}
+                    mt={4}
+                  >
+                    {`$${price}`}
+                  </Box>
+                  <Button
+                    mt={10}
+                    p={2}
+                    colorScheme="black"
+                    type="submit"
+                    bgColor="#495C62"
+                    borderRadius="full"
+                    _hover={{
+                      bg: "gray.700",
+                    }}
+                    width={{
+                      base: "150px",
+                      md: "200px",
+                      lg: "250px",
+                    }}
+                    align={"center"}
+                  >
+                    Add To Cart
+                  </Button>
+                </VStack>
+              </Stack>
             </Box>
           </Center>
         </CardBody>
