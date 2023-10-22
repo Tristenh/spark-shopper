@@ -25,6 +25,7 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { MdOutlineCreate } from "react-icons/md";
+import LoginForm from "../LoginForm";
 function Nav() {
   const [showModal, setShowModal] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -47,8 +48,9 @@ function Nav() {
             tabIndex={-1}
             aria-label="Focus moved to this box"
           ></Box>
+          <Button variant="ghost"  onClick={onOpen}>
 
-          <Button variant="ghost" onClick={onOpen}>
+          {/* <Button variant="ghost" onClick={() => setShowModal(true)} > */}
             <Box
               display={"inline-block"}
               verticalAlign={"middle"}
@@ -70,28 +72,17 @@ function Nav() {
             <ModalContent bg={"back.900"}>
               <Tabs>
                 <TabList>
-                  <Tab>Login</Tab>
-                  <Tab>Signup</Tab>
+                  <Tab >Login</Tab>
+                  <Tab >Signup</Tab>
                 </TabList>
 
                 <TabPanels>
-                  <TabPanel>
-                    <ModalHeader>Login Form</ModalHeader>
+                  <TabPanel >
+                  <ModalHeader>Login Form</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                       {" "}
-                      <FormControl>
-                        <FormLabel>Email</FormLabel>
-                        <Input
-                          type="email"
-                          ref={initialRef}
-                          placeholder="Email"
-                        />
-                      </FormControl>
-                      <FormControl mt={4}>
-                        <FormLabel>Password</FormLabel>
-                        <Input type="password" placeholder="*******" />
-                      </FormControl>
+                     <LoginForm/>
                     </ModalBody>
 
                     <ModalFooter>
@@ -108,7 +99,8 @@ function Nav() {
                       {" "}
                       <FormControl>
                         <FormLabel>Username</FormLabel>
-                        <Input ref={initialRef} placeholder="Username" />
+                        {/* <Input ref={initialRef} placeholder="Username" /> */}
+                        <Input type="username" placeholder="Username" />
                       </FormControl>
                       <FormControl mt={4}>
                         <FormLabel>Email</FormLabel>
