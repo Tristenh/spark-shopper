@@ -102,8 +102,8 @@ const Cart = () => {
         <Drawer
           isOpen={onOpen}
           placement="right"
-          onClose={onclose}
-          size={"lg"}
+          onClose={onClose}
+          size={{ base: "sm", md: "lg", lg: "lg" }}
           bgColor={"#51636C"}
         >
           <DrawerOverlay />
@@ -127,7 +127,7 @@ const Cart = () => {
 
             <DrawerBody>
               <Box
-                maxW={{ base: "2xl", lg: "2xl" }}
+                maxW={{ base: "sm", md: "xl", lg: "2xl" }}
                 mx="auto"
                 zIndex={4}
                 overflow={"auto"}
@@ -178,12 +178,18 @@ const Cart = () => {
                                 Checkout
                               </Button>
                             ) : (
-                              <Flex direction="column" align="left" flex="1">
-                                <HStack mt="6" fontWeight="semibold">
+                              <Flex
+                                direction={{ base: "column", md: "row" }}
+                                align="left"
+                                flex="1"
+                              >
+                                <Stack mt="6" fontWeight="semibold">
                                   <Link>Log in to check out</Link>
-                                  <p>or</p>
-                                  <Link color={"black"}>Continue shopping</Link>
-                                </HStack>
+                                  <p>Or</p>
+                                  <Link to="/login" color={"black"}>
+                                    Continue shopping
+                                  </Link>
+                                </Stack>
                               </Flex>
                             )}
                           </Box>
