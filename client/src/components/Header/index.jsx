@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 import {
   Box,
@@ -30,46 +30,13 @@ import {
   SearchIcon,
 } from "@chakra-ui/icons";
 import { BsSuitHeart, BsCart4 } from "react-icons/bs";
-// import { QUERY_CATEGORIES } from '../../utils/queries';
-// import { useStoreContext } from '../../utils/GlobalState';
-// import { useQuery } from '@apollo/client';
-
 
 import Nav from "../Nav";
-import CategoryMenu from "../CategoryMenu"
+import CategoryMenu from "../CategoryMenu";
 const Links = ["TV", "Home Appliances", "Laptop"];
-// import {
-//   UPDATE_CATEGORIES,
-//   // UPDATE_CURRENT_CATEGORY,
-// } from '../../utils/actions';
-export default function WithAction() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  // const [state, dispatch] = useStoreContext();
-  // const { categories } = state;
-  // const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
- 
-  // useEffect(() => {
-  //   if (categoryData) {
-  //     dispatch({
-  //       type: UPDATE_CATEGORIES,
-  //       categories: categoryData.categories,
-  //     });
-  //     console.log(categoryData,"category data")
-  //     // categoryData.categories.forEach((category) => {
-  //     //   // idbPromise('categories', 'put', category);
-  //     // });
-  //   } else if (!loading) {
-  //     // idbPromise('categories', 'get').then((categories) => {
-  //     console.log(categories,"categories not loading")
 
-  //       dispatch({
-  //         type: UPDATE_CATEGORIES,
-  //         categories: categories,
-  //       });
-  //     // });
-  //   }
-  // }, [categoryData, loading, dispatch]);
-  // console.log(categoryData,categories)
+export default function Header() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -91,10 +58,7 @@ export default function WithAction() {
             <Box>
               <Link to={"/login"}>
                 {" "}
-                <Image
-                  href="/portfolio"
-                  src={"../../src/assets/images/logo.jpg"}
-                />
+                <Image href="/" src={"../../src/assets/images/logo.jpg"} />
               </Link>
             </Box>
 
@@ -131,8 +95,10 @@ export default function WithAction() {
                 </InputRightAddon>
               </InputGroup>
             </HStack>
-            <CategoryMenu/>
-          
+            <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
+              <CategoryMenu />
+            </HStack>
+
             <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
               <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
                 <Button variant="ghost">
@@ -216,90 +182,55 @@ export default function WithAction() {
                   </Button>
                 </InputRightAddon>
               </InputGroup>
-              <Flex alignItems={"center"}>
-                <Menu>
-                  {({ isOpen }) => (
-                    <>
-                      <MenuButton
-                        isActive={isOpen}
-                        as={Button}
-                        rightIcon={<ChevronDownIcon />}
-                      >
-                        {isOpen ? "Products" : "Products"}
-                      </MenuButton>
-                      <MenuList bg={"back.900"}>
-                        {Links.map((link, i) => (
-                          <MenuItem
-                            as="a"
-                            key={i}
-                            px={2}
-                            py={1}
-                            rounded={"md"}
-                            bg={"back.900"}
-                            _hover={{
-                              textDecoration: "none",
-                            }}
-                            href={"#"}
-                            onClick={() => alert("Kagebunshin")}
-                          >
-                            {link}
-                          </MenuItem>
-                        ))}
-                      </MenuList>
-                    </>
-                  )}
-                </Menu>
-              </Flex>
-
-             
-                <Button
-                  variant="ghost"
+              <CategoryMenu />
+              <Button
+                variant="ghost"
+                display={"inline-block"}
+                verticalAlign={"middle"}
+              >
+                <Box
                   display={"inline-block"}
                   verticalAlign={"middle"}
+                  align="center"
                 >
-                  <Box
-                    display={"inline-block"}
-                    verticalAlign={"middle"}
-                    align="center"
-                  >
-                    <BsSuitHeart /> <Text fontSize={"1xl"}>Wishlist</Text>
-                  </Box>
-                </Button>
-                <Button
-                  variant="ghost"
+                  <BsSuitHeart /> <Text fontSize={"1xl"}>Wishlist</Text>
+                </Box>
+              </Button>
+              <Button
+                variant="ghost"
+                display={"inline-block"}
+                verticalAlign={"middle"}
+              >
+                <Box
                   display={"inline-block"}
                   verticalAlign={"middle"}
+                  align="center"
                 >
-                  <Box
-                    display={"inline-block"}
-                    verticalAlign={"middle"}
-                    align="center"
-                  >
-                    <BsCart4 />
-                    <Text fontSize={"1xl"}>
-                      Cart{" "}
-                      <Badge
-                        boxSize="1.25em"
-                        bgGradient="linear(to-r, orange.300, yellow.400)"
-                      >
-                        4
-                      </Badge>
-                    </Text>
-                  </Box>
-                </Button>
-                <Nav />
+                  <BsCart4 />
+                  <Text fontSize={"1xl"}>
+                    Cart{" "}
+                    <Badge
+                      boxSize="1.25em"
+                      bgGradient="linear(to-r, orange.300, yellow.400)"
+                    >
+                      4
+                    </Badge>
+                  </Text>
+                </Box>
+              </Button>
+              <Nav />
 
-                <Button
-                  variant="ghost"
-                  cursor={"pointer"}
-                  minW={0}
-                  display={"inline-block"}
-                  verticalAlign={"middle"}
-                >
-                  <Avatar size={"xs"} />
+              <Button
+                variant="ghost"
+                cursor={"pointer"}
+                minW={0}
+                display={"inline-block"}
+                verticalAlign={"middle"}
+              >
+                <Avatar size={"xs"} />
 
-                  <Text ml={2}> Profile</Text>
-                </Button>
+                <Text ml={2}> Profile</Text>
+              </Button>
             </Stack>
           </Box>
         ) : null}

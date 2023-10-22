@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import {
   Flex,
   HStack,
@@ -54,58 +54,36 @@ function CategoryMenu() {
   };
 
   return (
-    <div>
-      <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
-        <Flex alignItems={"center"}>          
-          <Menu>
-            {({ isOpen }) => (
-              <>
-                <MenuButton
-                  isActive={isOpen}
-                  as={Button}
-                  rightIcon={<ChevronDownIcon />}
-                >
-                  {isOpen ? "Products" : "Products"}
-                </MenuButton>
-                <MenuList bg={"back.900"}>
-                  {categories.map((item) => (
-                    <MenuItem
-                      as="a"
-                      key={item._id}
-                      px={2}
-                      py={1}                      
-                      bg={"back.900"}
-                      
-                      onClick={()=>handleClick(item._id)}
-                    >
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </>
-            )}
-          </Menu>
-        </Flex>
-      </HStack>
-      {/* <h2>Choose a Category:</h2>
-      {categories.map((item) => (
-        <button
-          key={item._id}
-          onClick={() => {
-            handleClick(item._id);
-          }}
-        >
-          {item.name}
-        </button>
-      ))}
-      <button
-        onClick={() => {
-          handleClick('');
-        }}
-      >
-        All
-      </button> */}
-    </div>
+   
+      <Flex alignItems={"center"}>
+        <Menu>
+          {({ isOpen }) => (
+            <>
+              <MenuButton
+                isActive={isOpen}
+                as={Button}
+                rightIcon={<ChevronDownIcon />}
+              >
+                {isOpen ? "Products" : "Products"}
+              </MenuButton>
+              <MenuList bg={"back.900"}>
+                {categories.map((item) => (
+                  <MenuItem
+                    as="a"
+                    key={item._id}
+                    px={2}
+                    py={1}
+                    bg={"back.900"}
+                    onClick={() => handleClick(item._id)}
+                  >
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </>
+          )}
+        </Menu>
+      </Flex>
   );
 }
 

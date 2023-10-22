@@ -11,9 +11,7 @@ import {
   ModalCloseButton,
   Box,
   Button,
-  FormControl,
-  FormLabel,
-  Input,
+ 
   useDisclosure,
   HStack,
   Tabs,
@@ -26,11 +24,12 @@ import {
 import { Link } from "react-router-dom";
 import { MdOutlineCreate } from "react-icons/md";
 import LoginForm from "../LoginForm";
+import SignupForm  from "../SignupForm";
 function Nav() {
   const [showModal, setShowModal] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const finalRef = React.useRef(null);
-  const initialRef = React.useRef(null);
+  // const initialRef = React.useRef(null);
 
   return (
     <HStack spacing={0}>
@@ -60,7 +59,7 @@ function Nav() {
             </Box>
           </Button>
           <Modal
-            size="lg"
+            size={{base:"xs", md:"lg"}}
             show={showModal}
             onHide={() => setShowModal(false)}
             aria-labelledby="login-modal"
@@ -97,19 +96,7 @@ function Nav() {
                     <ModalCloseButton />
                     <ModalBody>
                       {" "}
-                      <FormControl>
-                        <FormLabel>Username</FormLabel>
-                        {/* <Input ref={initialRef} placeholder="Username" /> */}
-                        <Input type="username" placeholder="Username" />
-                      </FormControl>
-                      <FormControl mt={4}>
-                        <FormLabel>Email</FormLabel>
-                        <Input type="email" placeholder="Email" />
-                      </FormControl>
-                      <FormControl mt={4}>
-                        <FormLabel>Password</FormLabel>
-                        <Input type="password" placeholder="*******" />
-                      </FormControl>
+                      <SignupForm/>
                     </ModalBody>
 
                     <ModalFooter>

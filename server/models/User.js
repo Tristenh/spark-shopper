@@ -15,6 +15,8 @@ const userSchema = new Schema({
     type: String,
     required: true,
     trim: true,
+    match:/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/,
+    minlength:8
   },
 
   // define email with constraints and email validation

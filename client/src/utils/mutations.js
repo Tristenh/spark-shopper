@@ -42,11 +42,13 @@ export const ADD_USER = gql`
     $username: String!   
     $email: String!
     $password: String!
+    $isAdmin:Boolean
   ) {
     addUser(
-      username: $username//       
+      username: $username    
       email: $email
       password: $password
+      isAdmin: $isAdmin
     ) {
       token
       user {

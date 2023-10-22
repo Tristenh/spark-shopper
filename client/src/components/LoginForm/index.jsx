@@ -1,128 +1,134 @@
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  Center,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from "@chakra-ui/react";
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useState } from "react";
-// import { LOGIN } from "../utils/mutations";
+import { useMutation } from "@apollo/client";
+
+import { LOGIN } from "../../utils/mutations";
+import Auth from "../../utils/auth";
 
 // Here we import a helper function that will check if the email is valid
 import { validateEmail } from "../../utils/helpers";
 
-export default function Login() {
+export default function LoginForm() {
   // Create state variables for the fields in the form
   // We are also setting their initial values to an empty string
-  const [email, setEmail] = useState("");
-  const [userName, setUserName] = useState("");
+
   const [errorMessage, setErrorMessage] = useState("");
-  //   const [login, { error }] = useMutation(LOGIN);
+  const [login, { error }] = useMutation(LOGIN);
   const [formState, setFormState] = useState({ email: "", password: "" });
 
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
     try {
       const mutationResponse = await login({
         variables: { email: formState.email, password: formState.password },
       });
       const token = mutationResponse.data.login.token;
       Auth.login(token);
-    } catch (e) {
-      console.log(e);
+      // if no error message then submit successfully
+      if (!errorMessage) {
+        console.log("Login successfully", formState);
+        setFormState({ email: "", password: "" });
+      } else {
+        setErrorMessage("incorrect email or password ");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setFormState({
+      email: "",
+      password: "",
+    });
+  };
+
+  const handleInput = (e) => {
+    const type = e.target.name;
+    const value = e.target.value;
+    // set value of selected field
+    if (type === "email" || type === "password") {
+      setFormState({ ...formState, [type]: value });
     }
   };
 
-  const handleInputChange = (e) => {
-    // Getting the value and name of the input which triggered the change
-    const { name, value } = e.target;
-    setFormState({
-      ...formState,
-      [name]: value,
-    });
-
-    // Based on the input type, we set the state of either email, username, and password
-    // if (name === "email") {
-    //   setEmail(value);
-    // } else if (name === "userName") {
-    //   setUserName(value);
-    // }
-  };
-  const handleBlur = (e) => {
-    // This function is called when an input field loses focus (on blur)
-    const { name, value } = e.target;
-
-    // Check for errors when an input field loses focus
-    if (
-      (name === "email" && !validateEmail(value)) ||
-      (name === "userName" && !value)
-    ) {
-      setErrorMessage("Email or username is invalid");
+  const handleInputOnFocusOut = (e) => {
+    const type = e.target.name;
+    const value = e.target.value;
+    // check if field left empty and email is invalid and set errormessage
+    if (type === "email" && !validateEmail(value)) {
+      setErrorMessage("Please enter valid email address");
+    } else if (type === "password" && !value) {
+      setErrorMessage("Please enter password");
     } else {
-      // Clear the error message if there are no errors
       setErrorMessage("");
     }
   };
-  const handleInvalid = (e) => {
-    // Preventing the default behavior of the form submit (which is to refresh the page)
-    e.preventDefault();
-    // Clear the error message if there are no errors
-    setErrorMessage("");
-    // First we check to see if the email is not valid or if the userName is empty. If so we set an error message to be displayed on the page.
-    if (!validateEmail(email) || !email) {
-      setErrorMessage("Email invalid");
-      // We want to exit out of this code block if something is wrong so that the user can correct it
-      return;
-    }
-    if (!userName) {
-      setErrorMessage("username is invalid");
-      // We want to exit out of this code block if something is wrong so that the user can correct it
-      return;
-    }
-    if (userName.length < 3) {
-      setErrorMessage("username minimum 3 characters");
-      // We want to exit out of this code block if something is wrong so that the user can correct it
-      return;
-    }
-    if (userName.length > 30) {
-      setErrorMessage("username max 30 characters");
-      // We want to exit out of this code block if something is wrong so that the user can correct it
-      return;
-    }
+  // const handleInvalid = (e) => {
+  //   // Preventing the default behavior of the form submit (which is to refresh the page)
+  //   e.preventDefault();
+  //   // Clear the error message if there are no errors
+  //   setErrorMessage("");
+  //   // First we check to see if the email is not valid or if the userName is empty. If so we set an error message to be displayed on the page.
+  //   if (!validateEmail(email) || !email) {
+  //     setErrorMessage("Email invalid");
+  //     // We want to exit out of this code block if something is wrong so that the user can correct it
+  //     return;
+  //   }
+  //   if (!userName) {
+  //     setErrorMessage("username is invalid");
+  //     // We want to exit out of this code block if something is wrong so that the user can correct it
+  //     return;
+  //   }
+  //   if (userName.length < 3) {
+  //     setErrorMessage("username minimum 3 characters");
+  //     // We want to exit out of this code block if something is wrong so that the user can correct it
+  //     return;
+  //   }
+  //   if (userName.length > 30) {
+  //     setErrorMessage("username max 30 characters");
+  //     // We want to exit out of this code block if something is wrong so that the user can correct it
+  //     return;
+  //   }
 
-    // If everything goes according to plan, we want to clear out the input after a successful registration.
-    setUserName("");
-    setEmail("");
-  };
+  //   // If everything goes according to plan, we want to clear out the input after a successful registration.
+  //   setUserName("");
+  //   setEmail("");
+  // };
   return (
     <>
-      <Center mt={"5rem"} maxW="100vw">
-      <form onSubmit={(e) => {
-            handleInvalid(e);
-            handleFormSubmit(e);
-          }}>
-        <FormControl >
+      <form
+        onSubmit={(e) => {
+          handleFormSubmit(e);
+        }}
+      >
+        <FormControl>
           <FormLabel>Email</FormLabel>
           <Input
-           value={email}
+            value={formState.email}
             type="email"
             name="email"
-            onChange={handleInputChange}
-            onBlur={handleBlur}
+            onChange={handleInput}
+            onBlur={handleInputOnFocusOut}
             // ref={initialRef}
             placeholder="Email"
           />
         </FormControl>
         <FormControl mt={4}>
           <FormLabel>Password</FormLabel>
-          <Input type="password" placeholder="*******" />
+          <Input
+            type="password"
+            name="password"
+            value={formState.password}
+            onChange={handleInput}
+            onBlur={handleInputOnFocusOut}
+            placeholder="*******"
+          />
         </FormControl>
-        </form>
-          {/* <form
+        {errorMessage && (
+          <div>
+            <p style={{ color: "red" }}>{errorMessage}</p>
+          </div>
+        )}
+      </form>
+      {/* <form
             onSubmit={(e) => {
               handleInvalid(e);
               handleFormSubmit(e);
@@ -168,7 +174,6 @@ export default function Login() {
               )}
             </FormControl>
           </form> */}
-      </Center>
     </>
   );
 }
