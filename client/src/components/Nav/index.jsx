@@ -15,39 +15,65 @@ import {
   Tab,
   TabPanel,
   Text,
-  Avatar
+  Avatar,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { MdOutlineCreate } from "react-icons/md";
+import { MdOutlineCreate, MdOutlineLogout } from "react-icons/md";
 import LoginForm from "../LoginForm";
 import SignupForm from "../SignupForm";
 
 function Nav() {
   const [showModal, setShowModal] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  ;
   const finalRef = React.useRef(null);
   // const initialRef = React.useRef(null);
 
   return (
-    <HStack spacing={0}>
+    <HStack
+      spacing={0}
+      align="center"
+      justify={{ base: "center", md: "space-between" }}
+    >
       {Auth.loggedIn() ? (
         <>
           {/* <Box as={Link} to="/">
             See Your Books
           </Box> */}
-          <Button
-            variant="ghost"
-            cursor={"pointer"}
-            minW={0}
-            display={"inline-block"}
-            verticalAlign={"middle"}
-          >
-            <Avatar size={"xs"} />
-
-            <Text ml={2}> Profile</Text>
-          </Button>
-          <Button onClick={Auth.logout}>Logout</Button>
+          <HStack as={"nav"} spacing={8}>
+            <Button
+              variant="ghost"
+              cursor={"pointer"}
+              display={"inline-block"}
+              verticalAlign={"middle"}
+            >
+              <Box
+                display={"inline-block"}
+                verticalAlign={"middle"}
+                align="center"
+              >
+                {" "}
+                <Avatar size={"2xs"} />
+                <Text> Profile</Text>
+              </Box>
+            </Button>
+            <Button
+              variant="ghost"
+              cursor={"pointer"}
+              display={"inline-block"}
+              verticalAlign={"middle"}
+              onClick={Auth.logout}
+            >
+              <Box
+                display={"inline-block"}
+                verticalAlign={"middle"}
+                align="center"
+              >
+                {" "}
+                <MdOutlineLogout />
+                <Text fontSize={"1xl"}> Logout</Text>
+              </Box>{" "}
+            </Button>
+          </HStack>
         </>
       ) : (
         <>

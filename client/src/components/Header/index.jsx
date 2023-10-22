@@ -14,7 +14,6 @@ import {
   Text,
   Image,
   Link,
-  Avatar,
   Badge,
 } from "@chakra-ui/react";
 import {
