@@ -1,6 +1,13 @@
+import Cart from "../components/Cart";
+import ProductList from "../components/ProductList";
 const Home = () => {
-    return
-  };
-  
-  export default Home;
-  
+  //renders products on home page
+  return (
+    <>
+      <ProductList />
+      <Cart />
+    </>
+  );
+};
+
+export default Home;
