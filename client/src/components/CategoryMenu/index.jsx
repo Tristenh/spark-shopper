@@ -56,11 +56,13 @@ function CategoryMenu() {
             <MenuButton
               isActive={isOpen}
               as={Button}
+              colorScheme="WhiteAlpha"
+              _hover={{ bg: 'gray.400',color:"black" }}
               rightIcon={<ChevronDownIcon />}
             >
               {isOpen ? "Products" : "Products"}
             </MenuButton>
-            <MenuList bg={"back.900"}>
+            <MenuList bg={"back.900"}  color={"white"}>
               {categories.map((item) => (
                 <MenuItem
                   as="a"
@@ -68,6 +70,7 @@ function CategoryMenu() {
                   px={2}
                   py={1}
                   bg={"back.900"}
+                  _hover={{ bg: 'gray.400',color:"black" }}
                   onClick={() => handleClick(item._id)}
                 >
                   {item.name}

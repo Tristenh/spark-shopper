@@ -7,10 +7,5 @@ const colors = {
       600: "#4A5568",
     },
   };
-  export const theme = extendTheme({ colors,   styles: {
-    global: () => ({
-      body: {
-        bg: "white"
-      }
-    })
-  } });
+   
+  export const theme = extendTheme({ colors});

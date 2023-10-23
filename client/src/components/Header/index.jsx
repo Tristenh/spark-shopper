@@ -6,7 +6,6 @@ import {
   IconButton,
   Button,
   useDisclosure,
-  useColorModeValue,
   Stack,
   Input,
   InputGroup,
@@ -32,11 +31,7 @@ export default function Header() {
 
   return (
     <>
-      <Box
-        bg={useColorModeValue("back.700", "back.900")}
-        px={{ base: "30", md: "20" }}
-        size={"md"}
-      >
+      <Box bg={"back.900"} px={{ base: "30", md: "40" }} size={"md"}>
         {/* icon button to show menu on small screen */}
         <Flex
           h={"auto"}
@@ -45,6 +40,8 @@ export default function Header() {
           w={"100%"}
         >
           <IconButton
+           _hover={{ bg: "gray.400" }}
+           
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={"Open Menu"}
@@ -63,14 +60,14 @@ export default function Header() {
 
             <HStack
               as={"nav"}
-              spacing={4}
+              spacing={6}
               display={{ base: "none", lg: "flex" }}
             >
               {/* search bar */}
               <InputGroup
                 borderRadius={5}
                 size="md"
-                w={{ base: "500px" }}
+                w={{ base: "600px" }}
                 my={5}
               >
                 <InputLeftElement pointerEvents="none" />
@@ -86,6 +83,7 @@ export default function Header() {
                     borderRightRadius={5}
                     border="2px solid #949494"
                     bgGradient="linear(to-r, orange.300, yellow.400)"
+                    _hover={{ bg: "gray.500" }}
                   >
                     <SearchIcon />
                   </Button>
@@ -100,11 +98,13 @@ export default function Header() {
             <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
               <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
                 {/* wishlist button */}
-                <Button variant="ghost">
+                <Button variant="ghost" _hover={{ bg: "gray.400" }}>
                   <Box
                     display={"inline-block"}
                     verticalAlign={"middle"}
                     align="center"
+                    color={"white"}
+                    _hover={{ color: "black" }}
                   >
                     <BsSuitHeart /> <Text fontSize={"1xl"}>Wishlist</Text>
                   </Box>
@@ -114,11 +114,14 @@ export default function Header() {
                   variant="ghost"
                   display={"inline-block"}
                   verticalAlign={"middle"}
+                  _hover={{ bg: "gray.400" }}
                 >
                   <Box
                     display={"inline-block"}
                     verticalAlign={"middle"}
                     align="center"
+                    color={"white"}
+                    _hover={{ color: "black" }}
                   >
                     <BsCart4 />
                     <Text fontSize={"1xl"}>
@@ -166,6 +169,7 @@ export default function Header() {
                     borderRightRadius={5}
                     border="2px solid #949494"
                     bgGradient="linear(to-r, orange.300, yellow.400)"
+                    _hover={{ bg: "gray.500" }}
                   >
                     <SearchIcon />
                   </Button>
@@ -178,11 +182,14 @@ export default function Header() {
                 variant="ghost"
                 display={"inline-block"}
                 verticalAlign={"middle"}
+                _hover={{ bg: "gray.400" }}
               >
                 <Box
                   display={"inline-block"}
                   verticalAlign={"middle"}
                   align="center"
+                  color={"white"}
+                  _hover={{ color: "black" }}
                 >
                   <BsSuitHeart /> <Text fontSize={"1xl"}>Wishlist</Text>
                 </Box>
@@ -192,11 +199,14 @@ export default function Header() {
                 variant="ghost"
                 display={"inline-block"}
                 verticalAlign={"middle"}
+                _hover={{ bg: "gray.400" }}
               >
                 <Box
                   display={"inline-block"}
                   verticalAlign={"middle"}
                   align="center"
+                  color={"white"}
+                  _hover={{ color: "black" }}
                 >
                   <BsCart4 />
                   <Text fontSize={"1xl"}>

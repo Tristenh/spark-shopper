@@ -52,11 +52,14 @@ function Nav() {
                 cursor={"pointer"}
                 display={"inline-block"}
                 verticalAlign={"middle"}
+                _hover={{ bg: "gray.400" }}
               >
                 <Box
                   display={"inline-block"}
                   verticalAlign={"middle"}
                   align="center"
+                  color={"white"}
+                  _hover={{ color: "black" }}
                 >
                   {" "}
                   <Avatar size={"2xs"} />
@@ -71,11 +74,14 @@ function Nav() {
               display={"inline-block"}
               verticalAlign={"middle"}
               onClick={Auth.logout}
+              _hover={{ bg: "gray.400" }}
             >
               <Box
                 display={"inline-block"}
                 verticalAlign={"middle"}
                 align="center"
+                color={"white"}
+                _hover={{ color: "black" }}
               >
                 {" "}
                 <MdOutlineLogout />
@@ -92,11 +98,13 @@ function Nav() {
             aria-label="Focus moved to this box"
           ></Box>
           {/* on loggin out, it displays login button */}
-          <Button variant="ghost" onClick={onOpen}>
+          <Button variant="ghost" onClick={onOpen}  _hover={{ bg: "gray.400" }}>
             <Box
               display={"inline-block"}
               verticalAlign={"middle"}
               align="center"
+              color={"white"}
+              _hover={{ color: "black" }}
             >
               <MdOutlineCreate /> <Text> Login/Signup</Text>
             </Box>
@@ -114,8 +122,8 @@ function Nav() {
               {/* tabs to switch between login and signup */}
               <Tabs>
                 <TabList>
-                  <Tab>Login</Tab>
-                  <Tab>Signup</Tab>
+                  <Tab  textColor={"white"} _selected={{bg: "gray.300",color:"black"}} fontSize={"2xl"}>Login</Tab>
+                  <Tab textColor={"white"}_selected={{bg: "gray.400" ,color:"black"}} fontSize={"2xl"}> Signup</Tab>
                 </TabList>
 
                 <TabPanels>

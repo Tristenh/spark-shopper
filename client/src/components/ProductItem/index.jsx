@@ -53,8 +53,8 @@ function ProductItem(item) {
   };
   //displays product details in card such as name ,image,price, buttons to add to cart and wish list
   return (
-    <GridItem p={{ base: 0, md: 1 }} pb={{ base: 1, md: 1 }}>
-      <Card p={{ base: 0, md: 5 }} h={700}>
+    <GridItem p={{ base: 0, md: 1 }} pb={{ base: 1, md: 1 }} >
+      <Card p={{ base: 0, md: 5 }} h={700}  >
         <CardHeader>
           <Tooltip
             label="Add to Wish list"
@@ -67,6 +67,7 @@ function ProductItem(item) {
               <IconButton
                 isRound={true}
                 variant="solid"
+                
                 colorScheme="gray"
                 aria-label="Done"
                 fontSize="20px"
@@ -93,6 +94,7 @@ function ProductItem(item) {
               zIndex={1}
               h={500}
             >
+              
               <Link to={`/products/${_id}`}>
                 <Box
                   rounded={"lg"}
@@ -120,19 +122,21 @@ function ProductItem(item) {
                   <Image
                     rounded={"lg"}
                     objectFit={"cover"}
-                    src={`/images/${image}`}
+                    src={`images/${image}`}
                     alt="#"
                   />
                 </Box>
               </Link>
               <Stack pt={10} align={"center"}>
                 <Link to={`/products/${_id}`}>
+                  
                   <Text
                     fontSize={"md"}
                     pb={"10px"}
                     align={"center"}
                     fontWeight={700}
                   >
+                    {console.log({name})}
                     {name}
                   </Text>
                 </Link>

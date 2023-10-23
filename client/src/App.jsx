@@ -1,4 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
+import { Grid } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 import {
   ApolloClient,
@@ -8,8 +9,8 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { theme } from "./styles/theme.jsx";
-import Header from './components/Header';
-import { StoreProvider } from './utils/GlobalState';
+import Header from "./components/Header";
+import { StoreProvider } from "./utils/GlobalState";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -33,10 +34,12 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <ChakraProvider theme={theme}>
+      <ChakraProvider theme={theme} >
         <StoreProvider>
-        <Header/>
-        <Outlet />
+          <Header />
+          <Grid>
+            <Outlet />
+          </Grid>
         </StoreProvider>
       </ChakraProvider>
     </ApolloProvider>

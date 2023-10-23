@@ -8,7 +8,9 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Button
+  Button,
+  Text
+
 } from "@chakra-ui/react";
 
 // import packages from react
@@ -81,7 +83,7 @@ export default function LoginForm(props) {
   };
 
   return (
-    <Stack spacing={4} justify={{ base: "center", md: "space-between" }}>
+    <Stack textColor={"white"} spacing={4} justify={{ base: "center", md: "space-between" }}>
       {/* modal to display login form  */}
       <ModalHeader>Login Form</ModalHeader>
       <ModalCloseButton />{" "}
@@ -114,10 +116,17 @@ export default function LoginForm(props) {
               placeholder="*******"
             />
           </FormControl>
+        {/* if state of error message changes */}
+          {errorMessage && (
+         <Stack>
+            <Text fontSize={"1xl"} color={"white"}>{errorMessage}</Text>
+          </Stack>
+        )}
         </ModalBody>
 
         <ModalFooter>
           <Button
+           _hover={{ bg: "gray.400" }}
             mr={3}
             onClick={() => {
               props.close();
@@ -125,15 +134,10 @@ export default function LoginForm(props) {
           >
             Close
           </Button>
-          <Button type="submit">Login</Button>
+          <Button type="submit"  _hover={{ bg: "gray.400" }}>Login</Button>
         </ModalFooter>
 
-        {/* if state of error message changes */}
-        {errorMessage && (
-          <div>
-            <p style={{ color: "red" }}>{errorMessage}</p>
-          </div>
-        )}
+      
       </form>
     </Stack>
   );
