@@ -30,7 +30,7 @@ function ProductItem(item) {
 
   const { image, name, _id, price } = item;
   const { cart } = state;
-
+  //adds to  the  state cart if the item not present already ,otherwise  updates the purchase quantity and also updates the indexedDB
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === _id);
     if (itemInCart) {
@@ -53,8 +53,8 @@ function ProductItem(item) {
   };
   //displays product details in card such as name ,image,price, buttons to add to cart and wish list
   return (
-    <GridItem p={{ base: 0, md: 1 }} pb={{ base: 1, md: 1 }} >
-      <Card p={{ base: 0, md: 5 }} h={700}  >
+    <GridItem p={{ base: 0, md: 1 }} pb={{ base: 1, md: 1 }}>
+      <Card p={{ base: 0, md: 5 }} h={700}>
         <CardHeader>
           <Tooltip
             label="Add to Wish list"
@@ -67,7 +67,6 @@ function ProductItem(item) {
               <IconButton
                 isRound={true}
                 variant="solid"
-                
                 colorScheme="gray"
                 aria-label="Done"
                 fontSize="20px"
@@ -94,7 +93,6 @@ function ProductItem(item) {
               zIndex={1}
               h={500}
             >
-              
               <Link to={`/products/${_id}`}>
                 <Box
                   rounded={"lg"}
@@ -109,7 +107,7 @@ function ProductItem(item) {
                     pos: "absolute",
                     top: 5,
                     left: 0,
-                    backgroundImage: `url(${image})`,
+
                     filter: "blur(15px)",
                     zIndex: -1,
                   }}
@@ -122,21 +120,19 @@ function ProductItem(item) {
                   <Image
                     rounded={"lg"}
                     objectFit={"cover"}
-                    src={`images/${image}`}
-                    alt="#"
+                    src={`/images/${image}`}
+                    alt="Product Image"
                   />
                 </Box>
               </Link>
               <Stack pt={10} align={"center"}>
                 <Link to={`/products/${_id}`}>
-                  
                   <Text
                     fontSize={"md"}
                     pb={"10px"}
                     align={"center"}
                     fontWeight={700}
                   >
-                    {console.log({name})}
                     {name}
                   </Text>
                 </Link>
@@ -166,8 +162,9 @@ function ProductItem(item) {
                     }}
                     width={{
                       base: "150px",
-                      md: "200px",
-                      lg: "250px",
+                      sm: "160",
+                      md: "160px",
+                      lg: "150px",
                     }}
                     align={"center"}
                     onClick={addToCart}

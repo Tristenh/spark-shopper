@@ -7,7 +7,7 @@ import CartItem from "../CartItem";
 import Auth from "../../utils/auth";
 import { useStoreContext } from "../../utils/GlobalState";
 import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../../utils/actions";
-
+//importing CHAKRA UI components
 import {
   Stack,
   Box,
@@ -33,6 +33,8 @@ const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+
+  //defined isOpen, onOpen, onClose to check for the chakra Drawer component in which Cart is displayed
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
@@ -53,11 +55,11 @@ const Cart = () => {
       getCart();
     }
   }, [state.cart.length, dispatch]);
-
+  //toggles the cart
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
   }
-
+  //calculates the total amount
   function calculateTotal() {
     let sum = 0;
     state.cart.forEach((item) => {
@@ -65,7 +67,7 @@ const Cart = () => {
     });
     return sum.toFixed(2);
   }
-
+  //This function will be called on click of the checkout button
   function submitCheckout() {
     const productIds = [];
 
@@ -89,6 +91,8 @@ const Cart = () => {
   //     </div>
   //   );
   // }
+
+  //if  cartOpen is true , then the cart is displayed
   if (state.cartOpen) {
     let totalQuantity = 0;
     {
@@ -96,14 +100,14 @@ const Cart = () => {
         (item) => (totalQuantity = totalQuantity + item.purchaseQuantity)
       );
     }
-
+    //renders the cart
     return (
       <>
         <Drawer
           isOpen={onOpen}
           placement="right"
-          onClose={onclose}
-          size={"lg"}
+          onClose={onClose}
+          size={{ base: "sm", md: "lg", lg: "lg" }}
           bgColor={"#51636C"}
         >
           <DrawerOverlay />
@@ -127,7 +131,7 @@ const Cart = () => {
 
             <DrawerBody>
               <Box
-                maxW={{ base: "2xl", lg: "2xl" }}
+                maxW={{ base: "sm", md: "xl", lg: "2xl" }}
                 mx="auto"
                 zIndex={4}
                 overflow={"auto"}
@@ -148,7 +152,7 @@ const Cart = () => {
                           ))}
                           <Box>
                             <HStack>
-                              <Text w={480} fontWeight={"bold"}>
+                              <Text w={490} fontWeight={"bold"}>
                                 Total:
                               </Text>
                               <Text fontWeight={"bold"} align="right">
@@ -178,12 +182,18 @@ const Cart = () => {
                                 Checkout
                               </Button>
                             ) : (
-                              <Flex direction="column" align="left" flex="1">
-                                <HStack mt="6" fontWeight="semibold">
+                              <Flex
+                                direction={{ base: "column", md: "row" }}
+                                align="left"
+                                flex="1"
+                              >
+                                <Stack mt="6" fontWeight="semibold">
                                   <Link>Log in to check out</Link>
-                                  <p>or</p>
-                                  <Link color={"black"}>Continue shopping</Link>
-                                </HStack>
+                                  <p>Or</p>
+                                  <Link onClick={toggleCart} color={"black"}>
+                                    Continue shopping
+                                  </Link>
+                                </Stack>
                               </Flex>
                             )}
                           </Box>

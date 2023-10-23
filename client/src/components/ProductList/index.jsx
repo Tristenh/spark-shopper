@@ -16,7 +16,7 @@ import { idbPromise } from "../../utils/helpers";
 function ProductList() {
   const [state, dispatch] = useStoreContext();
   const { currentSubCategory } = state;
-  //
+  //Call the useQuery QUERY_PRODUCTS to get all the products
   const { loading, data } = useQuery(QUERY_PRODUCTS);
   useEffect(() => {
     if (data) {
