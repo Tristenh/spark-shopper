@@ -32,7 +32,7 @@ export default function LoginForm(props) {
   const [formState, setFormState] = useState({ email: "", password: "" });
 
   // add user mutation to login
-  const [login, { error }] = useMutation(LOGIN);
+  const [login, { error,loading }] = useMutation(LOGIN);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -45,6 +45,7 @@ export default function LoginForm(props) {
       const token = mutationResponse.data.login.token;
       Auth.login(token);
       // if no error message then submit successfully
+      
       if (!errorMessage) {
         console.log("Login successfully", formState);
         setFormState({ email: "", password: "" });
@@ -83,6 +84,7 @@ export default function LoginForm(props) {
   };
 
   return (
+    
     <Stack textColor={"white"} spacing={4} justify={{ base: "center", md: "space-between" }}>
       {/* modal to display login form  */}
       <ModalHeader>Login Form</ModalHeader>

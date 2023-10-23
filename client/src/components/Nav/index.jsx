@@ -21,7 +21,7 @@ import {
 import { Link } from "react-router-dom";
 
 // import icons
-import { MdOutlineCreate, MdOutlineLogout } from "react-icons/md";
+import { MdOutlineLogin, MdOutlineLogout } from "react-icons/md";
 
 //import functions from files
 import Auth from "../../utils/auth";
@@ -85,7 +85,7 @@ function Nav() {
               >
                 {" "}
                 <MdOutlineLogout />
-                <Text fontSize={"1xl"}> Logout</Text>
+                <Text fontSize={"1.25rem"}> Logout</Text>
               </Box>{" "}
             </Button>
           </HStack>
@@ -106,7 +106,7 @@ function Nav() {
               color={"white"}
               _hover={{ color: "black" }}
             >
-              <MdOutlineCreate /> <Text> Login/Signup</Text>
+              <MdOutlineLogin /> <Text fontSize={"1.25rem"}> Login</Text>
             </Box>
           </Button>
           <Modal

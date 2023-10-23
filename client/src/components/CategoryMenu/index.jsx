@@ -61,7 +61,7 @@ function CategoryMenu() {
               _hover={{ bg: 'gray.400',color:"black" }}
               rightIcon={<ChevronDownIcon />}
             >
-              <Text fontSize={"1.25rem"}>
+              <Text fontSize={"1.50rem"}>
               {isOpen ? "Products" : "Products"}
               </Text>
           
