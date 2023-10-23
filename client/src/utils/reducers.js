@@ -1,3 +1,4 @@
+//import actions
 import {
   UPDATE_PRODUCTS,
   ADD_TO_CART,
@@ -17,6 +18,7 @@ export const reducer = (state, action) => {
         ...state,
         products: [...action.products],
       };
+    // Returns a copy of state with updated cart after adding new product to cart, sets the cartOpen to true
     case ADD_TO_CART:
       return {
         ...state,
@@ -56,14 +58,14 @@ export const reducer = (state, action) => {
         cartOpen: newState.length > 0,
         cart: newState,
       };
-
+    //sets cartOpen as false and clears the cart
     case CLEAR_CART:
       return {
         ...state,
         cartOpen: false,
         cart: [],
       };
-
+    //toggles the cartOpen to true or false
     case TOGGLE_CART:
       return {
         ...state,

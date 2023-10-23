@@ -1,3 +1,4 @@
+//import components cart and ProductList
 import Cart from "../components/Cart";
 import ProductList from "../components/ProductList";
 const Home = () => {

@@ -1,6 +1,8 @@
+//importing actions,queries, GlobalState and helpers
 import { useStoreContext } from "../../utils/GlobalState";
 import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 import { idbPromise } from "../../utils/helpers";
+//importing CHAKRA UI components
 import {
   CloseButton,
   Flex,
@@ -14,7 +16,7 @@ import {
 
 const CartItem = ({ item }) => {
   const [state, dispatch] = useStoreContext();
-
+  //removes the item from state Cart and deletes the item from indexedDB
   const removeFromCart = (item) => {
     dispatch({
       type: REMOVE_FROM_CART,
@@ -22,7 +24,7 @@ const CartItem = ({ item }) => {
     });
     idbPromise("cart", "delete", { ...item });
   };
-
+  //updates the state Cart when the purchase quantity changes and updates indexedDb
   const onChange = (e) => {
     const value = e.target.value;
 
@@ -39,7 +41,7 @@ const CartItem = ({ item }) => {
         purchaseQuantity: parseInt(value),
         price: item.price,
       });
-
+      //updates indexedDb with new price when the  quantity changes
       idbPromise("cart", "put", {
         ...item,
         price: parseFloat(item.price) * parseInt(value),
@@ -47,7 +49,7 @@ const CartItem = ({ item }) => {
       idbPromise("cart", "put", { ...item, purchaseQuantity: parseInt(value) });
     }
   };
-
+  //renders a product in the cart
   return (
     <Flex
       direction={{ base: "column", md: "row" }}
@@ -55,7 +57,7 @@ const CartItem = ({ item }) => {
       align="center"
     >
       <VStack mt={3}>
-        {/* Desktop */}
+        {/* Cart item display on Desktop */}
         <Flex
           width="full"
           justify="space-between"
@@ -99,7 +101,7 @@ const CartItem = ({ item }) => {
             </HStack>
           </VStack>
         </Flex>
-        {/* Mobile */}
+        {/* Cart item display on Mobile */}
         <Flex
           mt="4"
           align="center"

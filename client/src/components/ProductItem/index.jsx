@@ -30,7 +30,7 @@ function ProductItem(item) {
 
   const { image, name, _id, price } = item;
   const { cart } = state;
-
+  //adds to  the  state cart if the item not present already ,otherwise  updates the purchase quantity and also updates the indexedDB
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === _id);
     if (itemInCart) {
@@ -121,7 +121,7 @@ function ProductItem(item) {
                     rounded={"lg"}
                     objectFit={"cover"}
                     src={`/images/${image}`}
-                    alt="#"
+                    alt="Product Image"
                   />
                 </Box>
               </Link>
