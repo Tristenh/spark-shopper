@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import {
   Flex,
-  
   Button,
   Menu,
   MenuButton,
@@ -34,7 +33,6 @@ function CategoryMenu() {
       });
     } else if (!loading) {
       idbPromise("categories", "get").then((categories) => {
-
         dispatch({
           type: UPDATE_CATEGORIES,
           categories: categories,
@@ -51,36 +49,35 @@ function CategoryMenu() {
   };
 
   return (
-   
-      <Flex alignItems={"center"}>
-        <Menu>
-          {({ isOpen }) => (
-            <>
-              <MenuButton
-                isActive={isOpen}
-                as={Button}
-                rightIcon={<ChevronDownIcon />}
-              >
-                {isOpen ? "Products" : "Products"}
-              </MenuButton>
-              <MenuList bg={"back.900"}>
-                {categories.map((item) => (
-                  <MenuItem
-                    as="a"
-                    key={item._id}
-                    px={2}
-                    py={1}
-                    bg={"back.900"}
-                    onClick={() => handleClick(item._id)}
-                  >
-                    {item.name}
-                  </MenuItem>
-                ))}
-              </MenuList>
-            </>
-          )}
-        </Menu>
-      </Flex>
+    <Flex alignItems={"center"}>
+      <Menu>
+        {({ isOpen }) => (
+          <>
+            <MenuButton
+              isActive={isOpen}
+              as={Button}
+              rightIcon={<ChevronDownIcon />}
+            >
+              {isOpen ? "Products" : "Products"}
+            </MenuButton>
+            <MenuList bg={"back.900"}>
+              {categories.map((item) => (
+                <MenuItem
+                  as="a"
+                  key={item._id}
+                  px={2}
+                  py={1}
+                  bg={"back.900"}
+                  onClick={() => handleClick(item._id)}
+                >
+                  {item.name}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </>
+        )}
+      </Menu>
+    </Flex>
   );
 }
 

@@ -4,7 +4,7 @@ import {
   Flex,
   HStack,
   IconButton,
-  Button,  
+  Button,
   useDisclosure,
   useColorModeValue,
   Stack,
@@ -19,11 +19,7 @@ import {
 } from "@chakra-ui/react";
 
 //import icons
-import {
-  HamburgerIcon,
-  CloseIcon,
-  SearchIcon,
-} from "@chakra-ui/icons";
+import { HamburgerIcon, CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import { BsSuitHeart, BsCart4 } from "react-icons/bs";
 
 //import files
@@ -42,7 +38,12 @@ export default function Header() {
         size={"md"}
       >
         {/* icon button to show menu on small screen */}
-        <Flex h={"auto"} alignItems={"center"} justifyContent={"flex-start"} w={"100%"}>
+        <Flex
+          h={"auto"}
+          alignItems={"center"}
+          justifyContent={"flex-start"}
+          w={"100%"}
+        >
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -72,9 +73,7 @@ export default function Header() {
                 w={{ base: "500px" }}
                 my={5}
               >
-                <InputLeftElement
-                  pointerEvents="none"
-                />
+                <InputLeftElement pointerEvents="none" />
                 <Input
                   type="text"
                   placeholder="Search..."
@@ -136,13 +135,11 @@ export default function Header() {
               </HStack>
               <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
                 <Nav />
-
-                
               </HStack>
             </HStack>
           </HStack>
         </Flex>
-{/* when icon button is open then display all nav links  */}
+        {/* when icon button is open then display all nav links  */}
         {isOpen ? (
           <Box pb={4} display={{ lg: "none" }}>
             <Stack
@@ -176,7 +173,7 @@ export default function Header() {
               </InputGroup>
               {/* category menu */}
               <CategoryMenu />
-                {/* wishlist button */}
+              {/* wishlist button */}
               <Button
                 variant="ghost"
                 display={"inline-block"}
@@ -214,8 +211,6 @@ export default function Header() {
                 </Box>
               </Button>
               <Nav />
-
-              
             </Stack>
           </Box>
         ) : null}

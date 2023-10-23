@@ -43,7 +43,7 @@ function Nav() {
       {/* if logged in then display profile and logout button */}
       {Auth.loggedIn() ? (
         <>
-          <HStack as={"nav"} spacing={8} display={"inline-block"}
+          <HStack as={"nav"} spacing={8} 
            >
             <Link to="/order">
               {/* profile button */}
