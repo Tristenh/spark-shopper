@@ -6,6 +6,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Text
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 import { useStoreContext } from "../../utils/GlobalState";
@@ -60,7 +61,10 @@ function CategoryMenu() {
               _hover={{ bg: 'gray.400',color:"black" }}
               rightIcon={<ChevronDownIcon />}
             >
+              <Text fontSize={"1.25rem"}>
               {isOpen ? "Products" : "Products"}
+              </Text>
+          
             </MenuButton>
             <MenuList bg={"back.900"}  color={"white"}>
               {categories.map((item) => (
