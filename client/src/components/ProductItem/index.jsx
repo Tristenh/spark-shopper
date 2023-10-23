@@ -107,7 +107,7 @@ function ProductItem(item) {
                     pos: "absolute",
                     top: 5,
                     left: 0,
-                    backgroundImage: `url(${image})`,
+
                     filter: "blur(15px)",
                     zIndex: -1,
                   }}
@@ -162,8 +162,9 @@ function ProductItem(item) {
                     }}
                     width={{
                       base: "150px",
-                      md: "200px",
-                      lg: "250px",
+                      sm: "160",
+                      md: "160px",
+                      lg: "150px",
                     }}
                     align={"center"}
                     onClick={addToCart}
