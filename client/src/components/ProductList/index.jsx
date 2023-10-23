@@ -9,7 +9,7 @@ import ProductItem from "../ProductItem";
 
 //importing actions,queries, GlobalState and helpers
 import { useStoreContext } from "../../utils/GlobalState";
-import { UPDATE_PRODUCTS } from "../../utils/actions";
+import { UPDATE_PRODUCTS, ADD_MULTIPLE_TO_WISHLIST } from "../../utils/actions";
 import { QUERY_PRODUCTS } from "../../utils/queries";
 import { idbPromise } from "../../utils/helpers";
 
@@ -37,7 +37,17 @@ function ProductList() {
         });
       });
     }
-  }, [data, loading, dispatch]);
+    async function getWishList() {
+      const wishList = await idbPromise("wishList", "get");
+      dispatch({ type: ADD_MULTIPLE_TO_WISHLIST, products: [...wishList] });
+      console.log(wishList);
+    }
+
+    if (!state.wishList.length) {
+      getWishList();
+    }
+  }, [state.wishList.length, data, loading, dispatch]);
+
   //return all products
   function filterProducts() {
     if (!currentSubCategory) {

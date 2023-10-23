@@ -15,7 +15,7 @@ import {
   Stack,
   VStack,
 } from "@chakra-ui/react";
-
+import { useEffect } from "react";
 //import icon used for wishlist
 import { FaRegHeart } from "react-icons/fa";
 //import GlobalState
@@ -30,7 +30,7 @@ import {
   ADD_TO_WISHLIST,
   REMOVE_FROM_WISHLIST,
 } from "../../utils/actions";
-import { ADD_WISHLIST } from "../../utils/mutations";
+// import { ADD_WISHLIST } from "../../utils/mutations";
 
 function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
@@ -38,6 +38,7 @@ function ProductItem(item) {
   const { image, name, _id, price } = item;
   const { cart } = state;
   const { wishList } = state;
+
   //adds to  the  state wishList if the item not present already ,otherwise deletes the product from wishList state
   const addToWishList = () => {
     const itemInWishList = wishList.find(
@@ -62,12 +63,12 @@ function ProductItem(item) {
 
       // const { data } = addWishList({ variables: { item } });
     }
-    // const productIds = [];
-
-    // state.wishList.forEach((item) => {
-    //   productIds.push(item._id);
-    // });
-    // console.log(productIds);
+    const productIds = [];
+    console.log(state.wishList);
+    state.wishList.forEach((item) => {
+      productIds.push(item._id);
+    });
+    console.log(productIds);
     //
   };
   //adds to  the  state cart if the item not present already ,otherwise  updates the purchase quantity and also updates the indexedDB
