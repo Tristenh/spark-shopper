@@ -1,3 +1,4 @@
+// import components from chakra
 import {
   Box,
   Flex,
@@ -16,6 +17,8 @@ import {
   Link,
   Badge,
 } from "@chakra-ui/react";
+
+//import icons
 import {
   HamburgerIcon,
   CloseIcon,
@@ -23,10 +26,12 @@ import {
 } from "@chakra-ui/icons";
 import { BsSuitHeart, BsCart4 } from "react-icons/bs";
 
+//import files
 import Nav from "../Nav";
 import CategoryMenu from "../CategoryMenu";
 
 export default function Header() {
+  //check menu open or close
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -36,6 +41,7 @@ export default function Header() {
         px={{ base: "30", md: "20" }}
         size={"md"}
       >
+        {/* icon button to show menu on small screen */}
         <Flex h={"auto"} alignItems={"center"} justifyContent={"flex-start"} w={"100%"}>
           <IconButton
             size={"md"}
@@ -46,8 +52,9 @@ export default function Header() {
             mr={10}
           />
           <HStack spacing={12} alignItems={"center"}>
+            {/* logo */}
             <Box>
-              <Link to={"/login"}>
+              <Link to={"/"}>
                 {" "}
                 <Image href="/" src={"../../src/assets/images/logo.jpg"} />
               </Link>
@@ -58,6 +65,7 @@ export default function Header() {
               spacing={4}
               display={{ base: "none", lg: "flex" }}
             >
+              {/* search bar */}
               <InputGroup
                 borderRadius={5}
                 size="md"
@@ -66,7 +74,6 @@ export default function Header() {
               >
                 <InputLeftElement
                   pointerEvents="none"
-                  // children={<Search2Icon color="gray.600" />}
                 />
                 <Input
                   type="text"
@@ -87,11 +94,13 @@ export default function Header() {
               </InputGroup>
             </HStack>
             <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
+              {/* category menu component */}
               <CategoryMenu />
             </HStack>
 
             <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
               <HStack spacing={12} display={{ base: "none", lg: "flex" }}>
+                {/* wishlist button */}
                 <Button variant="ghost">
                   <Box
                     display={"inline-block"}
@@ -101,6 +110,7 @@ export default function Header() {
                     <BsSuitHeart /> <Text fontSize={"1xl"}>Wishlist</Text>
                   </Box>
                 </Button>
+                {/* cart button */}
                 <Button
                   variant="ghost"
                   display={"inline-block"}
@@ -132,7 +142,7 @@ export default function Header() {
             </HStack>
           </HStack>
         </Flex>
-
+{/* when icon button is open then display all nav links  */}
         {isOpen ? (
           <Box pb={4} display={{ lg: "none" }}>
             <Stack
@@ -141,6 +151,7 @@ export default function Header() {
               align="center"
               justify={{ base: "center", md: "space-between" }}
             >
+              {/* search bar */}
               <InputGroup borderRadius={5} size="md">
                 <InputLeftElement
                   pointerEvents="none"
@@ -163,7 +174,9 @@ export default function Header() {
                   </Button>
                 </InputRightAddon>
               </InputGroup>
+              {/* category menu */}
               <CategoryMenu />
+                {/* wishlist button */}
               <Button
                 variant="ghost"
                 display={"inline-block"}
@@ -177,6 +190,7 @@ export default function Header() {
                   <BsSuitHeart /> <Text fontSize={"1xl"}>Wishlist</Text>
                 </Box>
               </Button>
+              {/* cart button */}
               <Button
                 variant="ghost"
                 display={"inline-block"}

@@ -1,6 +1,7 @@
+// import packages from react
 import React from "react";
-import Auth from "../../utils/auth";
-import { useState } from "react";
+
+// import components from chakra
 import {
   Modal,
   ModalOverlay,
@@ -18,12 +19,17 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+
+// import icons
 import { MdOutlineCreate, MdOutlineLogout } from "react-icons/md";
+
+//import functions from files
+import Auth from "../../utils/auth";
 import LoginForm from "../LoginForm";
 import SignupForm from "../SignupForm";
 
 function Nav() {
-  const [showModal, setShowModal] = useState(false);
+  // set state for modal open and close
   const { isOpen, onOpen, onClose } = useDisclosure();
   const finalRef = React.useRef(null);
   // const initialRef = React.useRef(null);
@@ -34,28 +40,31 @@ function Nav() {
       align="center"
       justify={{ base: "center", md: "space-between" }}
     >
+      {/* if logged in then display profile and logout button */}
       {Auth.loggedIn() ? (
         <>
-          {/* <Box as={Link} to="/">
-            See Your Books
-          </Box> */}
-          <HStack as={"nav"} spacing={8}>
-           <Link to ="/order"><Button
-              variant="ghost"
-              cursor={"pointer"}
-              display={"inline-block"}
-              verticalAlign={"middle"}
-            >
-              <Box
+          <HStack as={"nav"} spacing={8} display={"inline-block"}
+           >
+            <Link to="/order">
+              {/* profile button */}
+              <Button
+                variant="ghost"
+                cursor={"pointer"}
                 display={"inline-block"}
                 verticalAlign={"middle"}
-                align="center"
               >
-                {" "}
-                <Avatar size={"2xs"} />
-                <Text> Profile</Text>
-              </Box>
-            </Button></Link> 
+                <Box
+                  display={"inline-block"}
+                  verticalAlign={"middle"}
+                  align="center"
+                >
+                  {" "}
+                  <Avatar size={"2xs"} />
+                  <Text> Profile</Text>
+                </Box>
+              </Button>
+            </Link>
+            {/* logout button */}
             <Button
               variant="ghost"
               cursor={"pointer"}
@@ -82,8 +91,8 @@ function Nav() {
             tabIndex={-1}
             aria-label="Focus moved to this box"
           ></Box>
+          {/* on loggin out, it displays login button */}
           <Button variant="ghost" onClick={onOpen}>
-            {/* <Button variant="ghost" onClick={() => setShowModal(true)} > */}
             <Box
               display={"inline-block"}
               verticalAlign={"middle"}
@@ -94,8 +103,7 @@ function Nav() {
           </Button>
           <Modal
             size={{ base: "xs", md: "lg" }}
-            show={showModal}
-            onHide={() => setShowModal(false)}
+           
             aria-labelledby="login-modal"
             finalFocusRef={finalRef}
             isOpen={isOpen}
@@ -103,6 +111,7 @@ function Nav() {
           >
             <ModalOverlay />
             <ModalContent bg={"back.900"}>
+              {/* tabs to switch between login and signup */}
               <Tabs>
                 <TabList>
                   <Tab>Login</Tab>
@@ -111,7 +120,7 @@ function Nav() {
 
                 <TabPanels>
                   <TabPanel>
-                    <LoginForm />
+                    <LoginForm close={onClose} />
                   </TabPanel>
                   <TabPanel>
                     <SignupForm close={onClose} />

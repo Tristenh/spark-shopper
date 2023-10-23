@@ -14,7 +14,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^5.1.0"
+    "concurrently": "^5.1.0",
+    "eslint": "^8.52.0",
+    "eslint-plugin-react": "^7.33.2"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",

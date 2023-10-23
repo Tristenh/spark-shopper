@@ -1,3 +1,4 @@
+// import components from chakra
 import {
   FormControl,
   FormLabel,
@@ -9,25 +10,33 @@ import {
   ModalCloseButton,
   Button,
 } from "@chakra-ui/react";
+
+// import packages from react
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
+
+//import methods from files
 import Auth from "../../utils/auth";
 import { ADD_USER } from "../../utils/mutations";
+
+// Here we import a helper function that will check if the email is valid
 import { validateEmail } from "../../utils/helpers";
 
 function SignupForm(props) {
+  //set state to empty strings
   const [formState, setFormState] = useState({
     email: "",
     password: "",
     username: "",
-  
   });
-  const [addUser] = useMutation(ADD_USER);
   const [errorMessage, setErrorMessage] = useState("");
+
+  // add user mutation to signup
+  const [addUser] = useMutation(ADD_USER);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(formState);
+    // get output of add user
     try {
       const mutationResponse = await addUser({
         variables: {
@@ -36,14 +45,13 @@ function SignupForm(props) {
           username: formState.username,
         },
       });
-      console.log(mutationResponse)
+      // get token from output and save it in local storage
       const token = mutationResponse.data.addUser.token;
-      console.log("successful")
-
       Auth.login(token);
     } catch (error) {
       console.log(error);
     }
+    // after submit, set empty form state
     setFormState({
       username: "",
       email: "",
@@ -62,7 +70,7 @@ function SignupForm(props) {
   const handleInputOnFocusOut = (e) => {
     const type = e.target.name;
     const value = e.target.value;
-    // check if field left empty and email is invalid and set errormessage
+    // check if any field left empty and email is invalid and set errormessage
     if (type === "email" && !validateEmail(value)) {
       setErrorMessage("Please enter valid email address");
     } else if (type === "username" && (!value || value.length < 3)) {
@@ -76,7 +84,7 @@ function SignupForm(props) {
 
   return (
     <Stack spacing={4} justify={{ base: "center", md: "space-between" }}>
-     
+      {/* modal to display signup form  */}
       <ModalHeader>Signup Form</ModalHeader>
       <ModalCloseButton />{" "}
       <form
@@ -132,13 +140,13 @@ function SignupForm(props) {
           </Button>
           <Button type="submit">Create my Account</Button>
         </ModalFooter>
+        {/* if state of error message changes */}
         {errorMessage && (
           <div>
             <p style={{ color: "red" }}>{errorMessage}</p>
           </div>
         )}
       </form>
-     
     </Stack>
   );
 }

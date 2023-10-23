@@ -1,3 +1,4 @@
+// import components from chakra
 import {
   FormControl,
   FormLabel,
@@ -9,9 +10,12 @@ import {
   ModalCloseButton,
   Button
 } from "@chakra-ui/react";
+
+// import packages from react
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 
+//import functions from files
 import { LOGIN } from "../../utils/mutations";
 import Auth from "../../utils/auth";
 
@@ -19,19 +23,23 @@ import Auth from "../../utils/auth";
 import { validateEmail } from "../../utils/helpers";
 
 export default function LoginForm(props) {
+
   // Create state variables for the fields in the form
   // We are also setting their initial values to an empty string
-
   const [errorMessage, setErrorMessage] = useState("");
-  const [login, { error }] = useMutation(LOGIN);
   const [formState, setFormState] = useState({ email: "", password: "" });
+
+  // add user mutation to login
+  const [login, { error }] = useMutation(LOGIN);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
+      //get output of login mutation
       const mutationResponse = await login({
         variables: { email: formState.email, password: formState.password },
       });
+      // get token from output and save it in local storage
       const token = mutationResponse.data.login.token;
       Auth.login(token);
       // if no error message then submit successfully
@@ -74,6 +82,7 @@ export default function LoginForm(props) {
 
   return (
     <Stack spacing={4} justify={{ base: "center", md: "space-between" }}>
+      {/* modal to display login form  */}
       <ModalHeader>Login Form</ModalHeader>
       <ModalCloseButton />{" "}
       <form
@@ -119,6 +128,7 @@ export default function LoginForm(props) {
           <Button type="submit">Login</Button>
         </ModalFooter>
 
+        {/* if state of error message changes */}
         {errorMessage && (
           <div>
             <p style={{ color: "red" }}>{errorMessage}</p>
