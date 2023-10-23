@@ -38,7 +38,7 @@ function ProductItem(item) {
   const { image, name, _id, price } = item;
   const { cart } = state;
   const { wishList } = state;
-
+  //adds to  the  state wishList if the item not present already ,otherwise deletes the product from wishList state
   const addToWishList = () => {
     const itemInWishList = wishList.find(
       (wishListItem) => wishListItem._id === _id
@@ -48,20 +48,22 @@ function ProductItem(item) {
         type: REMOVE_FROM_WISHLIST,
         _id: _id,
       });
-      idbPromise("wishList", "put", {
-        ...itemInWishList,
+      //remove the product from indexedDB
+      idbPromise("wishList", "delete", {
+        ...item,
       });
     } else {
       dispatch({
         type: ADD_TO_WISHLIST,
         product: { ...item },
       });
+      //Add the product to indexedDB
       idbPromise("wishList", "put", { ...item });
-      console.log(item);
+
       // const { data } = addWishList({ variables: { item } });
     }
     // const productIds = [];
-    console.log(state.wishList);
+
     // state.wishList.forEach((item) => {
     //   productIds.push(item._id);
     // });

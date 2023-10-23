@@ -94,12 +94,14 @@ export const reducer = (state, action) => {
         wishList: [...state.wishList, action.product],
       };
     case REMOVE_FROM_WISHLIST:
+      console.log(state.wishList);
       let newWishListState = state.wishList.filter((product) => {
         return product._id !== action._id;
       });
+      console.log(newWishListState);
       return {
         ...state,
-        cart: newWishListState,
+        wishList: newWishListState,
       };
 
     // Return the state as is in the event that the `action.type` passed to the reducer was not accounted for by the developers

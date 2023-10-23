@@ -72,7 +72,6 @@ function ProductList() {
             lg: "repeat(4, 1fr)",
           }}
         >
-          {console.log(filterProducts())}
           {/*Iterate through each product and renders the component ProductItem by passing values */}
           {filterProducts().map((product, index) => (
             <ProductItem
