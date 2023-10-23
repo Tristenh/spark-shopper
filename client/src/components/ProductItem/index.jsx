@@ -24,12 +24,50 @@ import { idbPromise } from "../../utils/helpers";
 //Importing the required component for linking between pages
 
 import { Link } from "react-router-dom";
-import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
+import {
+  ADD_TO_CART,
+  UPDATE_CART_QUANTITY,
+  ADD_TO_WISHLIST,
+  REMOVE_FROM_WISHLIST,
+} from "../../utils/actions";
+import { ADD_WISHLIST } from "../../utils/mutations";
+
 function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
 
   const { image, name, _id, price } = item;
   const { cart } = state;
+  const { wishList } = state;
+
+  const addToWishList = () => {
+    const itemInWishList = wishList.find(
+      (wishListItem) => wishListItem._id === _id
+    );
+    if (itemInWishList) {
+      dispatch({
+        type: REMOVE_FROM_WISHLIST,
+        _id: _id,
+      });
+      idbPromise("wishList", "put", {
+        ...itemInWishList,
+      });
+    } else {
+      dispatch({
+        type: ADD_TO_WISHLIST,
+        product: { ...item },
+      });
+      idbPromise("wishList", "put", { ...item });
+      console.log(item);
+      // const { data } = addWishList({ variables: { item } });
+    }
+    // const productIds = [];
+    console.log(state.wishList);
+    // state.wishList.forEach((item) => {
+    //   productIds.push(item._id);
+    // });
+    // console.log(productIds);
+    //
+  };
   //adds to  the  state cart if the item not present already ,otherwise  updates the purchase quantity and also updates the indexedDB
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === _id);
@@ -51,6 +89,7 @@ function ProductItem(item) {
       idbPromise("cart", "put", { ...item, purchaseQuantity: 1 });
     }
   };
+
   //displays product details in card such as name ,image,price, buttons to add to cart and wish list
   return (
     <GridItem p={{ base: 0, md: 1 }} pb={{ base: 1, md: 1 }}>
@@ -75,6 +114,7 @@ function ProductItem(item) {
                   color: "red.600",
                   fontSize: { base: "20px", md: "24px" },
                 }}
+                onClick={addToWishList}
               />
             </chakra.a>
           </Tooltip>

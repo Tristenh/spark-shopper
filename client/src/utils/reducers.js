@@ -9,6 +9,8 @@ import {
   UPDATE_CURRENT_CATEGORY,
   CLEAR_CART,
   TOGGLE_CART,
+  ADD_TO_WISHLIST,
+  REMOVE_FROM_WISHLIST,
 } from "./actions";
 
 // The reducer is a function that accepts the current state and an action. It returns a new state based on that action.
@@ -84,6 +86,20 @@ export const reducer = (state, action) => {
       return {
         ...state,
         currentCategory: action.currentCategory,
+      };
+    case ADD_TO_WISHLIST:
+      return {
+        ...state,
+        liked: true,
+        wishList: [...state.wishList, action.product],
+      };
+    case REMOVE_FROM_WISHLIST:
+      let newWishListState = state.wishList.filter((product) => {
+        return product._id !== action._id;
+      });
+      return {
+        ...state,
+        cart: newWishListState,
       };
 
     // Return the state as is in the event that the `action.type` passed to the reducer was not accounted for by the developers
