@@ -8,7 +8,6 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { theme } from "./styles/theme.jsx";
-// import CategoryMenu from "./components/CategoryMenu/index.jsx";
 import Header from './components/Header';
 import { StoreProvider } from './utils/GlobalState';
 
@@ -37,7 +36,6 @@ function App() {
       <ChakraProvider theme={theme}>
         <StoreProvider>
         <Header/>
-        {/* <CategoryMenu/> */}
         <Outlet />
         </StoreProvider>
       </ChakraProvider>
