@@ -1,4 +1,11 @@
-const { User, Product, Category, Order, Comment,SubCategory } = require("../models");
+const {
+  User,
+  Product,
+  Category,
+  Order,
+  Comment,
+  SubCategory,
+} = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
@@ -8,8 +15,8 @@ const resolvers = {
       return await Category.find();
     },
     // get subcategory of selected category
-    subcategories: async(parent, {category})=>{
-      return await SubCategory.find({category});
+    subcategories: async (parent, { category }) => {
+      return await SubCategory.find({ category });
     },
     // get all products of given subcategory
     products: async (parent, { subcategory, name }) => {
@@ -75,10 +82,9 @@ const resolvers = {
 
     //   throw AuthenticationError;
     // },
-    
+
     checkout: async (parent, args, context) => {
       try {
-
         const url = new URL(context.headers.referer).origin;
         // create new order
         const order = new Order({ products: args.products });
@@ -104,7 +110,7 @@ const resolvers = {
             quantity: 1,
           });
         }
-        
+
         //create and return checkout session
         const session = await stripe.checkout.sessions.create({
           payment_method_types: ["card"],
@@ -125,48 +131,46 @@ const resolvers = {
     addCategory: async (parent, { name }, context) => {
       if (context.user?.isAdmin) {
         try {
-            return Category.create({name });
+          return Category.create({ name });
         } catch (error) {
-            console.log("unable to add category",error);
+          console.log("unable to add category", error);
         }
       }
     },
     //create sub category by passing name and category id
-    addSubCategory: async (parent, { name,category }, context) => {
-        if (context.user?.isAdmin) {
-          try {
-              return SubCategory.create({name,category });
-          } catch (error) {
-            console.log("unable to add sub category",error);
-              
-          }
+    addSubCategory: async (parent, { name, category }, context) => {
+      if (context.user?.isAdmin) {
+        try {
+          return SubCategory.create({ name, category });
+        } catch (error) {
+          console.log("unable to add sub category", error);
         }
-      },
-      //add products by passing all product details
-      addProduct: async (parent, { productDetails }, context) => {
-        if (context.user?.isAdmin) {
-          try {
-              return SubCategory.create({productDetails });
-          } catch (error) {
-            console.log("unable to add sub category",error);
-              
-          }
+      }
+    },
+    //add products by passing all product details
+    addProduct: async (parent, { productDetails }, context) => {
+      if (context.user?.isAdmin) {
+        try {
+          return SubCategory.create({ productDetails });
+        } catch (error) {
+          console.log("unable to add sub category", error);
         }
-      },
-      //add comment in product 
-      addComment: async (parent, {productId, rating, commentDesc,userId }) => {
-        return Product.findOneAndUpdate(
-          { _id: productId },
-          {
-            $addToSet: { comments: { rating,commentDesc,userId } },
-          },
-          {
-            new: true,
-            runValidators: true,
-          }
-        );
-      },
-      //signup
+      }
+    },
+    //add comment in product
+    addComment: async (parent, { productId, rating, commentDesc, userId }) => {
+      return Product.findOneAndUpdate(
+        { _id: productId },
+        {
+          $addToSet: { comments: { rating, commentDesc, userId } },
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+    },
+    //signup
     addUser: async (parent, args) => {
       try {
         const user = await User.create(args);
@@ -209,34 +213,38 @@ const resolvers = {
     //   throw AuthenticationError;
     // },
     //update category by passing id and name
-    updateCategory: async (parent, {_id,name}, context) => {
-        if (context.user?.isAdmin) {
-          try {
-            return await Product.findByIdAndUpdate(_id, name, {
-              new: true,
-            });
-          } catch (error) {
-            console.log("unable to update category", error);
-          }
+    updateCategory: async (parent, { _id, name }, context) => {
+      if (context.user?.isAdmin) {
+        try {
+          return await Product.findByIdAndUpdate(_id, name, {
+            new: true,
+          });
+        } catch (error) {
+          console.log("unable to update category", error);
         }
-  
-        throw AuthenticationError;
-      },
+      }
+
+      throw AuthenticationError;
+    },
     //update subcategory by passing id, name and category id
-      updateSubCategory: async (parent, {_id,name,category}, context) => {
-        if (context.user?.isAdmin) {
-          try {
-            return await Product.findByIdAndUpdate(_id, {name,category}, {
+    updateSubCategory: async (parent, { _id, name, category }, context) => {
+      if (context.user?.isAdmin) {
+        try {
+          return await Product.findByIdAndUpdate(
+            _id,
+            { name, category },
+            {
               new: true,
-            });
-          } catch (error) {
-            console.log("unable to update subcategory", error);
-          }
+            }
+          );
+        } catch (error) {
+          console.log("unable to update subcategory", error);
         }
-  
-        throw AuthenticationError;
-      },
-      //update quantity in product
+      }
+
+      throw AuthenticationError;
+    },
+    //update quantity in product
     updateProduct: async (parent, { _id, quantity }) => {
       try {
         const decrement = Math.abs(quantity) * -1;
@@ -271,6 +279,24 @@ const resolvers = {
       } catch (error) {
         console.log("log error", err);
       }
+    },
+    //add products in wishlist
+    addWishList: async (parent, { products }, context) => {
+      if (context.user) {
+        try {
+          // const order = new Order({ products });
+
+          await User.findByIdAndUpdate("context.user._id", {
+            $addToSet: { wishList: { products } },
+          });
+
+          return User;
+        } catch (error) {
+          comsole.log("unable to add to wishlist", error);
+        }
+      }
+
+      throw AuthenticationError;
     },
   },
 };
