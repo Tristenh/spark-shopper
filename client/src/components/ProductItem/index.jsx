@@ -30,15 +30,15 @@ import {
   ADD_TO_WISHLIST,
   REMOVE_FROM_WISHLIST,
 } from "../../utils/actions";
-// import { ADD_WISHLIST } from "../../utils/mutations";
-
+import { ADD_WISHLIST } from "../../utils/mutations";
+import { useMutation } from "@apollo/client";
 function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
 
   const { image, name, _id, price } = item;
   const { cart } = state;
   const { wishList } = state;
-
+  const [addWishList] = useMutation(ADD_WISHLIST);
   //adds to  the  state wishList if the item not present already ,otherwise deletes the product from wishList state
   const addToWishList = () => {
     const itemInWishList = wishList.find(
@@ -60,16 +60,19 @@ function ProductItem(item) {
       });
       //Add the product to indexedDB
       idbPromise("wishList", "put", { ...item });
-
-      // const { data } = addWishList({ variables: { item } });
     }
-    const productIds = [];
-    console.log(state.wishList);
-    state.wishList.forEach((item) => {
-      productIds.push(item._id);
-    });
-    console.log(productIds);
-    //
+
+    async function saveWishList() {
+      // const products = state.wishList.map((item) => item._id);
+      const productIds = [];
+      console.log(state.wishList);
+      state.wishList.forEach((item) => {
+        productIds.push(item._id);
+      });
+      console.log("PRODUCT IDS" + productIds);
+      const { data } = await addWishList({ variables: { productIds } });
+    }
+    saveWishList();
   };
   //adds to  the  state cart if the item not present already ,otherwise  updates the purchase quantity and also updates the indexedDB
   const addToCart = () => {

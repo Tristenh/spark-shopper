@@ -285,9 +285,9 @@ const resolvers = {
       if (context.user) {
         try {
           // const order = new Order({ products });
-
+          console.log(products);
           await User.findByIdAndUpdate("context.user._id", {
-            $addToSet: { wishList: { products } },
+            $Set: { wishList: { products } },
           });
 
           return User;
