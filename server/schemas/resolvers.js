@@ -171,7 +171,6 @@ const resolvers = {
       try {
         const user = await User.create(args);
         const token = signToken(user);
-
         return { token, user };
       } catch (error) {
         console.log(error);

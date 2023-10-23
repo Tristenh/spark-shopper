@@ -38,11 +38,24 @@ export const ADD_COMMENT = gql`
 
 // Mutation to add a new user
 export const ADD_USER = gql`
-  mutation addUser($username: String!, $email: String!, $password: String!) {
-    addUser(username: $username, email: $email, password: $password) {
+  mutation addUser(
+    $username: String!
+    $email: String!
+    $password: String! 
+    # $isAdmin:Boolean
+  ) {
+    addUser(
+      username: $username
+      email: $email
+      password: $password
+       # isAdmin: $isAdmin
+    ) {
       token
       user {
         _id
+        email
+        isAdmin
+        username
       }
     }
   }
@@ -95,6 +108,7 @@ export const UPDATE_USER = gql`
   ) {
     updateUser(
       username: $username
+
       email: $email
       password: $password
       isAdmin: $isAdmin

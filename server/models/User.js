@@ -15,6 +15,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
     trim: true,
+    minlength:8
   },
 
   // define email with constraints and email validation
