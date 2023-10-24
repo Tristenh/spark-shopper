@@ -15,9 +15,9 @@ import {
   Stack,
   VStack,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useState } from "react";
 //import icon used for wishlist
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 //import GlobalState
 import { useStoreContext } from "../../utils/GlobalState";
 import { idbPromise } from "../../utils/helpers";
@@ -36,14 +36,15 @@ function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
 
   const { image, name, _id, price } = item;
-  const { cart } = state;
-  const { wishList } = state;
+  const { cart, wishList } = state;
+
   const [addWishList] = useMutation(ADD_WISHLIST);
   //adds to  the  state wishList if the item not present already ,otherwise deletes the product from wishList state
   const addToWishList = () => {
     const itemInWishList = wishList.find(
       (wishListItem) => wishListItem._id === _id
     );
+
     if (itemInWishList) {
       dispatch({
         type: REMOVE_FROM_WISHLIST,
@@ -63,23 +64,15 @@ function ProductItem(item) {
     }
 
     async function saveWishList() {
-      // const products = state.wishList.map((item) => item._id);
-      const productIds = [];
-      console.log(state.wishList);
-      state.wishList.forEach((item) => {
-        productIds.push(item._id);
+      const wish = await idbPromise("wishList", "get");
+      const productIds = wish.map((item) => item._id);
+      const { data } = await addWishList({
+        variables: { products: productIds },
       });
-      console.log("product ids ");
-      console.log(productIds);
-      if (Auth.loggedIn) {
-        console.log("logged in");
-        const { data } = await addWishList({
-          variables: { products: productIds },
-        });
-      }
     }
     saveWishList();
   };
+
   //adds to  the  state cart if the item not present already ,otherwise  updates the purchase quantity and also updates the indexedDB
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === _id);
@@ -101,35 +94,61 @@ function ProductItem(item) {
       idbPromise("cart", "put", { ...item, purchaseQuantity: 1 });
     }
   };
-
+  const [isActive, setIsActive] = useState(false);
+  if (Auth.loggedIn()) {
+    idbPromise("wishList", "get").then((wishListProducts) => {
+      const itemInWishList = wishListProducts.find(
+        (wishListItem) => wishListItem._id === _id
+      );
+      if (itemInWishList) {
+        setIsActive(true);
+      }
+    });
+  }
   //displays product details in card such as name ,image,price, buttons to add to cart and wish list
   return (
     <GridItem p={{ base: 0, md: 1 }} pb={{ base: 1, md: 1 }}>
       <Card p={{ base: 0, md: 5 }} h={700}>
         <CardHeader>
-          <Tooltip
-            label="Add to Wish list"
-            bg="white"
-            placement={"top"}
-            color={"gray.800"}
-            fontSize={"1.2em"}
-          >
-            <chakra.a href={"#"} display={"flex"}>
+          <Box onClick={() => setIsActive(!isActive)}>
+            {isActive ? (
               <IconButton
                 isRound={true}
                 variant="solid"
                 colorScheme="gray"
                 aria-label="Done"
                 fontSize="20px"
-                icon={<FaRegHeart />}
+                icon={<FaHeart />}
+                color="red.600"
+                onClick={addToWishList}
                 _hover={{
-                  color: "red.600",
                   fontSize: { base: "20px", md: "24px" },
                 }}
-                onClick={addToWishList}
               />
-            </chakra.a>
-          </Tooltip>
+            ) : (
+              <Tooltip
+                label="Add to Wish list"
+                bg="white"
+                placement={"top"}
+                color={"gray.800"}
+                fontSize={"1.2em"}
+              >
+                <IconButton
+                  isRound={true}
+                  variant="solid"
+                  colorScheme="gray"
+                  aria-label="Done"
+                  fontSize="20px"
+                  icon={<FaRegHeart />}
+                  onClick={addToWishList}
+                  _hover={{
+                    color: "red.600",
+                    fontSize: { base: "20px", md: "24px" },
+                  }}
+                />
+              </Tooltip>
+            )}
+          </Box>
         </CardHeader>
         <CardBody>
           <Center py={12}>

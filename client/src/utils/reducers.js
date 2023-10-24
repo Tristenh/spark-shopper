@@ -12,6 +12,7 @@ import {
   ADD_TO_WISHLIST,
   REMOVE_FROM_WISHLIST,
   ADD_MULTIPLE_TO_WISHLIST,
+  UPDATE_WISHLIST,
 } from "./actions";
 
 // The reducer is a function that accepts the current state and an action. It returns a new state based on that action.
@@ -91,7 +92,6 @@ export const reducer = (state, action) => {
     case ADD_TO_WISHLIST:
       return {
         ...state,
-        liked: true,
         wishList: [...state.wishList, action.product],
       };
     case REMOVE_FROM_WISHLIST:
@@ -106,7 +106,13 @@ export const reducer = (state, action) => {
     case ADD_MULTIPLE_TO_WISHLIST:
       return {
         ...state,
-        wishList: [...state.wishList, ...action.products],
+        wishList: [...state.wishList, ...action.wishList],
+      };
+    // Returns a copy of state with an updated wishList array. We use the action.products property and spread it's contents into the new array.
+    case UPDATE_WISHLIST:
+      return {
+        ...state,
+        wishList: [...action.wishList],
       };
     // Return the state as is in the event that the `action.type` passed to the reducer was not accounted for by the developers
     // This saves us from a crash.

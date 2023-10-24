@@ -33,7 +33,9 @@ const resolvers = {
           };
         }
         // params can be name or subcategory id
-        return await Product.find(params).populate("subcategory");
+        return await Product.find(params)
+          .sort({ _id: -1 })
+          .populate("subcategory");
       } catch (error) {
         console.log(error);
       }
@@ -50,10 +52,12 @@ const resolvers = {
     user: async (parent, args, context) => {
       if (context.user) {
         try {
-          const user = await User.findById(context.user._id).populate({
-            path: "orders.products",
-            populate: "subcategory",
-          });
+          const user = await User.findById(context.user._id)
+            .populate({
+              path: "orders.products",
+              populate: "subcategory",
+            })
+            .populate({ path: "wishList.products", populate: "subcategory" });
           //sorting as per latest purchase to oldest purchase date
           user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
 
