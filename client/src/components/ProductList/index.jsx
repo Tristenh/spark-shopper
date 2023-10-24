@@ -9,11 +9,7 @@ import ProductItem from "../ProductItem";
 
 //importing actions,queries, GlobalState and helpers
 import { useStoreContext } from "../../utils/GlobalState";
-import {
-  UPDATE_PRODUCTS,
-  ADD_MULTIPLE_TO_WISHLIST,
-  UPDATE_WISHLIST,
-} from "../../utils/actions";
+import { UPDATE_PRODUCTS, ADD_MULTIPLE_TO_WISHLIST } from "../../utils/actions";
 import { QUERY_PRODUCTS, QUERY_USER } from "../../utils/queries";
 import { idbPromise } from "../../utils/helpers";
 
