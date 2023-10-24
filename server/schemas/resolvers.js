@@ -284,15 +284,13 @@ const resolvers = {
     addWishList: async (parent, { products }, context) => {
       if (context.user) {
         try {
-          // const order = new Order({ products });
-          console.log(products);
-          await User.findByIdAndUpdate("context.user._id", {
-            $Set: { wishList: { products } },
+          const user = await User.findByIdAndUpdate(context.user._id, {
+            $set: { wishList: products },
           });
 
           return User;
         } catch (error) {
-          comsole.log("unable to add to wishlist", error);
+          console.log("unable to add to wishlist", error);
         }
       }
 

@@ -22,7 +22,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { useStoreContext } from "../../utils/GlobalState";
 import { idbPromise } from "../../utils/helpers";
 //Importing the required component for linking between pages
-
+import Auth from "../../utils/auth";
 import { Link } from "react-router-dom";
 import {
   ADD_TO_CART,
@@ -69,8 +69,14 @@ function ProductItem(item) {
       state.wishList.forEach((item) => {
         productIds.push(item._id);
       });
-      console.log("PRODUCT IDS" + productIds);
-      const { data } = await addWishList({ variables: { productIds } });
+      console.log("product ids ");
+      console.log(productIds);
+      if (Auth.loggedIn) {
+        console.log("logged in");
+        const { data } = await addWishList({
+          variables: { products: productIds },
+        });
+      }
     }
     saveWishList();
   };
