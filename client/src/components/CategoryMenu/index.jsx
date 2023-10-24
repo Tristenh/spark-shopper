@@ -1,4 +1,3 @@
-category menu
 import { useEffect, useState, useRef } from "react";
 import {
   Flex,
@@ -8,7 +7,7 @@ import {
   MenuList,
   MenuItem,
   Text,
-  Link
+  Link,
 } from "@chakra-ui/react";
 import { useQuery, useLazyQuery } from "@apollo/client";
 import { useStoreContext } from "../../utils/GlobalState";
@@ -46,11 +45,16 @@ function CategoryMenu() {
     }
     const handler = (event) => {
       if (dropdown && ref.current && !ref.current.contains(event.target)) {
-        setDropdown(false);
+         setDropdown(false);
       }
-    };
-    document.addEventListener("mousedown", handler);
-    document.addEventListener("touchstart", handler);
+   };
+   document.addEventListener("mousedown", handler);
+   document.addEventListener("touchstart", handler);
+   return () => {
+      // Cleanup the event listener
+      document.removeEventListener("mousedown", handler);
+      document.removeEventListener("touchstart", handler);
+   };
   }, [categoryData, loading, dispatch, dropdown]);
 
   const handleClick = async (id) => {
@@ -108,41 +112,43 @@ function CategoryMenu() {
                 {isOpen ? "Products" : "Products"}
               </Text>
             </MenuButton>
-            <MenuList  bg={"back.900"} color={"white"}>
-              {categories.map((item,i) => (
-             
-                <Dropdown key={i} items={item} subcategories={state.subcategories}
-                    setDropdown={setDropdown}
-                    dropdown={dropdown}
-                    depthLevel={depthLevel}
-                  />
-                
-                // <MenuItem
-                //   as="li"
-                //   key={item._id}
-                //   px={2}
-                //   py={1}
-                //   bg={"back.900"}
-                //   onMouseEnter={() => onMouseEnter(item._id)}
-                //   onMouseLeave={onMouseLeave}
-                //   _hover={{ bg: "gray.400", color: "black" }}
-                //   onClick={() => handleClick(item._id)}
-                // >
-                //   <Text>{item.name}</Text>
-                //   {depthLevel === 0 ? (
-                //     <span> &raquo;</span>
-                //   ) : (
-                //      <Link to={`products/${item._id}`}>{item.name}</Link>
-                 
-                //   )}
-                //   {state.subcategories?
-                //    (<Dropdown 
-                //     subcategories={state.subcategories}
+            <MenuList bg={"back.900"} color={"white"}>
+              {categories.map((item) => (
+                // <Dropdown key={i} items={item} subcategories={state.subcategories}
                 //     setDropdown={setDropdown}
                 //     dropdown={dropdown}
                 //     depthLevel={depthLevel}
-                //   />):<Link to={`/products/${item._id}`}></Link>}
-                // </MenuItem>
+                //   />
+
+                <MenuItem
+                  as="ul"
+              position={"relative"}
+                  opacity={".8"}
+                  key={item._id}
+                  px={2}
+                  py={1}
+                  bg={"back.900"}
+                  onMouseEnter={() => onMouseEnter(item._id)}
+                  onMouseLeave={onMouseLeave}
+                  _hover={{ bg: "gray.400", color: "black" }}
+                  onClick={() => setDropdown((prev) => !prev)}
+                >
+                  <Text>{item.name}</Text>
+                  
+                  {depthLevel === 0 ? (
+                    <span> &raquo;</span>
+                  ) : (
+                    <Link to={'/'}>{item.name}</Link>
+                  )}
+                  
+                  {state.subcategories?
+                   (<Dropdown 
+                    subcategories={state.subcategories}
+                    setDropdown={setDropdown}
+                    dropdown={dropdown}
+                    depthLevel={depthLevel}
+                  />):<Link to={'/'}></Link>}
+                </MenuItem>
               ))}
             </MenuList>
           </>

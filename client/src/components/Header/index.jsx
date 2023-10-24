@@ -41,7 +41,7 @@ export default function Header() {
     <>
       <Box
         bg={"back.900"}
-        px={{ base: "30", md: "20", xl: "20", "2xl": "40" }}
+        px={{ base: "30", md: "20", xl: "20" }}
         size={"md"}
       >
         {/* icon button to show menu on small screen */}

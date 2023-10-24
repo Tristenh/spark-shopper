@@ -1,4 +1,4 @@
-dropdown menu
+
 
 import { useState, useEffect, useRef } from "react";
 // ...
@@ -23,21 +23,24 @@ import { useLazyQuery } from "@apollo/client";
 
 import { QUERY_SUBCATEGORIES } from "../../utils/queries";
 import { idbPromise } from "../../utils/helpers";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+
 const styleDropdownSubmenu = {
   position: "absolute",
   left: "100%",
   top: "-7px",
 };
 export default function Dropdown({
-  items,
+
   depthLevel,
   dropdown,
   subcategories,
   setDropdown,
+
 }) {
   const [state, dispatch] = useStoreContext();
   depthLevel = depthLevel + 1;
-  const [getSubCategories] = useLazyQuery(QUERY_SUBCATEGORIES);
+//   const [getSubCategories] = useLazyQuery(QUERY_SUBCATEGORIES);
   const dropdownClass = depthLevel > 0 ? styleDropdownSubmenu : "";
   const showDropdown = dropdown ? { display: "block" } : "";
 //   const ref = useRef();
@@ -83,15 +86,15 @@ export default function Dropdown({
 
   const handleClick = async (id) => {
     
-    const sub = await getSubCategories({
-      variables: {
-        category: id,
-      },
-    });
-    dispatch({
-      type: UPDATE_SUBCATEGORIES,
-      subcategories: sub.data.subcategories,
-    });
+    // const sub = await getSubCategories({
+    //   variables: {
+    //     category: id,
+    //   },
+    // });
+    // dispatch({
+    //   type: UPDATE_SUBCATEGORIES,
+    //   subcategories: sub.data.subcategories,
+    // });
     setDropdown(true);
     
   };
@@ -113,33 +116,78 @@ export default function Dropdown({
     dropdown && setDropdown(false);
   };
   return (
-    <Flex alignItems={"center"}>
-      <Menu placement="right">
-        {({ isOpen }) => (
-          <>
-            <MenuButton
-              isActive={isOpen}
-              as={Button}
-              colorScheme="WhiteAlpha"
-              _hover={{ bg: "gray.400", color: "black" }}
-              onClick={() => handleClick(items._id)}
-            >
-              <Text fontSize={"1xl"}>
-                {isOpen ? items.name : items.name}
-              </Text>
-            </MenuButton>
-            <MenuList
+    // <Flex alignItems={"center"}>
+    //   <Menu >
+    //     {({ isOpen }) => (
+    //       <>
+    //         <MenuButton
+    //           isActive={isOpen}
+    //           as={Button}
+    //           key={key}
+    //           w={"100%"}
+    //           colorScheme="WhiteAlpha"
+    //           _hover={{ bg: "gray.400", color: "black" }}
+    //           onClick={() => handleClick(items._id)}
+    //           rightIcon={<ChevronDownIcon />}
+    //         >
+    //           <Text fontSize={"1xl"}>
+    //             {isOpen ? items.name : items.name}
+    //           </Text>
+    //         </MenuButton>
+    //         <MenuList
              
-              display="none"
-              {...dropdownClass}
-              {...showDropdown}
-              //  className={`dropdown ${dropdownClass} ${dropdown ? "show" : ""}`}
-              bg={"back.900"}
-              color={"white"}
-            >
-              {subcategories.map((item) => (
+    //           display="none"
+    //           {...dropdownClass}
+    //           {...showDropdown}
+    //           bg={"back.900"}
+    //           color={"white"}
+    //         >
+    //           {subcategories.map((item) => (
+    //             <MenuItem
+    //             as="li"
+    //             borderRadius={""}
+    //               key={item._id}
+    //               px={2}
+    //               py={1}
+    //               bg={"back.900"}
+    //               _hover={{ bg: "gray.400", color: "black" }}
+    //               onClick={() => handleItemClick(item._id)}
+                
+    //             >
+    //                 <Link  style={{ textDecoration: 'none' }} to={'/'}> {item.name}</Link>
+                 
+    //             </MenuItem>
+    //           ))}
+    //         </MenuList>
+    //       </>
+    //     )}
+    //   </Menu>
+    // </Flex>
+    <Box
+      as="ul"
+      position="absolute"
+      right={0}
+      left="auto"
+    //   transform={"translateX(-50%)"}
+    //   transition={"200ms"}
+    //   transitionDelay={"200ms"}
+  
+      fontSize="0.875rem"
+      zIndex={999}
+      minWidth="10rem"
+      padding="0.5rem 0"
+      listStyleType="none"
+      bgColor={"black"}
+      borderRadius="0.5rem"
+      display="none"
+      {...dropdownClass}
+      {...showDropdown}
+      //  className={`dropdown ${dropdownClass} ${dropdown ? "show" : ""}`}
+    >
+ {subcategories.map((item) => (
                 <MenuItem
                 as="li"
+               
                   key={item._id}
                   px={2}
                   py={1}
@@ -152,30 +200,6 @@ export default function Dropdown({
                  
                 </MenuItem>
               ))}
-            </MenuList>
-          </>
-        )}
-      </Menu>
-    </Flex>
-    // <Box
-    //   as="ul"
-    //   position="absolute"
-    //   right={0}
-    //   left="auto"
-
-    //   fontSize="0.875rem"
-    //   zIndex={999}
-    //   minWidth="10rem"
-    //   padding="0.5rem 0"
-    //   listStyleType="none"
-    //   bgColor={"black"}
-    //   borderRadius="0.5rem"
-    //   display="none"
-    //   {...dropdownClass}
-    //   {...showDropdown}
-    //   //  className={`dropdown ${dropdownClass} ${dropdown ? "show" : ""}`}
-    // >
-
-    // </Box>
+    </Box>
   );
 }
