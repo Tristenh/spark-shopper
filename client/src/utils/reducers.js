@@ -9,6 +9,7 @@ import {
   CLEAR_CART,
   TOGGLE_CART,
   UPDATE_SUBCATEGORIES,
+  UPDATE_CURRENT_CATEGORY,
   UPDATE_CURRENT_SUBCATEGORY
 } from "./actions";
 
@@ -89,7 +90,11 @@ export const reducer = (state, action) => {
         subcategories: [...action.subcategories],
       };
     //return the state after updating current subcategory
-   
+    case UPDATE_CURRENT_CATEGORY:
+      return {
+        ...state,
+        currentCategory: action.currentCategory,
+      };
       case UPDATE_CURRENT_SUBCATEGORY:
       return {
         ...state,

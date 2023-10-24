@@ -1,19 +1,7 @@
-
-
 import { useState, useEffect, useRef } from "react";
 // ...
 
-import {
-  Box,
-  MenuItem,
-  MenuList,
-  Text,
-  Link,
-  MenuButton,
-  Button,
-  Menu,
-  Flex,
-} from "@chakra-ui/react";
+import { Box, MenuItem, Link } from "@chakra-ui/react";
 import { useStoreContext } from "../../utils/GlobalState";
 import {
   UPDATE_SUBCATEGORIES,
@@ -23,98 +11,53 @@ import { useLazyQuery } from "@apollo/client";
 
 import { QUERY_SUBCATEGORIES } from "../../utils/queries";
 import { idbPromise } from "../../utils/helpers";
-import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const styleDropdownSubmenu = {
   position: "absolute",
   left: "100%",
   top: "-7px",
 };
-export default function Dropdown({
-
-  depthLevel,
-  dropdown,
-  subcategories,
-  setDropdown,
-
-}) {
+export default function Dropdown({ depthLevel, dropdown }) {
   const [state, dispatch] = useStoreContext();
   depthLevel = depthLevel + 1;
-//   const [getSubCategories] = useLazyQuery(QUERY_SUBCATEGORIES);
   const dropdownClass = depthLevel > 0 ? styleDropdownSubmenu : "";
   const showDropdown = dropdown ? { display: "block" } : "";
-//   const ref = useRef();
-  // console.log(currentCategory)
+  const [getSubCategories, { loading }] = useLazyQuery(QUERY_SUBCATEGORIES);
 
-  //       if (currentCategory) {
-  //         dispatch({
-  //           type: UPDATE_SUBCATEGORIES,
-  //           subcategories: sub.data,
-  //         });
-  //         sub.data.subcategories.forEach((category) => {
-  //           idbPromise("subcategories", "put", category);
-  //         });
-  //       } else if (!loading) {
-  //         idbPromise("subcategories", "get").then((subcategories) => {
-  //           dispatch({
-  //             type: UPDATE_SUBCATEGORIES,
-  //             subcategories: subcategories,
-  //           });
-  //         });
-  //       }
-  //     //   const handler = (event) => {
-  //     //     if (dropdown && ref.current && !ref.current.contains(event.target)) {
-  //     //        setDropdown(false);
-  //     //     }
-  //     //  };
-  //     //   document.addEventListener("mousedown", handler);
-  //     //   document.addEventListener("touchstart", handler);
-  //       // console.log(state)
+  const { currentCategory } = state;
 
-  //     console.log(state)
-//   useEffect(() => {
-//     //  console.log(categoryData)
-
-//     const handler = (event) => {
-//       if (dropdown && ref.current && !ref.current.contains(event.target)) {
-//         setDropdown(false);
-//       }
-//     };
-//     document.addEventListener("mousedown", handler);
-//     document.addEventListener("touchstart", handler);
-//   }, [setDropdown, dropdown]);
-
-  const handleClick = async (id) => {
-    
-    // const sub = await getSubCategories({
-    //   variables: {
-    //     category: id,
-    //   },
-    // });
-    // dispatch({
-    //   type: UPDATE_SUBCATEGORIES,
-    //   subcategories: sub.data.subcategories,
-    // });
-    setDropdown(true);
-    
-  };
-  const handleItemClick=async(id)=>{
-    dispatch({
-        type: UPDATE_CURRENT_SUBCATEGORY,
-        currentSubCategory: id,
+  useEffect(() => {
+    if (currentCategory) {
+      getSubCategories({
+        variables: {
+          category: currentCategory,
+        },
+      }).then((sub) => {
+        dispatch({
+          type: UPDATE_SUBCATEGORIES,
+          subcategories: sub.data.subcategories,
+        });
+        sub.data.subcategories.forEach((category) => {
+          idbPromise("subcategories", "put", category);
+        });
       });
-     
-  }
-  const onMouseEnter = async () => {
-    setDropdown(true);
+    } else if (!loading) {
+      idbPromise("subcategories", "get").then((subcategories) => {
+        dispatch({
+          type: UPDATE_SUBCATEGORIES,
+          subcategories: subcategories,
+        });
+      });
+    }
+  }, [dispatch, getSubCategories, currentCategory, loading]);
+
+  const handleItemClick = async (id) => {
+    dispatch({
+      type: UPDATE_CURRENT_SUBCATEGORY,
+      currentSubCategory: id,
+    });
   };
 
-  const onMouseLeave = () => {
-    setDropdown(false);
-  };
-  const closeDropdown = () => {
-    dropdown && setDropdown(false);
-  };
   return (
     // <Flex alignItems={"center"}>
     //   <Menu >
@@ -135,7 +78,7 @@ export default function Dropdown({
     //           </Text>
     //         </MenuButton>
     //         <MenuList
-             
+
     //           display="none"
     //           {...dropdownClass}
     //           {...showDropdown}
@@ -152,10 +95,10 @@ export default function Dropdown({
     //               bg={"back.900"}
     //               _hover={{ bg: "gray.400", color: "black" }}
     //               onClick={() => handleItemClick(item._id)}
-                
+
     //             >
     //                 <Link  style={{ textDecoration: 'none' }} to={'/'}> {item.name}</Link>
-                 
+
     //             </MenuItem>
     //           ))}
     //         </MenuList>
@@ -168,10 +111,10 @@ export default function Dropdown({
       position="absolute"
       right={0}
       left="auto"
-    //   transform={"translateX(-50%)"}
-    //   transition={"200ms"}
-    //   transitionDelay={"200ms"}
-  
+      //   transform={"translateX(-50%)"}
+      //   transition={"200ms"}
+      //   transitionDelay={"200ms"}
+
       fontSize="0.875rem"
       zIndex={999}
       minWidth="10rem"
@@ -184,22 +127,22 @@ export default function Dropdown({
       {...showDropdown}
       //  className={`dropdown ${dropdownClass} ${dropdown ? "show" : ""}`}
     >
- {subcategories.map((item) => (
-                <MenuItem
-                as="li"
-               
-                  key={item._id}
-                  px={2}
-                  py={1}
-                  bg={"back.900"}
-                  _hover={{ bg: "gray.400", color: "black" }}
-                  onClick={() => handleItemClick(item._id)}
-                
-                >
-                    <Link  style={{ textDecoration: 'none' }} to={'/'}> {item.name}</Link>
-                 
-                </MenuItem>
-              ))}
+      {state.subcategories.map((item) => (
+        <MenuItem
+          as="li"
+          key={item._id}
+          px={2}
+          py={1}
+          bg={"back.900"}
+          _hover={{ bg: "gray.400", color: "black" }}
+          onClick={() => handleItemClick(item._id)}
+        >
+          <Link style={{ textDecoration: "none" }} to={"/"}>
+            {" "}
+            {item.name}
+          </Link>
+        </MenuItem>
+      ))}
     </Box>
   );
 }

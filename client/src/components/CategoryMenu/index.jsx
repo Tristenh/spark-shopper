@@ -9,10 +9,10 @@ import {
   Text,
   Link,
 } from "@chakra-ui/react";
-import { useQuery, useLazyQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useStoreContext } from "../../utils/GlobalState";
-import { UPDATE_CATEGORIES, UPDATE_SUBCATEGORIES } from "../../utils/actions";
-import { QUERY_CATEGORIES, QUERY_SUBCATEGORIES } from "../../utils/queries";
+import { UPDATE_CATEGORIES, UPDATE_CURRENT_CATEGORY } from "../../utils/actions";
+import { QUERY_CATEGORIES} from "../../utils/queries";
 import { idbPromise } from "../../utils/helpers";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import Dropdown from "../Dropdown";
@@ -20,13 +20,11 @@ function CategoryMenu() {
   const [state, dispatch] = useStoreContext();
   const { categories } = state;
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
-  const [getSubCategories] = useLazyQuery(QUERY_SUBCATEGORIES);
   const [dropdown, setDropdown] = useState(false);
   const ref = useRef();
   const depthLevel = 0;
 
   useEffect(() => {
-    //  console.log(categoryData)
     if (categoryData) {
       dispatch({
         type: UPDATE_CATEGORIES,
@@ -57,32 +55,11 @@ function CategoryMenu() {
    };
   }, [categoryData, loading, dispatch, dropdown]);
 
-  const handleClick = async (id) => {
-    // closeDropdown();
-    const sub = await getSubCategories({
-      variables: {
-        category: id,
-      },
-    });
-    dispatch({
-      type: UPDATE_SUBCATEGORIES,
-      subcategories: sub.data.subcategories,
-    });
-    // console.log(state.subcategories)
-    // dispatch({
-    //   type: UPDATE_CURRENT_SUBCATEGORY,
-    //   subcurrentCategory: id,
-    // });
-  };
   const onMouseEnter = async (id) => {
-    const sub = await getSubCategories({
-      variables: {
-        category: id,
-      },
-    });
+    
     dispatch({
-      type: UPDATE_SUBCATEGORIES,
-      subcategories: sub.data.subcategories,
+      type: UPDATE_CURRENT_CATEGORY,
+      currentCategory: id,
     });
     setDropdown(true);
   };
@@ -131,7 +108,7 @@ function CategoryMenu() {
                   onMouseEnter={() => onMouseEnter(item._id)}
                   onMouseLeave={onMouseLeave}
                   _hover={{ bg: "gray.400", color: "black" }}
-                  onClick={() => setDropdown((prev) => !prev)}
+                  onClick={closeDropdown}
                 >
                   <Text>{item.name}</Text>
                   
@@ -143,7 +120,7 @@ function CategoryMenu() {
                   
                   {state.subcategories?
                    (<Dropdown 
-                    subcategories={state.subcategories}
+                    
                     setDropdown={setDropdown}
                     dropdown={dropdown}
                     depthLevel={depthLevel}
