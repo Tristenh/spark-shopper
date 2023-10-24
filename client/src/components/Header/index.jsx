@@ -15,7 +15,6 @@ import {
   Image,
   Link,
   Badge,
-  Spacer,
 } from "@chakra-ui/react";
 
 //import icons
@@ -66,7 +65,7 @@ export default function Header() {
               <Box >
                 <Link to={"/"}>
                   {" "}
-                  <Image href="/" src={"../../../public/images/logo.jpg"} />
+                  <Image href="/" src={"./images/logo.jpg"} />
                 </Link>
               </Box>
 

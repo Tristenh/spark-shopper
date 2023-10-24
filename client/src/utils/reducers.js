@@ -6,9 +6,10 @@ import {
   REMOVE_FROM_CART,
   ADD_MULTIPLE_TO_CART,
   UPDATE_CATEGORIES,
-  UPDATE_CURRENT_CATEGORY,
   CLEAR_CART,
   TOGGLE_CART,
+  UPDATE_SUBCATEGORIES,
+  UPDATE_CURRENT_SUBCATEGORY
 } from "./actions";
 
 // The reducer is a function that accepts the current state and an action. It returns a new state based on that action.
@@ -75,15 +76,24 @@ export const reducer = (state, action) => {
       };
     // Returns a copy of state with an updated categories array.
     case UPDATE_CATEGORIES:
+    
       return {
         ...state,
         categories: [...action.categories],
       };
-    //return the state after updating current category
-    case UPDATE_CURRENT_CATEGORY:
+       // Returns a copy of state with an updated categories array.
+    case UPDATE_SUBCATEGORIES:
+   
       return {
         ...state,
-        currentCategory: action.currentCategory,
+        subcategories: [...action.subcategories],
+      };
+    //return the state after updating current subcategory
+   
+      case UPDATE_CURRENT_SUBCATEGORY:
+      return {
+        ...state,
+        currentSubCategory: action.currentSubCategory,
       };
 
     // Return the state as is in the event that the `action.type` passed to the reducer was not accounted for by the developers

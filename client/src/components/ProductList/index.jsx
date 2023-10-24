@@ -40,6 +40,7 @@ function ProductList() {
   }, [data, loading, dispatch]);
   //return all products
   function filterProducts() {
+    console.log(currentSubCategory)
     if (!currentSubCategory) {
       return state.products;
     }
@@ -72,9 +73,8 @@ function ProductList() {
             lg: "repeat(4, 1fr)",
           }}
         >
-          {console.log(filterProducts())}
           {/*Iterate through each product and renders the component ProductItem by passing values */}
-          {filterProducts().map((product, index) => (
+          {filterProducts().map((product) => (
             <ProductItem
               key={product._id}
               _id={product._id}
