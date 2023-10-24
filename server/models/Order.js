@@ -16,6 +16,10 @@ const orderSchema = new Schema({
     type: Number,
     required: true,
   },
+  orderHistory:{
+    type: Schema.Types.ObjectId,
+    ref: "orderHistory",
+  },
 });
 // export the Order model
 const Order = model("Order", orderSchema);
