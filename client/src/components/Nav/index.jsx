@@ -122,7 +122,7 @@ function Nav() {
               {/* tabs to switch between login and signup */}
               <Tabs>
                 <TabList>
-                  <Tab  textColor={"white"} _selected={{bg: "gray.300",color:"black"}} fontSize={"2xl"}>Login</Tab>
+                  <Tab  textColor={"white"} _selected={{bg: "gray.400",color:"black"}} fontSize={"2xl"}>Login</Tab>
                   <Tab textColor={"white"}_selected={{bg: "gray.400" ,color:"black"}} fontSize={"2xl"}> Signup</Tab>
                 </TabList>
 
