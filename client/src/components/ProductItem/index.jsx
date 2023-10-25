@@ -13,13 +13,6 @@ import {
   IconButton,
   Stack,
   VStack,
-  Drawer,
-  DrawerBody,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
 //import icon used for wishlist
@@ -44,10 +37,13 @@ function ProductItem(item) {
 
   const { image, name, _id, price } = item;
   const { cart, wishList } = state;
-
+  let tooTipText = "";
   const [addWishList] = useMutation(ADD_WISHLIST);
   //adds to  the  state wishList if the item not present already ,otherwise deletes the product from wishList state
   const addToWishList = () => {
+    if (!Auth.loggedIn()) {
+      return;
+    }
     const itemInWishList = wishList.find(
       (wishListItem) => wishListItem._id === _id
     );
@@ -102,7 +98,7 @@ function ProductItem(item) {
     }
   };
   const [isActive, setIsActive] = useState(false);
-  const [isAuthored, setIsAuthored] = useState(false);
+
   if (Auth.loggedIn()) {
     idbPromise("wishList", "get").then((wishListProducts) => {
       const itemInWishList = wishListProducts.find(
@@ -113,9 +109,10 @@ function ProductItem(item) {
       }
     });
   }
-  //defined isOpen, onOpen, onClose to check for the chakra Drawer component in which Cart is displayed
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [placement, setPlacement] = useState("top");
+  !Auth.loggedIn()
+    ? (tooTipText = "Login to add to Wish list")
+    : (tooTipText = "Add to Wish list");
+
   //displays product details in card such as name ,image,price, buttons to add to cart and wish list
   return (
     <GridItem p={{ base: 0, md: 1 }} pb={{ base: 1, md: 1 }}>
@@ -126,27 +123,23 @@ function ProductItem(item) {
               setIsActive(!isActive);
             }}
           >
-            {isActive ? (
-              Auth.loggedIn() ? (
-                <IconButton
-                  isRound={true}
-                  variant="solid"
-                  colorScheme="gray"
-                  aria-label="Done"
-                  fontSize="20px"
-                  icon={<FaHeart />}
-                  color="red.600"
-                  onClick={addToWishList}
-                  _hover={{
-                    fontSize: { base: "20px", md: "24px" },
-                  }}
-                />
-              ) : (
-                <Box h="400px" position={"absolute"} zIndex={-1}></Box>
-              )
+            {isActive && Auth.loggedIn() ? (
+              <IconButton
+                isRound={true}
+                variant="solid"
+                colorScheme="gray"
+                aria-label="Done"
+                fontSize="20px"
+                icon={<FaHeart />}
+                color="red.600"
+                onClick={addToWishList}
+                _hover={{
+                  fontSize: { base: "20px", md: "24px" },
+                }}
+              />
             ) : (
               <Tooltip
-                label="Add to Wish list"
+                label={tooTipText}
                 bg="white"
                 placement={"top"}
                 color={"gray.800"}
