@@ -6,9 +6,11 @@ import {
   REMOVE_FROM_CART,
   ADD_MULTIPLE_TO_CART,
   UPDATE_CATEGORIES,
-  UPDATE_CURRENT_CATEGORY,
   CLEAR_CART,
   TOGGLE_CART,
+  UPDATE_SUBCATEGORIES,
+  UPDATE_CURRENT_CATEGORY,
+  UPDATE_CURRENT_SUBCATEGORY,
   ADD_TO_WISHLIST,
   REMOVE_FROM_WISHLIST,
   UPDATE_WISHLIST,
@@ -83,11 +85,22 @@ export const reducer = (state, action) => {
         ...state,
         categories: [...action.categories],
       };
-    //return the state after updating current category
+    // Returns a copy of state with an updated categories array.
+    case UPDATE_SUBCATEGORIES:
+      return {
+        ...state,
+        subcategories: [...action.subcategories],
+      };
+    //return the state after updating current subcategory
     case UPDATE_CURRENT_CATEGORY:
       return {
         ...state,
         currentCategory: action.currentCategory,
+      };
+      case UPDATE_CURRENT_SUBCATEGORY:
+      return {
+        ...state,
+        currentSubCategory: action.currentSubCategory,
       };
     // Returns a copy of state with updated wishlist after adding new product to wishlist
     case ADD_TO_WISHLIST:

@@ -74,6 +74,7 @@ function ProductList() {
 
   //return all products
   function filterProducts() {
+    console.log(currentSubCategory)
     if (!currentSubCategory) {
       return state.products;
     }

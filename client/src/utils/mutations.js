@@ -98,7 +98,6 @@ export const UPDATE_USER = gql`
   ) {
     updateUser(
       username: $username
-
       email: $email
       password: $password
       isAdmin: $isAdmin

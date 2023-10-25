@@ -7,6 +7,7 @@ const {
   SubCategory,
 } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
+const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
   Query: {
@@ -120,7 +121,7 @@ const resolvers = {
           payment_method_types: ["card"],
           line_items,
           mode: "payment",
-          success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+          success_url: `${url}/`,
           cancel_url: `${url}/`,
         });
 
