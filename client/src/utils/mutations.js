@@ -141,7 +141,7 @@ export const LOGIN = gql`
     }
   }
 `;
-// Mutation for wishlist
+// Mutation to add to  wishlist
 export const ADD_WISHLIST = gql`
   mutation AddWishList($products: [ID]!) {
     addWishList(products: $products) {

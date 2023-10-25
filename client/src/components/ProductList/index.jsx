@@ -9,7 +9,7 @@ import ProductItem from "../ProductItem";
 
 //importing actions,queries, GlobalState and helpers
 import { useStoreContext } from "../../utils/GlobalState";
-import { UPDATE_PRODUCTS, ADD_MULTIPLE_TO_WISHLIST } from "../../utils/actions";
+import { UPDATE_PRODUCTS, UPDATE_WISHLIST } from "../../utils/actions";
 import { QUERY_PRODUCTS, QUERY_USER } from "../../utils/queries";
 import { idbPromise } from "../../utils/helpers";
 
@@ -19,34 +19,28 @@ function ProductList() {
   //Call the useQuery QUERY_PRODUCTS to get all the products
   const { loading: productLoading, data: productData } =
     useQuery(QUERY_PRODUCTS);
+  //Call the useQuery QUERY_USER to get the wishlist of current user
   const { loading: userWishListLoading, data: userWishListData } =
     useQuery(QUERY_USER);
-  useEffect(() => {
-    console.log("loading wishlist");
 
-    console.log(userWishListData);
+  useEffect(() => {
+    //clears the wishlist in indexedDB
+    idbPromise("wishList", "clear");
+  }, []);
+  useEffect(() => {
     if (userWishListData) {
-      console.log("data from database");
-      console.log(userWishListData);
       const wishListProducts = userWishListData.user.wishList;
-      //dispatches the action UPDATE_WISHLIST to update the state with new products
-      // dispatch({
-      //   type: UPDATE_WISHLIST,
-      //   wishList: wishListProducts,
-      // });
-      //update indexedDB with new products
-      userWishListData.user.wishList.forEach((product) => {
-        idbPromise("wishList", "put", product);
+      //dispatches the action UPDATE_WISHLIST to update the state with the users wishlist
+      dispatch({
+        type: UPDATE_WISHLIST,
+        wishList: wishListProducts,
       });
-    } else if (!userWishListLoading) {
-      idbPromise("wishList", "get").then((wishListProducts) => {
-        // dispatch({
-        //   type: UPDATE_WISHLIST,
-        //   wishList: wishListProducts,
-        // });
+      //updates the indexedDB with the users's wishlist
+      userWishListData.user.wishList.forEach((wishListProducts) => {
+        idbPromise("wishList", "put", wishListProducts);
       });
     }
-  }, [userWishListLoading, userWishListData]);
+  }, [userWishListLoading, userWishListData, dispatch]);
   useEffect(() => {
     if (productData) {
       //dispatches the action UPDATE_PRODUCTS to update the state with new products
@@ -59,6 +53,7 @@ function ProductList() {
         idbPromise("products", "put", product);
       });
     } else if (!productLoading) {
+      //gets the products from indexedDB and updates the state products
       idbPromise("products", "get").then((products) => {
         dispatch({
           type: UPDATE_PRODUCTS,
@@ -66,49 +61,8 @@ function ProductList() {
         });
       });
     }
-    // if (userWishListData) {
-    //   console.log("data from database");
-    //   console.log(userWishListData);
-    //   const wishListProducts = userWishListData.user.wishList;
-    //   //dispatches the action UPDATE_WISHLIST to update the state with new products
-    //   dispatch({
-    //     type: UPDATE_WISHLIST,
-    //     wishList: wishListProducts,
-    //   });
-    //   //update indexedDB with new products
-    //   userWishListData.user.wishList.forEach((product) => {
-    //     idbPromise("wishList", "put", product);
-    //   });
-    // } else if (!userWishListLoading) {
-    //   idbPromise("wishList", "get").then((wishListProducts) => {
-    //     dispatch({
-    //       type: UPDATE_WISHLIST,
-    //       wishList: wishListProducts,
-    //     });
-    //   });
-    // }
-    async function getWishList() {
-      const wishList = await idbPromise("wishList", "get");
-      dispatch({ type: ADD_MULTIPLE_TO_WISHLIST, wishList: [...wishList] });
-      console.log("Indexed Db Data");
-      console.log(wishList);
-    }
+  }, [productData, productLoading, dispatch]);
 
-    if (!state.wishList.length) {
-      getWishList();
-    }
-  }, [
-    state.wishList.length,
-    userWishListData,
-    productData,
-    userWishListLoading,
-    productLoading,
-    dispatch,
-  ]);
-  // console.log("wishlist length");
-  // console.log(state.wishList.length);
-  console.log("wishlist state inside product list");
-  console.log(state.wishList);
   //return all products
   function filterProducts() {
     if (!currentSubCategory) {
@@ -146,7 +100,7 @@ function ProductList() {
             }}
           >
             {/*Iterate through each product and renders the component ProductItem by passing values */}
-            {filterProducts().map((product, index) => (
+            {filterProducts().map((product) => (
               <ProductItem
                 key={product._id}
                 _id={product._id}

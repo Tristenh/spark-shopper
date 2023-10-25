@@ -41,6 +41,7 @@ function ProductItem(item) {
   const [addWishList] = useMutation(ADD_WISHLIST);
   //adds to  the  state wishList if the item not present already ,otherwise deletes the product from wishList state
   const addToWishList = () => {
+    //checks whether the user is authenticated before adding to wishlist
     if (!Auth.loggedIn()) {
       return;
     }
@@ -53,7 +54,7 @@ function ProductItem(item) {
         type: REMOVE_FROM_WISHLIST,
         _id: _id,
       });
-      //remove the product from indexedDB
+      //remove the product from wishList in indexedDB
       idbPromise("wishList", "delete", {
         ...item,
       });
@@ -62,7 +63,7 @@ function ProductItem(item) {
         type: ADD_TO_WISHLIST,
         product: { ...item },
       });
-      //Add the product to indexedDB
+      //Add the product to wishList in indexedDB
       idbPromise("wishList", "put", { ...item });
     }
 
@@ -109,6 +110,7 @@ function ProductItem(item) {
       }
     });
   }
+  //changes the tootip text according to authentication
   !Auth.loggedIn()
     ? (tooTipText = "Login to add to Wish list")
     : (tooTipText = "Add to Wish list");
