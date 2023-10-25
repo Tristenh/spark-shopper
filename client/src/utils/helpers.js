@@ -22,6 +22,7 @@ export function idbPromise(storeName, method, object) {
       const db = request.result;
       db.createObjectStore("products", { keyPath: "_id" });
       db.createObjectStore("categories", { keyPath: "_id" });
+      db.createObjectStore("subcategories", { keyPath: "_id" });
       db.createObjectStore("cart", { keyPath: "_id" });
       db.createObjectStore("wishList", { keyPath: "_id" });
     };

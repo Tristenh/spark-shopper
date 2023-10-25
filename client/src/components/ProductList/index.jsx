@@ -2,11 +2,9 @@ import { useEffect } from "react";
 //importing CHAKRA UI components
 import {
   Grid,
-  Box,
   Spinner,
   Heading,
   Flex,
-  Center,
   VStack,
   Divider,
 } from "@chakra-ui/react";
@@ -74,7 +72,7 @@ function ProductList() {
 
   //return all products
   function filterProducts() {
-    console.log(currentSubCategory)
+    console.log(currentSubCategory);
     if (!currentSubCategory) {
       return state.products;
     }
