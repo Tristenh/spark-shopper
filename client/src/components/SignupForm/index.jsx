@@ -76,8 +76,8 @@ function SignupForm(props) {
       setErrorMessage("Please enter valid email address");
     } else if (type === "username" && (!value || value.length < 3)) {
       setErrorMessage("Please enter valid username  ");
-    } else if (type === "password" && !value) {
-      setErrorMessage("Please enter password");
+    } else if (type === "password" && (!value || value.length<8)) {
+      setErrorMessage("Password length should be more than 8 characters");
     } else {
       setErrorMessage("");
     }
