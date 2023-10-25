@@ -8,28 +8,77 @@ import {
   Text,
   Button,
   Image,
-  chakra,
   Center,
   Tooltip,
   IconButton,
   Stack,
   VStack,
 } from "@chakra-ui/react";
-
+import { useState } from "react";
 //import icon used for wishlist
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 //import GlobalState
 import { useStoreContext } from "../../utils/GlobalState";
 import { idbPromise } from "../../utils/helpers";
 //Importing the required component for linking between pages
-
+import Auth from "../../utils/auth";
 import { Link } from "react-router-dom";
-import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
+//import actions
+import {
+  ADD_TO_CART,
+  UPDATE_CART_QUANTITY,
+  ADD_TO_WISHLIST,
+  REMOVE_FROM_WISHLIST,
+} from "../../utils/actions";
+//import mutation to add wish list
+import { ADD_WISHLIST } from "../../utils/mutations";
+import { useMutation } from "@apollo/client";
 function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
 
   const { image, name, _id, price } = item;
-  const { cart } = state;
+  const { cart, wishList } = state;
+
+  let tooTipText = "";
+  const [addWishList] = useMutation(ADD_WISHLIST);
+  //adds to  the  state wishList if the item not present already ,otherwise deletes the product from wishList state
+  const addToWishList = () => {
+    //checks whether the user is authenticated before adding to wishlist
+    if (!Auth.loggedIn()) {
+      return;
+    }
+    const itemInWishList = wishList.find(
+      (wishListItem) => wishListItem._id === _id
+    );
+
+    if (itemInWishList) {
+      dispatch({
+        type: REMOVE_FROM_WISHLIST,
+        _id: _id,
+      });
+      //remove the product from wishList in indexedDB
+      idbPromise("wishList", "delete", {
+        ...item,
+      });
+    } else {
+      dispatch({
+        type: ADD_TO_WISHLIST,
+        product: { ...item },
+      });
+      //Add the product to wishList in indexedDB
+      idbPromise("wishList", "put", { ...item });
+    }
+    //saves the wishlist to database
+    async function saveWishList() {
+      const wish = await idbPromise("wishList", "get");
+      const productIds = wish.map((item) => item._id);
+      const { data } = await addWishList({
+        variables: { products: productIds },
+      });
+    }
+    saveWishList();
+  };
+
   //adds to  the  state cart if the item not present already ,otherwise  updates the purchase quantity and also updates the indexedDB
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === _id);
@@ -51,33 +100,71 @@ function ProductItem(item) {
       idbPromise("cart", "put", { ...item, purchaseQuantity: 1 });
     }
   };
+  const [isActive, setIsActive] = useState(false);
+
+  if (Auth.loggedIn()) {
+    idbPromise("wishList", "get").then((wishListProducts) => {
+      const itemInWishList = wishListProducts.find(
+        (wishListItem) => wishListItem._id === _id
+      );
+      if (itemInWishList) {
+        setIsActive(true);
+      }
+    });
+  }
+  //changes the tootip text according to authentication
+  !Auth.loggedIn()
+    ? (tooTipText = "Login to add to Wish list")
+    : (tooTipText = "Add to Wish list");
+
   //displays product details in card such as name ,image,price, buttons to add to cart and wish list
   return (
     <GridItem p={{ base: 0, md: 1 }} pb={{ base: 1, md: 1 }}>
       <Card p={{ base: 0, md: 5 }} h={700}>
         <CardHeader>
-          <Tooltip
-            label="Add to Wish list"
-            bg="white"
-            placement={"top"}
-            color={"gray.800"}
-            fontSize={"1.2em"}
+          <Box
+            onClick={() => {
+              setIsActive(!isActive);
+            }}
           >
-            <chakra.a href={"#"} display={"flex"}>
+            {isActive && Auth.loggedIn() ? (
               <IconButton
                 isRound={true}
                 variant="solid"
                 colorScheme="gray"
                 aria-label="Done"
                 fontSize="20px"
-                icon={<FaRegHeart />}
+                icon={<FaHeart />}
+                color="red.600"
+                onClick={addToWishList}
                 _hover={{
-                  color: "red.600",
                   fontSize: { base: "20px", md: "24px" },
                 }}
               />
-            </chakra.a>
-          </Tooltip>
+            ) : (
+              <Tooltip
+                label={tooTipText}
+                bg="white"
+                placement={"top"}
+                color={"gray.800"}
+                fontSize={"1.2em"}
+              >
+                <IconButton
+                  isRound={true}
+                  variant="solid"
+                  colorScheme="gray"
+                  aria-label="Done"
+                  fontSize="20px"
+                  icon={<FaRegHeart />}
+                  onClick={addToWishList}
+                  _hover={{
+                    color: "red.600",
+                    fontSize: { base: "20px", md: "24px" },
+                  }}
+                />
+              </Tooltip>
+            )}
+          </Box>
         </CardHeader>
         <CardBody>
           <Center py={12}>
@@ -125,7 +212,7 @@ function ProductItem(item) {
                   />
                 </Box>
               </Link>
-              <Stack pt={10} align={"center"}>
+              <Stack pt={20} align={"center"}>
                 <Link to={`/products/${_id}`}>
                   <Text
                     fontSize={"md"}
@@ -145,8 +232,8 @@ function ProductItem(item) {
                     borderBottomRightRadius={40}
                     width="150px"
                     fontWeight={700}
-                    mb={-2}
-                    mt={4}
+                    mb={-3}
+                    mt={0}
                   >
                     {`$${price}`}
                   </Box>
@@ -164,7 +251,7 @@ function ProductItem(item) {
                       base: "150px",
                       sm: "160",
                       md: "160px",
-                      lg: "150px",
+                      lg: "200px",
                     }}
                     align={"center"}
                     onClick={addToCart}

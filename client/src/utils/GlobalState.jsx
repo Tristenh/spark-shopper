@@ -12,9 +12,10 @@ const StoreProvider = ({ value = [], ...props }) => {
     cart: [],
     cartOpen: false,
     categories: [],
-    subcategories:[],
-    currentCategory:"",
-    currentSubCategory:"",
+    subcategories: [],
+    currentCategory: "",
+    currentSubCategory: "",
+    wishList: [],
   });
   // The value prop expects an initial state object and it has given the global state object and the dispatch function from `useReducer` hook
   return <Provider value={[state, dispatch]} {...props} />;
