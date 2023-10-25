@@ -1,6 +1,15 @@
 import { useEffect } from "react";
 //importing CHAKRA UI components
-import { Grid, Box, Spinner, Heading } from "@chakra-ui/react";
+import {
+  Grid,
+  Box,
+  Spinner,
+  Heading,
+  Flex,
+  Center,
+  VStack,
+  Divider,
+} from "@chakra-ui/react";
 
 import { useQuery } from "@apollo/client";
 
@@ -74,7 +83,7 @@ function ProductList() {
     );
   }
   return (
-    <Box p={{ base: 10, md: 20, lg: "150px" }}>
+    <Flex justify={"center"} mt={50}>
       {productLoading ? (
         <Spinner
           thickness="4px"
@@ -86,36 +95,49 @@ function ProductList() {
       ) : null}
       {state.products.length ? (
         <>
-          <Heading>New Arrivals</Heading>
-          <Grid
-            templateRows={{
-              base: "repeat(1, 1fr)",
-              md: "repeat(2, 1fr)",
-              lg: "repeat(2, 1fr)",
-            }}
-            templateColumns={{
-              base: "repeat(1, 1fr)",
-              md: "repeat(2, 1fr)",
-              lg: "repeat(4, 1fr)",
-            }}
-          >
-            {/*Iterate through each product and renders the component ProductItem by passing values */}
-            {filterProducts().map((product) => (
-              <ProductItem
-                key={product._id}
-                _id={product._id}
-                image={product.image}
-                name={product.name}
-                price={product.price}
-                quantity={product.quantity}
-              />
-            ))}
-          </Grid>
+          <VStack>
+            <Heading
+              bgGradient="linear(to-r, orange.300, yellow.400)"
+              bgClip="text"
+            >
+              New Arrivals
+            </Heading>
+            <Divider
+              borderColor="#51636C"
+              mt={{ base: 12, md: 5 }}
+              mb={{ base: 1, md: 5 }}
+              opacity={0.2}
+            />
+            <Grid
+              templateRows={{
+                base: "repeat(1, 1fr)",
+                md: "repeat(2, 1fr)",
+                lg: "repeat(3, 1fr)",
+              }}
+              templateColumns={{
+                base: "repeat(1, 1fr)",
+                md: "repeat(2, 1fr)",
+                lg: "repeat(3, 1fr)",
+              }}
+            >
+              {/*Iterate through each product and renders the component ProductItem by passing values */}
+              {filterProducts().map((product) => (
+                <ProductItem
+                  key={product._id}
+                  _id={product._id}
+                  image={product.image}
+                  name={product.name}
+                  price={product.price}
+                  quantity={product.quantity}
+                />
+              ))}
+            </Grid>
+          </VStack>
         </>
       ) : (
         <h3>No products loaded yet!</h3>
       )}
-    </Box>
+    </Flex>
   );
 }
 

@@ -161,26 +161,43 @@ const Cart = () => {
                             </HStack>
 
                             {Auth.loggedIn() ? (
-                              <Button
-                                mt={10}
-                                p={2}
-                                colorScheme="black"
-                                type="submit"
-                                bgColor="#495C62"
-                                borderRadius="full"
-                                _hover={{
-                                  bg: "gray.700",
-                                }}
-                                width={{
-                                  base: "150px",
-                                  md: "200px",
-                                  lg: "250px",
-                                }}
-                                align={"center"}
-                                onClick={submitCheckout}
+                              <Flex
+                                align={"flex-end"}
+                                justify={"space-between"}
                               >
-                                Checkout
-                              </Button>
+                                <center>
+                                  <Link
+                                    fontWeight="semibold"
+                                    onClick={toggleCart}
+                                    color={"black"}
+                                  >
+                                    Continue shopping
+                                  </Link>
+                                </center>
+                                <center>
+                                  <Button
+                                    mt={10}
+                                    ml={120}
+                                    p={2}
+                                    colorScheme="black"
+                                    type="submit"
+                                    bgColor="#495C62"
+                                    borderRadius="full"
+                                    _hover={{
+                                      bg: "gray.700",
+                                    }}
+                                    width={{
+                                      base: "150px",
+                                      md: "200px",
+                                      lg: "200px",
+                                    }}
+                                    align={"center"}
+                                    onClick={submitCheckout}
+                                  >
+                                    Checkout
+                                  </Button>
+                                </center>
+                              </Flex>
                             ) : (
                               <Flex
                                 direction={{ base: "column", md: "row" }}
@@ -188,7 +205,7 @@ const Cart = () => {
                                 flex="1"
                               >
                                 <Stack mt="6" fontWeight="semibold">
-                                  <Link>Log in to check out</Link>
+                                  <Text>Log in to check out</Text>
                                   <p>Or</p>
                                   <Link onClick={toggleCart} color={"black"}>
                                     Continue shopping

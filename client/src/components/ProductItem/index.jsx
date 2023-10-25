@@ -23,13 +23,14 @@ import { idbPromise } from "../../utils/helpers";
 //Importing the required component for linking between pages
 import Auth from "../../utils/auth";
 import { Link } from "react-router-dom";
-
+//import actions
 import {
   ADD_TO_CART,
   UPDATE_CART_QUANTITY,
   ADD_TO_WISHLIST,
   REMOVE_FROM_WISHLIST,
 } from "../../utils/actions";
+//import mutation to add wish list
 import { ADD_WISHLIST } from "../../utils/mutations";
 import { useMutation } from "@apollo/client";
 function ProductItem(item) {
@@ -37,6 +38,7 @@ function ProductItem(item) {
 
   const { image, name, _id, price } = item;
   const { cart, wishList } = state;
+
   let tooTipText = "";
   const [addWishList] = useMutation(ADD_WISHLIST);
   //adds to  the  state wishList if the item not present already ,otherwise deletes the product from wishList state
@@ -66,7 +68,7 @@ function ProductItem(item) {
       //Add the product to wishList in indexedDB
       idbPromise("wishList", "put", { ...item });
     }
-
+    //saves the wishlist to database
     async function saveWishList() {
       const wish = await idbPromise("wishList", "get");
       const productIds = wish.map((item) => item._id);
@@ -210,7 +212,7 @@ function ProductItem(item) {
                   />
                 </Box>
               </Link>
-              <Stack pt={10} align={"center"}>
+              <Stack pt={20} align={"center"}>
                 <Link to={`/products/${_id}`}>
                   <Text
                     fontSize={"md"}
@@ -230,8 +232,8 @@ function ProductItem(item) {
                     borderBottomRightRadius={40}
                     width="150px"
                     fontWeight={700}
-                    mb={-2}
-                    mt={4}
+                    mb={-3}
+                    mt={0}
                   >
                     {`$${price}`}
                   </Box>
@@ -249,7 +251,7 @@ function ProductItem(item) {
                       base: "150px",
                       sm: "160",
                       md: "160px",
-                      lg: "150px",
+                      lg: "200px",
                     }}
                     align={"center"}
                     onClick={addToCart}
