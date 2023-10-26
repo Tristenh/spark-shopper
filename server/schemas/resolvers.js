@@ -7,7 +7,7 @@ const {
   SubCategory,
 } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
-const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+const stripe = require("stripe")("sk_test_4eC39HqLyjWDarjtT1zdp7dc");
 
 const resolvers = {
   Query: {
@@ -58,7 +58,7 @@ const resolvers = {
               path: "orders.products",
               populate: "subcategory",
             })
-            .populate({ path: "wishList.products", populate: "subcategory" });
+            .populate("wishList");
           //sorting as per latest purchase to oldest purchase date
           user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
 
