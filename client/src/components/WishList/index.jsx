@@ -46,7 +46,7 @@ function WishList() {
         idbPromise("wishList", "put", wishListProducts);
       });
     }
-  }, [state.wishList.length, userWishListLoading, userWishListData, dispatch]);
+  }, [userWishListLoading, userWishListData, dispatch]);
 
   return (
     <Flex>
@@ -62,12 +62,6 @@ function WishList() {
       {state.wishList.length ? (
         <>
           <VStack>
-            <Divider
-              borderColor="#51636C"
-              mt={{ base: 12, md: 5 }}
-              mb={{ base: 1, md: 5 }}
-              opacity={0.2}
-            />
             <Grid
               templateRows={{
                 base: "repeat(1, 1fr)",
@@ -95,7 +89,7 @@ function WishList() {
           </VStack>
         </>
       ) : (
-        <h3>No products loaded yet!</h3>
+        <Heading>No Products !</Heading>
       )}
     </Flex>
   );

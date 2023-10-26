@@ -1,5 +1,7 @@
-//import component WishList
+//import component WishList and Cart
 import WishList from "../components/WishList";
+import Cart from "../components/Cart";
+//importing CHAKRA UI components
 import {
   Tabs,
   TabList,
@@ -17,12 +19,13 @@ const Profile = () => {
       <Flex justify={"center"} mt={50}>
         <Tabs isFitted variant="enclosed">
           <TabList mb="1em">
+            {/* Wish List*/}
             <Tab>
-              {/**/}
               <Heading color="#495C62" fontSize={20}>
                 Wish List
               </Heading>
             </Tab>
+            {/*Order History*/}
             <Tab>
               <Heading color="#495C62" fontSize={20}>
                 Order History
@@ -31,9 +34,8 @@ const Profile = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <p>
-                <WishList />
-              </p>
+              <WishList />
+              <Cart />
             </TabPanel>
             <TabPanel>
               <Order />
