@@ -14,6 +14,7 @@ type Product{
   _id:ID
   name:String
   description:String
+  features:String
   image:String
   price:Float
   quantity:Int

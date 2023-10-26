@@ -50,7 +50,7 @@ function SignupForm(props) {
       const token = mutationResponse.data.addUser.token;
       Auth.login(token);
     } catch (error) {
-      console.log(error);
+      setErrorMessage("Please enter required fields")
     }
     // after submit, set empty form state
     setFormState({

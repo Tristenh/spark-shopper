@@ -40,7 +40,6 @@ function ProductList() {
   }, [data, loading, dispatch]);
   //return all products
   function filterProducts() {
-    console.log(currentSubCategory)
     if (!currentSubCategory) {
       return state.products;
     }

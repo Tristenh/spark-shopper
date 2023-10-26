@@ -37,8 +37,8 @@ export default function Dropdown({ depthLevel, dropdown }) {
           type: UPDATE_SUBCATEGORIES,
           subcategories: sub.data.subcategories,
         });
-        sub.data.subcategories.forEach((category) => {
-          idbPromise("subcategories", "put", category);
+        sub.data.subcategories.forEach((subcategory) => {
+          idbPromise("subcategories", "put", subcategory);
         });
       });
     } else if (!loading) {
@@ -114,14 +114,15 @@ export default function Dropdown({ depthLevel, dropdown }) {
       //   transform={"translateX(-50%)"}
       //   transition={"200ms"}
       //   transitionDelay={"200ms"}
-
-      fontSize="0.875rem"
-      zIndex={999}
-      minWidth="10rem"
+    border="2px solid white"
+          fontSize="1xl"
+      zIndex={"999"}
+      minWidth="12rem"
       padding="0.5rem 0"
       listStyleType="none"
-      bgColor={"black"}
-      borderRadius="0.5rem"
+      bgColor={"back.900"}
+      borderRadius="0.3rem"
+   
       display="none"
       {...dropdownClass}
       {...showDropdown}
@@ -136,6 +137,7 @@ export default function Dropdown({ depthLevel, dropdown }) {
           bg={"back.900"}
           _hover={{ bg: "gray.400", color: "black" }}
           onClick={() => handleItemClick(item._id)}
+          
         >
           <Link style={{ textDecoration: "none" }} to={"/"}>
             {" "}

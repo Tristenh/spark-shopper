@@ -107,8 +107,9 @@ function CategoryMenu() {
                   bg={"back.900"}
                   onMouseEnter={() => onMouseEnter(item._id)}
                   onMouseLeave={onMouseLeave}
+                  onTouchStart={() => onMouseEnter(item._id)}
                   _hover={{ bg: "gray.400", color: "black" }}
-                  onClick={closeDropdown}
+                  onClick={(closeDropdown)}
                 >
                   <Text>{item.name}</Text>
                   

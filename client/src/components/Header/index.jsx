@@ -65,7 +65,7 @@ export default function Header() {
               <Box >
                 <Link to={"/"}>
                   {" "}
-                  <Image href="/" src={"./images/logo.jpg"} />
+                  <Image src={"/images/logo.jpg"} />
                 </Link>
               </Box>
 
@@ -78,7 +78,7 @@ export default function Header() {
                 <InputGroup
                   borderRadius={5}
                   size={"md"}
-                  w={{ base: "300px", "2xl": "500px" }}
+                  w={{ base: "300px", "2xl": "400px" }}
                   my={5}
                 >
                   <InputLeftElement pointerEvents="none" />
@@ -104,8 +104,8 @@ export default function Header() {
             </HStack>
           </Flex>
           <Flex ml={"4"} w={{base:"none", xl: "20%" }} display={{base:"none",xl:"flex"}}>
-            <Text fontSize={"2xl"} color={"orange"}>
-              Welcome to spark shopper!
+            <Text fontSize={"2xl"} color={"orange"} className="blink">
+            Welcome to spark shopper! 
             </Text>
           </Flex>
           <Flex w={{ xl: "40%" }} justifyContent={"center"}>
