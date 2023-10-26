@@ -1,13 +1,6 @@
 import { useEffect } from "react";
 //importing CHAKRA UI components
-import {
-  Grid,
-  Spinner,
-  Heading,
-  Flex,
-  VStack,
-  Divider,
-} from "@chakra-ui/react";
+import { Grid, Spinner, Heading, Flex, VStack } from "@chakra-ui/react";
 
 import { useQuery } from "@apollo/client";
 

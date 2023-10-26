@@ -16,9 +16,9 @@ const Profile = () => {
   //renders wishlist and order history on profile page
   return (
     <>
-      <Flex justify={"center"} mt={50}>
+      <Flex justify={"center"} mt={50} w="full">
         <Tabs isFitted variant="enclosed">
-          <TabList mb="1em">
+          <TabList mb="1em" width="full">
             {/* Wish List*/}
             <Tab>
               <Heading color="#495C62" fontSize={20}>
@@ -33,10 +33,12 @@ const Profile = () => {
             </Tab>
           </TabList>
           <TabPanels>
+            {/*Renders Wish List*/}
             <TabPanel>
               <WishList />
               <Cart />
             </TabPanel>
+            {/*Renders Order History*/}
             <TabPanel>
               <Order />
             </TabPanel>
