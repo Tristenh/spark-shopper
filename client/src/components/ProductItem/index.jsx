@@ -33,6 +33,8 @@ import {
 //import mutation to add wish list
 import { ADD_WISHLIST } from "../../utils/mutations";
 import { useMutation } from "@apollo/client";
+import { QUERY_USER } from "../../utils/queries";
+
 function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
 
@@ -40,13 +42,18 @@ function ProductItem(item) {
   const { cart, wishList } = state;
 
   let tooTipText = "";
-  const [addWishList] = useMutation(ADD_WISHLIST);
+  //mutation to add wish list
+  const [addWishList] = useMutation(ADD_WISHLIST, {
+    refetchQueries: [QUERY_USER, "getUser"],
+  });
   //adds to  the  state wishList if the item not present already ,otherwise deletes the product from wishList state
   const addToWishList = () => {
+    console.log("removing from wish");
     //checks whether the user is authenticated before adding to wishlist
     if (!Auth.loggedIn()) {
       return;
     }
+    console.log(wishList);
     const itemInWishList = wishList.find(
       (wishListItem) => wishListItem._id === _id
     );
@@ -72,15 +79,19 @@ function ProductItem(item) {
     async function saveWishList() {
       const wish = await idbPromise("wishList", "get");
       const productIds = wish.map((item) => item._id);
+      console.log("save wshlist");
+      console.log(state.wishList);
+      // const productIds = state.wishList.map((item) => item._id);
       const { data } = await addWishList({
         variables: { products: productIds },
       });
     }
     saveWishList();
   };
-
+  console.log(state.wishList);
   //adds to  the  state cart if the item not present already ,otherwise  updates the purchase quantity and also updates the indexedDB
   const addToCart = () => {
+    console.log("adding to cart");
     const itemInCart = cart.find((cartItem) => cartItem._id === _id);
     if (itemInCart) {
       dispatch({

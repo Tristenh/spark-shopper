@@ -43,9 +43,8 @@ function Nav() {
       {/* if logged in then display profile and logout button */}
       {Auth.loggedIn() ? (
         <>
-          <HStack as={"nav"} spacing={8} 
-           >
-            <Link to="/order">
+          <HStack as={"nav"} spacing={8}>
+            <Link to="/profile">
               {/* profile button */}
               <Button
                 variant="ghost"
@@ -98,7 +97,7 @@ function Nav() {
             aria-label="Focus moved to this box"
           ></Box>
           {/* on loggin out, it displays login button */}
-          <Button variant="ghost" onClick={onOpen}  _hover={{ bg: "gray.400" }}>
+          <Button variant="ghost" onClick={onOpen} _hover={{ bg: "gray.400" }}>
             <Box
               display={"inline-block"}
               verticalAlign={"middle"}
@@ -111,7 +110,6 @@ function Nav() {
           </Button>
           <Modal
             size={{ base: "xs", md: "lg" }}
-           
             aria-labelledby="login-modal"
             finalFocusRef={finalRef}
             isOpen={isOpen}
@@ -122,8 +120,21 @@ function Nav() {
               {/* tabs to switch between login and signup */}
               <Tabs>
                 <TabList>
-                  <Tab  textColor={"white"} _selected={{bg: "gray.400",color:"black"}} fontSize={"2xl"}>Login</Tab>
-                  <Tab textColor={"white"}_selected={{bg: "gray.400" ,color:"black"}} fontSize={"2xl"}> Signup</Tab>
+                  <Tab
+                    textColor={"white"}
+                    _selected={{ bg: "gray.400", color: "black" }}
+                    fontSize={"2xl"}
+                  >
+                    Login
+                  </Tab>
+                  <Tab
+                    textColor={"white"}
+                    _selected={{ bg: "gray.400", color: "black" }}
+                    fontSize={"2xl"}
+                  >
+                    {" "}
+                    Signup
+                  </Tab>
                 </TabList>
 
                 <TabPanels>
