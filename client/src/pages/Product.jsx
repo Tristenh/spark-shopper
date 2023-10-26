@@ -8,14 +8,19 @@ import {
   VStack,
   Button,
   Heading,
-  SimpleGrid,
   StackDivider,
   useColorModeValue,
-  VisuallyHidden,
-  List,
-  ListItem,
+  SimpleGrid,
+  GridItem,
+  AccordionIcon,
+  Accordion,
+  AccordionItem,
+  AccordionPanel,
+  AccordionButton,
 } from "@chakra-ui/react";
+
 import { MdLocalShipping } from "react-icons/md";
+import { StarIcon, MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
@@ -32,6 +37,7 @@ import {
 } from "../utils/actions";
 import { QUERY_PRODUCTS } from "../utils/queries";
 import { idbPromise } from "../utils/helpers";
+import Rating from "../components/Rating";
 
 function Product() {
   const [state, dispatch] = useStoreContext();
@@ -42,6 +48,7 @@ function Product() {
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
   const { products, cart } = state;
+  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     // already in global store
@@ -110,7 +117,7 @@ function Product() {
             spacing={{ base: 8, md: 10 }}
             py={{ base: 18, md: 24 }}
           >
-            <Flex>
+            <Flex >
               <Image
                 rounded={"md"}
                 alt={"product image"}
@@ -125,6 +132,36 @@ function Product() {
                 py={4}
                 h={{ base: "auto", sm: "400px", lg: "500px" }}
               />
+              {/* <Accordion color={"black"}>
+                <AccordionItem>
+                  {({ isExpanded }) => (
+                    <>
+                      <h2>
+                        <AccordionButton
+                          _expanded={{ bg: "tomato", color: "white" }}
+                        >
+                          <Box as="span" flex="1" textAlign="left">
+                            Reviews
+                          </Box>
+                          {isExpanded ? (
+                            <MinusIcon fontSize="12px" />
+                          ) : (
+                            <AddIcon fontSize="12px" />
+                          )}
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel pb={4}>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat.
+                      </AccordionPanel>
+                    </>
+                  )}
+                </AccordionItem>
+              </Accordion>
+              <Rating rating={rating} setRating={setRating} /> */}
             </Flex>
             <Stack
               rounded={"md"}
@@ -171,6 +208,19 @@ function Product() {
                 }
               >
                 <VStack alignItems={"start"} spacing={{ base: 4, sm: 6 }}>
+                  <Box display="flex" mt="2" alignItems="center">
+                    {Array(5)
+                      .fill("")
+                      .map((_, i) => (
+                        <StarIcon
+                          key={i}
+                          // color={i < property.rating ? 'teal.500' : 'gray.300'}
+                        />
+                      ))}
+                    <Box as="span" ml="2" color="gray.600" fontSize="sm">
+                      {/* {property.reviewCount} reviews */} 4 reviews
+                    </Box>
+                  </Box>
                   <Text
                     textAlign={"justify"}
                     color={useColorModeValue("gray.500", "gray.400")}
@@ -180,8 +230,46 @@ function Product() {
                     {currentProduct.description}
                   </Text>
                 </VStack>
-                <Box>
-                  <Text
+                <VStack alignItems={"start"}>
+                <Flex>
+            <Accordion allowMultiple> 
+                <AccordionItem >
+                  {({ isExpanded }) => (
+                    <>
+                      <h2>
+                        <AccordionButton 
+                          _expanded={{ bg: "tomato", color: "white" }} 
+                        >
+                           <Box
+                    fontSize={{ base: "16px", lg: "18px" }}
+                    color={useColorModeValue("yellow.500", "yellow.300")}
+                    fontWeight={"500"}
+                    textTransform={"uppercase"}
+                    mb={"4"}
+                    flex="1" textAlign="left"
+                  
+                  >
+                    KEY Features
+                  </Box>
+                          {/* <Box as="span" flex="1" textAlign="left">
+                            Reviews
+                          </Box> */}
+                          {isExpanded ? (
+                            <MinusIcon fontSize="12px" />
+                          ) : (
+                            <AddIcon fontSize="12px" />
+                          )}
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel pb={4} textAlign={"justify"}>
+                      <Features feature={`${currentProduct.features}`} />
+                      </AccordionPanel>
+                    </>
+                  )}
+                </AccordionItem>
+              </Accordion>
+            </Flex>
+                  {/* <Text
                     fontSize={{ base: "16px", lg: "18px" }}
                     color={useColorModeValue("yellow.500", "yellow.300")}
                     fontWeight={"500"}
@@ -190,37 +278,84 @@ function Product() {
                   >
                     KEY Features
                   </Text>
-                  <SimpleGrid columns={{ base: 1, md: 1 }} spacing={10}>
-                    <Box w={"100%"} textAlign={"justify"}>
-                      <Features feature={`${currentProduct.features}`} />
-                    </Box>
+
+                  <Box w={"100%"} textAlign={"justify"}>
+                    <Features feature={`${currentProduct.features}`} />
+                  </Box> */}
+                </VStack>
+                <Box>
+                  <SimpleGrid
+                    m={4}
+                    columns={{ base: 1, md: 2 }}
+                    spacing={2}
+                    alignItems={"center"}
+                    justifyContent={"space-evenly"}
+                  >
+                    <GridItem justifySelf={"center"}>
+                      <Button
+                        rounded={"none"}
+                        mt={4}
+                        p={4}
+                        size={"lg"}
+                        py={"7"}
+                        color={"black"}
+                        bgColor="#495C62"
+                        borderRadius="full"
+                        width={{
+                          base: "220px",
+                          sm: "250px",
+
+                          lg: "150px",
+                          xl: "200px",
+                        }}
+                        align={"center"}
+                        textTransform={"uppercase"}
+                        onClick={addToCart}
+                        _hover={{
+                          bg: "gray.700",
+                          transform: "translateY(2px)",
+                          boxShadow: "lg",
+                        }}
+                      >
+                        Add to cart
+                      </Button>
+                    </GridItem>
+                    <GridItem justifySelf={"center"}>
+                      {" "}
+                      <Button
+                        disabled={
+                          !cart.find((p) => p._id === currentProduct._id)
+                        }
+                        mt={4}
+                        p={4}
+                        size={"lg"}
+                        py={"7"}
+                        color={"black"}
+                        bgColor="#495C62"
+                        borderRadius="full"
+                        width={{
+                          base: "220px",
+                          sm: "250px",
+
+                          lg: "19 0px",
+                          xl: "200px",
+                        }}
+                        align={"center"}
+                        textTransform={"uppercase"}
+                        _hover={{
+                          bg: "gray.700",
+                          transform: "translateY(2px)",
+                          boxShadow: "lg",
+                        }}
+                        onClick={removeFromCart}
+                      >
+                        Remove from Cart
+                      </Button>
+                    </GridItem>
                   </SimpleGrid>
                 </Box>
               </Stack>
 
-              <Button
-                rounded={"none"}
-                w={"full"}
-                mt={8}
-                size={"lg"}
-                py={"7"}
-                bg={useColorModeValue("gray.900", "gray.50")}
-                color={useColorModeValue("white", "gray.900")}
-                textTransform={"uppercase"}
-                onClick={addToCart}
-                _hover={{
-                  transform: "translateY(2px)",
-                  boxShadow: "lg",
-                }}
-              >
-                Add to cart
-              </Button>
-              <button
-                disabled={!cart.find((p) => p._id === currentProduct._id)}
-                onClick={removeFromCart}
-              >
-                Remove from Cart
-              </button>
               <Stack
                 direction="row"
                 alignItems="center"
@@ -232,7 +367,9 @@ function Product() {
             </Stack>
           </SimpleGrid>
         </Container>
-      ) : null}
+      ) : (
+        "null"
+      )}
       {loading ? (
         <Spinner
           thickness="4px"

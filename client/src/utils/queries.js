@@ -58,10 +58,6 @@ export const QUERY_SUBCATEGORIES = gql`
     subcategories(category: $category) {
       _id
       name
-      category {
-        _id
-        name
-      }
     }
   }
 `;
