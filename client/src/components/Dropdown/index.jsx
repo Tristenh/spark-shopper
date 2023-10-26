@@ -22,13 +22,16 @@ const submenu = {
 export default function Dropdown({ level, dropdown }) {
   const [state, dispatch] = useStoreContext();
   level = level + 1;
+  // class to open new box as dropdown
   const dropdownClass = level > 0 ? submenu : "";
   const showDropdown = dropdown ? { display: "block" } : "";
-  const [getSubCategories, { loading }] = useLazyQuery(QUERY_SUBCATEGORIES);
 
+  const [getSubCategories, { loading }] = useLazyQuery(QUERY_SUBCATEGORIES);
   const { currentCategory } = state;
 
   useEffect(() => {
+    // get subcategories of selected currentcategory
+    // save subcategories to state and indexdb
     if (currentCategory) {
       getSubCategories({
         variables: {
@@ -53,6 +56,7 @@ export default function Dropdown({ level, dropdown }) {
     }
   }, [dispatch, getSubCategories, currentCategory, loading]);
 
+  // update current subcategory state after click on subcategory
   const handleItemClick = async (id) => {
     dispatch({
       type: UPDATE_CURRENT_SUBCATEGORY,
@@ -64,8 +68,7 @@ export default function Dropdown({ level, dropdown }) {
     
     <Box
       as="ul"
-      position="absolute"
-      
+      position="absolute"      
       right={0}
       left="auto"
       border="2px solid white"
@@ -80,6 +83,7 @@ export default function Dropdown({ level, dropdown }) {
       {...dropdownClass}
       {...showDropdown}
     >
+      {/* displays subcategories in menuitem */}
       {state.subcategories.map((item) => (
         <MenuItem
           as="li"
