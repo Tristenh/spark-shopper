@@ -8,6 +8,7 @@ import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
 import Product from "./pages/Product";
 import Order from "./pages/Order";
+import Profile from "./pages/Profile";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/order",
         element: <Order />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },
