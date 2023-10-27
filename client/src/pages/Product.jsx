@@ -17,7 +17,6 @@ import {
   AccordionButton,
 } from "@chakra-ui/react";
 
-import { MdLocalShipping } from "react-icons/md";
 import { StarIcon, MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -36,17 +35,19 @@ import {
 import { QUERY_PRODUCTS } from "../utils/queries";
 import { idbPromise } from "../utils/helpers";
 import Rating from "../components/Rating";
-
+import CommentForm from "../components/CommentForm";
 function Product() {
   const [state, dispatch] = useStoreContext();
   const { id } = useParams();
 
   const [currentProduct, setCurrentProduct] = useState({});
 
-  const { loading, data } = useQuery(QUERY_PRODUCTS);
+  const { loading, data:productData } = useQuery(QUERY_PRODUCTS);
 
   const { products, cart } = state;
   const [rating, setRating] = useState(0);
+
+   
   const descriptionColor = useColorModeValue("gray.500", "gray.400");
   const dividerColor = useColorModeValue("gray.200", "gray.600");
   const headerColor = useColorModeValue("yellow.500", "yellow.300");
@@ -57,13 +58,13 @@ function Product() {
       setCurrentProduct(products.find((product) => product._id === id));
     }
     // retrieved from server
-    else if (data) {
+    else if (productData) {
       dispatch({
         type: UPDATE_PRODUCTS,
-        products: data.products,
+        products: productData.products,
       });
 
-      data.products.forEach((product) => {
+      productData.products.forEach((product) => {
         idbPromise("products", "put", product);
       });
     }
@@ -76,7 +77,7 @@ function Product() {
         });
       });
     }
-  }, [products, data, loading, dispatch, id]);
+  }, [products, productData, loading, dispatch, id]);
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);
@@ -110,6 +111,15 @@ function Product() {
 
   return (
     <>
+     {loading ? (
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="#94948C"
+          size="xl"
+        />
+      ) : null}
       {currentProduct && cart ? (
         <Container maxW={"8xl"}>
           <Link to="/">← Back to Products</Link>
@@ -174,6 +184,7 @@ function Product() {
                       </h2>
                       <AccordionPanel pb={4}>
                         <Rating rating={rating} setRating={setRating} />
+                       <CommentForm productId={id}/>
                       </AccordionPanel>
                     </>
                   )}
