@@ -32,7 +32,7 @@ export default function LoginForm(props) {
   const [formState, setFormState] = useState({ email: "", password: "" });
 
   // add user mutation to login
-  const [login, { error,loading }] = useMutation(LOGIN);
+  const [login] = useMutation(LOGIN);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -48,6 +48,7 @@ export default function LoginForm(props) {
     
       if (!errorMessage) {
         console.log("Login successfully", formState);
+        
         setFormState({ email: "", password: "" });
       }
     } catch (error) {

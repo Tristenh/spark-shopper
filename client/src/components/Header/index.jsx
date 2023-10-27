@@ -14,6 +14,7 @@ import {
   Text,
   Image,
   Badge,
+  useToast,
 } from "@chakra-ui/react";
 
 import { Link } from "react-router-dom";
@@ -25,8 +26,8 @@ import { BsSuitHeart, BsCart4 } from "react-icons/bs";
 //import files
 import Nav from "../Nav";
 import CategoryMenu from "../CategoryMenu";
+import Auth from "../../utils/auth";
 
-54;
 import { useStoreContext } from "../../utils/GlobalState";
 import { TOGGLE_CART } from "../../utils/actions";
 
@@ -34,16 +35,20 @@ export default function Header() {
   //check menu open or close
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [state, dispatch] = useStoreContext();
+  const arr = [];
+  let totalQuantity;
+  const toast = useToast();
+  const position = ["top"];
   //toggles the cart
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
   }
-  const arr = [];
-  let totalQuantity;
+  // return total value of purchase quantity inside cart
   function addPurchaseQuantity(quantity) {
-arr.push(quantity);
-return (arr.reduce((acc, val)=> { return acc + val; }, 0));
-  
+    arr.push(quantity);
+    return arr.reduce((acc, val) => {
+      return acc + val;
+    }, 0);
   }
   return (
     <>
@@ -109,14 +114,14 @@ return (arr.reduce((acc, val)=> { return acc + val; }, 0));
           </Flex>
           <Flex
             ml={"4"}
-            w={{ base: "none", xl: "20%" }}
+            w={{ base: "none", xl: "10%" }}
             display={{ base: "none", xl: "flex" }}
           >
             <Text fontSize={"2xl"} color={"orange"} className="blink">
-              Welcome to spark shopper!
+              Welcome!
             </Text>
           </Flex>
-          <Flex w={{ xl: "40%" }} justifyContent={"center"}>
+          <Flex w={{ xl: "50%" }} justifyContent={"center"}>
             <HStack spacing={12} display={{ base: "none", xl: "flex" }}>
               {/* category menu component */}
               <CategoryMenu />
@@ -126,15 +131,38 @@ return (arr.reduce((acc, val)=> { return acc + val; }, 0));
               <HStack spacing={12} display={{ base: "none", xl: "flex" }}>
                 {/* wishlist button */}
                 <Button variant="ghost" _hover={{ bg: "gray.400" }}>
-                  <Box
-                    display={"inline-block"}
-                    verticalAlign={"middle"}
-                    align="center"
-                    color={"white"}
-                    _hover={{ color: "black" }}
-                  >
-                    <BsSuitHeart /> <Text fontSize={"1.25rem"}>Wishlist</Text>
-                  </Box>
+                  {Auth.loggedIn() ? (
+                    <Box
+                      display={"inline-block"}
+                      verticalAlign={"middle"}
+                      align="center"
+                      color={"white"}
+                      _hover={{ color: "black" }}
+                    >
+                      <BsSuitHeart /><Link to='/profile' > <Text fontSize={"1.25rem"}>Wishlist</Text></Link> 
+                    </Box>
+                  ) : (
+                    <Box
+                      display={"inline-block"}
+                      verticalAlign={"middle"}
+                      align="center"
+                      color={"white"}
+                      _hover={{ color: "black" }}
+                      // to display message
+                      onClick={() =>
+                        toast({
+                          title: "Create an Account",
+                          description: "You need to login to access wishlist",
+                          status: "error",
+                          duration: 9000,
+                          position: position,
+                          isClosable: true,
+                        })
+                      }
+                    >
+                      <BsSuitHeart /> <Text fontSize={"1.25rem"}>Wishlist</Text>
+                    </Box>
+                  )}
                 </Button>
                 {/* cart button */}
                 <Button
@@ -159,7 +187,9 @@ return (arr.reduce((acc, val)=> { return acc + val; }, 0));
                         bgGradient="linear(to-r, orange.300, yellow.400)"
                       >
                         {state.cart.map((item) => {
-                      totalQuantity= addPurchaseQuantity(item.purchaseQuantity);
+                          totalQuantity = addPurchaseQuantity(
+                            item.purchaseQuantity
+                          );
                         })}
                         {totalQuantity}
                       </Badge>
@@ -247,12 +277,12 @@ return (arr.reduce((acc, val)=> { return acc + val; }, 0));
                       boxSize="1.25em"
                       bgGradient="linear(to-r, orange.300, yellow.400)"
                     >
-                     {totalQuantity}
+                      {totalQuantity}
                     </Badge>
                   </Text>
                 </Box>
               </Button>
-              <Nav />
+              <Nav inside={true} />
             </Stack>
           </Box>
         ) : null}
