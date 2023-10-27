@@ -184,7 +184,6 @@ export default function Header() {
                     <Text fontSize={"1.25rem"}>
                       Cart{" "}
                       <Badge
-                        boxSize="1.25em"
                         bgGradient="linear(to-r, orange.300, yellow.400)"
                       >
                         {state.cart.map((item) => {
@@ -275,7 +274,7 @@ export default function Header() {
                   <Text fontSize={"1xl"}>
                     Cart{" "}
                     <Badge
-                      boxSize="1.25em"
+                    
                       bgGradient="linear(to-r, orange.300, yellow.400)"
                     >
                       {totalQuantity}
