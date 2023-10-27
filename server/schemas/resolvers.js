@@ -130,6 +130,50 @@ const resolvers = {
         console.log(error);
       }
     },
+    search: async (parent, { name }) => {
+      try {
+        const subCategoryIds = [];
+        const categoryIds = [];
+
+        const products = await Product.find({
+          $text: { $search: `\"${name}\"` },
+        });
+
+        const categories = await Category.find({
+          $text: { $search: `\"${name}\"` },
+        });
+
+        const subCategories = await SubCategory.find({
+          $text: { $search: `\"${name}\"` },
+        }).populate("category");
+
+        subCategories.map((item) => {
+          if (item.category != null) {
+            subCategoryIds.push(item._id);
+          }
+        });
+        categories.map((item) => {
+          categoryIds.push(item._id);
+        });
+        const subCategoryByCategoryId = await SubCategory.find({
+          category: { $in: categoryIds },
+        });
+
+        subCategoryByCategoryId.map((item) => {
+          if (item.category != null) {
+            subCategoryIds.push(item._id);
+          }
+        });
+        const productsBySubCategoryIds = await Product.find({
+          subcategory: { $in: subCategoryIds },
+        });
+
+        if (products.length) return products;
+        return productsBySubCategoryIds;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   Mutation: {
     // add category by passing name
