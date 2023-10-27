@@ -122,7 +122,7 @@ export default function Header() {
             </Text>
           </Flex>
           <Flex w={{ xl: "50%" }} justifyContent={"center"}>
-            <HStack spacing={12} display={{ base: "none", xl: "flex" }}>
+            <HStack spacing={8} display={{ base: "none", xl: "flex" }} mr={8}>
               {/* category menu component */}
               <CategoryMenu />
             </HStack>
