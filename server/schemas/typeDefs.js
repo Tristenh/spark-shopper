@@ -71,6 +71,7 @@ type Query {
     user: User
     order(_id: ID!): Order
     checkout(products: [ID]!): Checkout
+    search(name:String!):[Product]
 }
 
 type Mutation {

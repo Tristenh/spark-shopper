@@ -13,6 +13,8 @@ const subCategorySchema = new Schema({
     required: true,
   },
 });
+//creates index for search
+subCategorySchema.index({ name: "text" });
 // export the SubCategory model
 const SubCategory = model("SubCategory", subCategorySchema);
 module.exports = SubCategory;
