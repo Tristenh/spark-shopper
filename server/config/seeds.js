@@ -169,7 +169,7 @@ db.once("open", async () => {
       image: "mob6.webp",
       price: 1949,
       quantity: 15,
-      subcategory: subcategories[10]._id,
+      subcategory: subcategories[13]._id,
     },
     {
       name: "Motorola G14 128GB (Steel Grey)",
