@@ -82,7 +82,7 @@ type Mutation {
     addOrder(products: [ID]!): Order
     updateCategory(name:String!):Category
     updateSubCategory(name:String!):SubCategory
-
+    addWishList(products: [ID]!): User
     updateUser(username: String,email: String,password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth

@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const QUERY_USER = gql`
-  {
+  query getUser {
     user {
       username
       isAdmin
@@ -27,19 +27,17 @@ export const QUERY_USER = gql`
           }
         }
       }
-      # wishList {
-      #   products {
-      #     _id
-      #     name
-      #     description
-      #     image
-      #     price
-      #     quantity
-      #     subcategory {
-      #       name
-      #     }
-      #   }
-      # }
+      wishList {
+        _id
+        name
+        description
+        image
+        price
+        quantity
+        subcategory {
+          name
+        }
+      }
     }
   }
 `;

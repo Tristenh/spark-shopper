@@ -38,18 +38,8 @@ export const ADD_COMMENT = gql`
 
 // Mutation to add a new user
 export const ADD_USER = gql`
-  mutation addUser(
-    $username: String!
-    $email: String!
-    $password: String!
-  ) 
-  {
-    addUser(
-      username: $username
-      email: $email
-      password: $password
-    ) 
-    {
+  mutation addUser($username: String!, $email: String!, $password: String!) {
+    addUser(username: $username, email: $email, password: $password) {
       token
       user {
         _id
@@ -145,6 +135,18 @@ export const LOGIN = gql`
     login(email: $email, password: $password) {
       token
       user {
+        _id
+      }
+    }
+  }
+`;
+// Mutation to add to  wishlist
+export const ADD_WISHLIST = gql`
+  mutation AddWishList($products: [ID]!) {
+    addWishList(products: $products) {
+      username
+      wishList {
+        name
         _id
       }
     }
