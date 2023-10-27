@@ -17,6 +17,7 @@ import {
   TabPanel,
   Text,
   Avatar,
+  VStack,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
@@ -28,29 +29,51 @@ import Auth from "../../utils/auth";
 import LoginForm from "../LoginForm";
 import SignupForm from "../SignupForm";
 
-function Nav() {
+function Nav({ inside }) {
   // set state for modal open and close
   const { isOpen, onOpen, onClose } = useDisclosure();
   const finalRef = React.useRef(null);
   // const initialRef = React.useRef(null);
-
   return (
     <HStack
       spacing={0}
       align="center"
       justify={{ base: "center", md: "space-between" }}
     >
-      {/* if logged in then display profile and logout button */}
+      {/* if logged in then display profile and logout button otherwise align horizontally*/}
       {Auth.loggedIn() ? (
         <>
-          <HStack as={"nav"} spacing={8}>
-            <Link to="/profile">
-              {/* profile button */}
+          {/* if its on small screen  then align vertically */}
+          {inside ? (
+            <VStack as={"nav"} spacing={8}>
+              {" "}
+              <Link to="/profile">
+                {/* profile button */}
+                <Button
+                  variant="ghost"
+                  cursor={"pointer"}
+                  _hover={{ bg: "gray.400" }}
+                >
+                  <Box
+                    display={"inline-block"}
+                    verticalAlign={"middle"}
+                    align="center"
+                    color={"white"}
+                    _hover={{ color: "black" }}
+                  >
+                    {" "}
+                    <Avatar size={"2xs"} />
+                    <Text fontSize={"1.25rem"}> Profile</Text>
+                  </Box>
+                </Button>
+              </Link>
+              {/* logout button */}
               <Button
                 variant="ghost"
                 cursor={"pointer"}
                 display={"inline-block"}
                 verticalAlign={"middle"}
+                onClick={Auth.logout}
                 _hover={{ bg: "gray.400" }}
               >
                 <Box
@@ -61,33 +84,56 @@ function Nav() {
                   _hover={{ color: "black" }}
                 >
                   {" "}
-                  <Avatar size={"2xs"} />
-                  <Text> Profile</Text>
-                </Box>
+                  <MdOutlineLogout />
+                  <Text fontSize={"1.25rem"}> Logout</Text>
+                </Box>{" "}
               </Button>
-            </Link>
-            {/* logout button */}
-            <Button
-              variant="ghost"
-              cursor={"pointer"}
-              display={"inline-block"}
-              verticalAlign={"middle"}
-              onClick={Auth.logout}
-              _hover={{ bg: "gray.400" }}
-            >
-              <Box
+            </VStack>
+          ) : (
+            <HStack as={"nav"} spacing={8}>
+              <Link to="/profile">
+                {/* profile button */}
+                <Button
+                  variant="ghost"
+                  cursor={"pointer"}
+                  _hover={{ bg: "gray.400" }}
+                >
+                  <Box
+                    display={"inline-block"}
+                    verticalAlign={"middle"}
+                    align="center"
+                    color={"white"}
+                    _hover={{ color: "black" }}
+                  >
+                    {" "}
+                    <Avatar size={"2xs"} />
+                    <Text fontSize={"1.25rem"}> Profile</Text>
+                  </Box>
+                </Button>
+              </Link>
+              {/* logout button */}
+              <Button
+                variant="ghost"
+                cursor={"pointer"}
                 display={"inline-block"}
                 verticalAlign={"middle"}
-                align="center"
-                color={"white"}
-                _hover={{ color: "black" }}
+                onClick={Auth.logout}
+                _hover={{ bg: "gray.400" }}
               >
-                {" "}
-                <MdOutlineLogout />
-                <Text fontSize={"1.25rem"}> Logout</Text>
-              </Box>{" "}
-            </Button>
-          </HStack>
+                <Box
+                  display={"inline-block"}
+                  verticalAlign={"middle"}
+                  align="center"
+                  color={"white"}
+                  _hover={{ color: "black" }}
+                >
+                  {" "}
+                  <MdOutlineLogout />
+                  <Text fontSize={"1.25rem"}> Logout</Text>
+                </Box>{" "}
+              </Button>
+            </HStack>
+          )}
         </>
       ) : (
         <>
