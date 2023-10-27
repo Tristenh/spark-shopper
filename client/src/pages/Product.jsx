@@ -49,6 +49,9 @@ function Product() {
 
   const { products, cart } = state;
   const [rating, setRating] = useState(0);
+  const descriptionColor = useColorModeValue("gray.500", "gray.400");
+  const dividerColor = useColorModeValue("gray.200", "gray.600");
+  const headerColor = useColorModeValue("yellow.500", "yellow.300");
 
   useEffect(() => {
     // already in global store
@@ -110,14 +113,14 @@ function Product() {
   return (
     <>
       {currentProduct && cart ? (
-        <Container maxW={"7xl"}>
+        <Container maxW={"8xl"}>
           <Link to="/">← Back to Products</Link>
           <SimpleGrid
             columns={{ base: 1, lg: 2 }}
             spacing={{ base: 8, md: 10 }}
             py={{ base: 18, md: 24 }}
           >
-            <Flex >
+            <Flex>
               <Image
                 rounded={"md"}
                 alt={"product image"}
@@ -132,36 +135,7 @@ function Product() {
                 py={4}
                 h={{ base: "auto", sm: "400px", lg: "500px" }}
               />
-              {/* <Accordion color={"black"}>
-                <AccordionItem>
-                  {({ isExpanded }) => (
-                    <>
-                      <h2>
-                        <AccordionButton
-                          _expanded={{ bg: "tomato", color: "white" }}
-                        >
-                          <Box as="span" flex="1" textAlign="left">
-                            Reviews
-                          </Box>
-                          {isExpanded ? (
-                            <MinusIcon fontSize="12px" />
-                          ) : (
-                            <AddIcon fontSize="12px" />
-                          )}
-                        </AccordionButton>
-                      </h2>
-                      <AccordionPanel pb={4}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
-                      </AccordionPanel>
-                    </>
-                  )}
-                </AccordionItem>
-              </Accordion>
-              <Rating rating={rating} setRating={setRating} /> */}
+           
             </Flex>
             <Stack
               rounded={"md"}
@@ -170,11 +144,7 @@ function Product() {
               boxShadow={"2xl"}
               p={6}
               spacing={{ base: 6, md: 10 }}
-              divider={
-                <StackDivider
-                  borderColor={useColorModeValue("gray.200", "gray.600")}
-                />
-              }
+              divider={<StackDivider borderColor={dividerColor} />}
             >
               <Box as={"header"}>
                 <Heading
@@ -201,11 +171,7 @@ function Product() {
               <Stack
                 spacing={{ base: 4, sm: 6 }}
                 direction={"column"}
-                divider={
-                  <StackDivider
-                    borderColor={useColorModeValue("gray.200", "gray.600")}
-                  />
-                }
+                divider={<StackDivider borderColor={dividerColor} />}
               >
                 <VStack alignItems={"start"} spacing={{ base: 4, sm: 6 }}>
                   <Box display="flex" mt="2" alignItems="center">
@@ -223,52 +189,50 @@ function Product() {
                   </Box>
                   <Text
                     textAlign={"justify"}
-                    color={useColorModeValue("gray.500", "gray.400")}
-                    fontSize={"lg"}
-                    fontWeight={"500"}
+                    color={descriptionColor}
+                    fontSize={"md"}
+                    fontWeight={"400"}
                   >
                     {currentProduct.description}
                   </Text>
                 </VStack>
                 <VStack alignItems={"start"}>
-                <Flex>
-            <Accordion allowMultiple> 
-                <AccordionItem >
-                  {({ isExpanded }) => (
-                    <>
-                      <h2>
-                        <AccordionButton 
-                          _expanded={{ bg: "tomato", color: "white" }} 
-                        >
-                           <Box
-                    fontSize={{ base: "16px", lg: "18px" }}
-                    color={useColorModeValue("yellow.500", "yellow.300")}
-                    fontWeight={"500"}
-                    textTransform={"uppercase"}
-                    mb={"4"}
-                    flex="1" textAlign="left"
-                  
-                  >
-                    KEY Features
-                  </Box>
-                          {/* <Box as="span" flex="1" textAlign="left">
+                  <Accordion allowMultiple w={"100%"}>
+                    <AccordionItem>
+                      {({ isExpanded }) => (
+                        <>
+                          <h2>
+                            <AccordionButton
+                              _expanded={{ bg: "tomato", color: "white" }}
+                            >
+                              <Box
+                                fontSize={{ base: "16px", lg: "18px" }}
+                                color={headerColor}
+                                fontWeight={"500"}
+                                textTransform={"uppercase"}
+                                mb={"4"}
+                                flex="1"
+                                textAlign="left"
+                              >
+                                KEY Features
+                              </Box>
+                              {/* <Box as="span" flex="1" textAlign="left">
                             Reviews
                           </Box> */}
-                          {isExpanded ? (
-                            <MinusIcon fontSize="12px" />
-                          ) : (
-                            <AddIcon fontSize="12px" />
-                          )}
-                        </AccordionButton>
-                      </h2>
-                      <AccordionPanel pb={4} textAlign={"justify"}>
-                      <Features feature={`${currentProduct.features}`} />
-                      </AccordionPanel>
-                    </>
-                  )}
-                </AccordionItem>
-              </Accordion>
-            </Flex>
+                              {isExpanded ? (
+                                <MinusIcon fontSize="12px" />
+                              ) : (
+                                <AddIcon fontSize="12px" />
+                              )}
+                            </AccordionButton>
+                          </h2>
+                          <AccordionPanel pb={4} textAlign={"justify"}>
+                            <Features feature={`${currentProduct.features}`} />
+                          </AccordionPanel>
+                        </>
+                      )}
+                    </AccordionItem>
+                  </Accordion>
                   {/* <Text
                     fontSize={{ base: "16px", lg: "18px" }}
                     color={useColorModeValue("yellow.500", "yellow.300")}
@@ -283,7 +247,6 @@ function Product() {
                     <Features feature={`${currentProduct.features}`} />
                   </Box> */}
                 </VStack>
-                <Box>
                   <SimpleGrid
                     m={4}
                     columns={{ base: 1, md: 2 }}
@@ -353,7 +316,6 @@ function Product() {
                       </Button>
                     </GridItem>
                   </SimpleGrid>
-                </Box>
               </Stack>
 
               <Stack
