@@ -56,10 +56,6 @@ export const QUERY_SUBCATEGORIES = gql`
     subcategories(category: $category) {
       _id
       name
-      category {
-        _id
-        name
-      }
     }
   }
 `;
@@ -70,6 +66,7 @@ export const QUERY_ALL_PRODUCTS = gql`
       _id
       name
       description
+      features
       image
       price
       quantity
@@ -86,6 +83,7 @@ export const QUERY_PRODUCTS = gql`
       _id
       name
       description
+      features
       image
       price
       quantity

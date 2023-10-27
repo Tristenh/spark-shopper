@@ -1,4 +1,6 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+// importing components from chakra
 import {
   Flex,
   Button,
@@ -7,24 +9,34 @@ import {
   MenuList,
   MenuItem,
   Text,
-  Link,
 } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+
+// importing package 
 import { useQuery } from "@apollo/client";
 import { useStoreContext } from "../../utils/GlobalState";
-import { UPDATE_CATEGORIES, UPDATE_CURRENT_CATEGORY } from "../../utils/actions";
-import { QUERY_CATEGORIES} from "../../utils/queries";
+import {
+  UPDATE_CATEGORIES,
+  UPDATE_CURRENT_CATEGORY,
+} from "../../utils/actions";
+import { QUERY_CATEGORIES } from "../../utils/queries";
 import { idbPromise } from "../../utils/helpers";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+//import component for dropdown
 import Dropdown from "../Dropdown";
+
 function CategoryMenu() {
+  // get state and action for managing category data
   const [state, dispatch] = useStoreContext();
   const { categories } = state;
+  // get category data from database
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
+  //create state for dropdown to check open or close
   const [dropdown, setDropdown] = useState(false);
-  const ref = useRef();
-  const depthLevel = 0;
+// level to check menu has submenu item
+  const level = 0;
 
   useEffect(() => {
+    // save category data into state and indexdb
     if (categoryData) {
       dispatch({
         type: UPDATE_CATEGORIES,
@@ -34,6 +46,7 @@ function CategoryMenu() {
         idbPromise("categories", "put", category);
       });
     } else if (!loading) {
+      // if its not loading data from db then get saved data from indexdb
       idbPromise("categories", "get").then((categories) => {
         dispatch({
           type: UPDATE_CATEGORIES,
@@ -41,22 +54,10 @@ function CategoryMenu() {
         });
       });
     }
-    const handler = (event) => {
-      if (dropdown && ref.current && !ref.current.contains(event.target)) {
-         setDropdown(false);
-      }
-   };
-   document.addEventListener("mousedown", handler);
-   document.addEventListener("touchstart", handler);
-   return () => {
-      // Cleanup the event listener
-      document.removeEventListener("mousedown", handler);
-      document.removeEventListener("touchstart", handler);
-   };
-  }, [categoryData, loading, dispatch, dropdown]);
+  }, [categoryData, loading, dispatch]);
 
+  // on mouse-enter it dispatches to update current category
   const onMouseEnter = async (id) => {
-    
     dispatch({
       type: UPDATE_CURRENT_CATEGORY,
       currentCategory: id,
@@ -72,7 +73,6 @@ function CategoryMenu() {
     dropdown && setDropdown(false);
   };
 
-  // console.log(state.subcategories)
   return (
     <Flex alignItems={"center"}>
       <Menu>
@@ -89,42 +89,40 @@ function CategoryMenu() {
                 {isOpen ? "Products" : "Products"}
               </Text>
             </MenuButton>
-            <MenuList bg={"back.900"} color={"white"}>
+            <MenuList bg={"back.900"} color={"white"}  opacity={".8"}>
+              {/* run through all categories */}
               {categories.map((item) => (
-                // <Dropdown key={i} items={item} subcategories={state.subcategories}
-                //     setDropdown={setDropdown}
-                //     dropdown={dropdown}
-                //     depthLevel={depthLevel}
-                //   />
-
                 <MenuItem
                   as="ul"
-              position={"relative"}
-                  opacity={".8"}
+                  position={"relative"}
+                 
                   key={item._id}
                   px={2}
                   py={1}
                   bg={"back.900"}
                   onMouseEnter={() => onMouseEnter(item._id)}
                   onMouseLeave={onMouseLeave}
+                  onTouchStart={() => onMouseEnter(item._id)}
                   _hover={{ bg: "gray.400", color: "black" }}
                   onClick={closeDropdown}
                 >
-                  <Text>{item.name}</Text>
-                  
-                  {depthLevel === 0 ? (
-                    <span> &raquo;</span>
+                  <Text >
+                   {item.name} </Text>
+                    {level === 0 ? (
+                      <span style={{right:"4px",position: "absolute"}} > &raquo;</span>
+                    ) : (
+                      <Link to={"/"}>{item.name}</Link>
+                    )}
+                 {/* check current category is same as selected id and fetches subcategories of selected category */}
+                  {state.currentCategory === item._id ? (
+                    <Dropdown
+                      setDropdown={setDropdown}
+                      dropdown={dropdown}
+                      level={level}
+                    />
                   ) : (
-                    <Link to={'/'}>{item.name}</Link>
+                    <Link to={"/"}></Link>
                   )}
-                  
-                  {state.subcategories?
-                   (<Dropdown 
-                    
-                    setDropdown={setDropdown}
-                    dropdown={dropdown}
-                    depthLevel={depthLevel}
-                  />):<Link to={'/'}></Link>}
                 </MenuItem>
               ))}
             </MenuList>

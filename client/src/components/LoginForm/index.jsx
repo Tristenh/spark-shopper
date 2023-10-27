@@ -45,15 +45,13 @@ export default function LoginForm(props) {
       const token = mutationResponse.data.login.token;
       Auth.login(token);
       // if no error message then submit successfully
-      
+    
       if (!errorMessage) {
         console.log("Login successfully", formState);
         setFormState({ email: "", password: "" });
-      } else {
-        setErrorMessage("incorrect email or password ");
       }
     } catch (error) {
-      console.log(error);
+      setErrorMessage("Incorrect email or password ");
     }
     setFormState({
       email: "",

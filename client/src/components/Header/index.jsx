@@ -13,9 +13,10 @@ import {
   InputRightAddon,
   Text,
   Image,
-  Link,
   Badge,
 } from "@chakra-ui/react";
+
+import { Link } from "react-router-dom";
 
 //import icons
 import { HamburgerIcon, CloseIcon, SearchIcon } from "@chakra-ui/icons";
@@ -39,11 +40,7 @@ export default function Header() {
   }
   return (
     <>
-      <Box
-        bg={"back.900"}
-        px={{ base: "30", md: "20", xl: "20" }}
-        size={"md"}
-      >
+      <Box bg={"back.900"} px={{ base: "30", md: "20", xl: "20" }} size={"md"}>
         {/* icon button to show menu on small screen */}
         <Flex
           h={"auto"}
@@ -62,10 +59,10 @@ export default function Header() {
           <Flex w={{ xl: "40%" }}>
             <HStack spacing={12} alignItems={"center"}>
               {/* logo */}
-              <Box >
+              <Box>
                 <Link to={"/"}>
                   {" "}
-                  <Image href="/" src={"./images/logo.jpg"} />
+                  <Image src={"/images/logo.jpg"} />
                 </Link>
               </Box>
 
@@ -78,7 +75,7 @@ export default function Header() {
                 <InputGroup
                   borderRadius={5}
                   size={"md"}
-                  w={{ base: "300px", "2xl": "500px" }}
+                  w={{ base: "300px", "2xl": "400px" }}
                   my={5}
                 >
                   <InputLeftElement pointerEvents="none" />
@@ -103,8 +100,12 @@ export default function Header() {
               </HStack>
             </HStack>
           </Flex>
-          <Flex ml={"4"} w={{base:"none", xl: "20%" }} display={{base:"none",xl:"flex"}}>
-            <Text fontSize={"2xl"} color={"orange"}>
+          <Flex
+            ml={"4"}
+            w={{ base: "none", xl: "20%" }}
+            display={{ base: "none", xl: "flex" }}
+          >
+            <Text fontSize={"2xl"} color={"orange"} className="blink">
               Welcome to spark shopper!
             </Text>
           </Flex>
@@ -150,7 +151,7 @@ export default function Header() {
                         boxSize="1.25em"
                         bgGradient="linear(to-r, orange.300, yellow.400)"
                       >
-                        4
+                        {state.cart.length}
                       </Badge>
                     </Text>
                   </Box>
@@ -227,6 +228,7 @@ export default function Header() {
                   align="center"
                   color={"white"}
                   _hover={{ color: "black" }}
+                  onClick={toggleCart}
                 >
                   <BsCart4 />
                   <Text fontSize={"1xl"}>
@@ -235,7 +237,7 @@ export default function Header() {
                       boxSize="1.25em"
                       bgGradient="linear(to-r, orange.300, yellow.400)"
                     >
-                      4
+                     {state.cart.length}
                     </Badge>
                   </Text>
                 </Box>

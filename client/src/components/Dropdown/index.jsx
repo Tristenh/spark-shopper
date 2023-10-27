@@ -1,32 +1,37 @@
-import { useState, useEffect, useRef } from "react";
-// ...
-
-import { Box, MenuItem, Link } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Box, MenuItem } from "@chakra-ui/react";
+// import global state
 import { useStoreContext } from "../../utils/GlobalState";
+// import query and action
+import { QUERY_SUBCATEGORIES } from "../../utils/queries";
 import {
   UPDATE_SUBCATEGORIES,
   UPDATE_CURRENT_SUBCATEGORY,
 } from "../../utils/actions";
+// import package
 import { useLazyQuery } from "@apollo/client";
 
-import { QUERY_SUBCATEGORIES } from "../../utils/queries";
 import { idbPromise } from "../../utils/helpers";
 
-const styleDropdownSubmenu = {
+const submenu = {
   position: "absolute",
   left: "100%",
   top: "-7px",
 };
-export default function Dropdown({ depthLevel, dropdown }) {
+export default function Dropdown({ level, dropdown }) {
   const [state, dispatch] = useStoreContext();
-  depthLevel = depthLevel + 1;
-  const dropdownClass = depthLevel > 0 ? styleDropdownSubmenu : "";
+  level = level + 1;
+  // class to open new box as dropdown
+  const dropdownClass = level > 0 ? submenu : "";
   const showDropdown = dropdown ? { display: "block" } : "";
-  const [getSubCategories, { loading }] = useLazyQuery(QUERY_SUBCATEGORIES);
 
+  const [getSubCategories, { loading }] = useLazyQuery(QUERY_SUBCATEGORIES);
   const { currentCategory } = state;
 
   useEffect(() => {
+    // get subcategories of selected currentcategory
+    // save subcategories to state and indexdb
     if (currentCategory) {
       getSubCategories({
         variables: {
@@ -37,8 +42,8 @@ export default function Dropdown({ depthLevel, dropdown }) {
           type: UPDATE_SUBCATEGORIES,
           subcategories: sub.data.subcategories,
         });
-        sub.data.subcategories.forEach((category) => {
-          idbPromise("subcategories", "put", category);
+        sub.data.subcategories.forEach((subcategory) => {
+          idbPromise("subcategories", "put", subcategory);
         });
       });
     } else if (!loading) {
@@ -51,6 +56,7 @@ export default function Dropdown({ depthLevel, dropdown }) {
     }
   }, [dispatch, getSubCategories, currentCategory, loading]);
 
+  // update current subcategory state after click on subcategory
   const handleItemClick = async (id) => {
     dispatch({
       type: UPDATE_CURRENT_SUBCATEGORY,
@@ -59,80 +65,32 @@ export default function Dropdown({ depthLevel, dropdown }) {
   };
 
   return (
-    // <Flex alignItems={"center"}>
-    //   <Menu >
-    //     {({ isOpen }) => (
-    //       <>
-    //         <MenuButton
-    //           isActive={isOpen}
-    //           as={Button}
-    //           key={key}
-    //           w={"100%"}
-    //           colorScheme="WhiteAlpha"
-    //           _hover={{ bg: "gray.400", color: "black" }}
-    //           onClick={() => handleClick(items._id)}
-    //           rightIcon={<ChevronDownIcon />}
-    //         >
-    //           <Text fontSize={"1xl"}>
-    //             {isOpen ? items.name : items.name}
-    //           </Text>
-    //         </MenuButton>
-    //         <MenuList
-
-    //           display="none"
-    //           {...dropdownClass}
-    //           {...showDropdown}
-    //           bg={"back.900"}
-    //           color={"white"}
-    //         >
-    //           {subcategories.map((item) => (
-    //             <MenuItem
-    //             as="li"
-    //             borderRadius={""}
-    //               key={item._id}
-    //               px={2}
-    //               py={1}
-    //               bg={"back.900"}
-    //               _hover={{ bg: "gray.400", color: "black" }}
-    //               onClick={() => handleItemClick(item._id)}
-
-    //             >
-    //                 <Link  style={{ textDecoration: 'none' }} to={'/'}> {item.name}</Link>
-
-    //             </MenuItem>
-    //           ))}
-    //         </MenuList>
-    //       </>
-    //     )}
-    //   </Menu>
-    // </Flex>
+    
     <Box
       as="ul"
-      position="absolute"
+      position="absolute"      
       right={0}
       left="auto"
-      //   transform={"translateX(-50%)"}
-      //   transition={"200ms"}
-      //   transitionDelay={"200ms"}
-
-      fontSize="0.875rem"
-      zIndex={999}
-      minWidth="10rem"
+      border="2px solid white"
+      fontSize="1xl"
+      zIndex={"999"}
+      minWidth="12rem"
       padding="0.5rem 0"
       listStyleType="none"
-      bgColor={"black"}
+      bgColor={"back.900"}
       borderRadius="0.5rem"
       display="none"
       {...dropdownClass}
       {...showDropdown}
-      //  className={`dropdown ${dropdownClass} ${dropdown ? "show" : ""}`}
     >
+      {/* displays subcategories in menuitem */}
       {state.subcategories.map((item) => (
         <MenuItem
           as="li"
           key={item._id}
           px={2}
           py={1}
+          color={"white"}
           bg={"back.900"}
           _hover={{ bg: "gray.400", color: "black" }}
           onClick={() => handleItemClick(item._id)}
