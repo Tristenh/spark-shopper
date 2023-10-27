@@ -130,6 +130,7 @@ export default function Header() {
             <HStack spacing={12} display={{ base: "none", xl: "flex" }}>
               <HStack spacing={12} display={{ base: "none", xl: "flex" }}>
                 {/* wishlist button */}
+                {/* if not logged in then toasts message on screen */}
                 <Button variant="ghost" _hover={{ bg: "gray.400" }}>
                   {Auth.loggedIn() ? (
                     <Box
