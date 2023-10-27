@@ -4,7 +4,6 @@ import {
   Stack,
   Text,
   Image,
-  Flex,
   VStack,
   Button,
   Heading,
@@ -119,23 +118,7 @@ function Product() {
             spacing={{ base: 8, md: 10 }}
             py={{ base: 18, md: 24 }}
           >
-            <Flex>
-               <Image
-                rounded={"md"}
-                alt={"product image"}
-                border={"2px solid"}
-                borderColor={"gray.100"}
-                boxShadow={"2xl"}
-                src={`/images/${currentProduct.image}`}
-                objectFit={"contain "}
-                overflow={"hidden"}
-                align={"center"}
-                w={"100%"}
-                py={4}
-                h={{ base: "auto", sm: "400px", lg: "500px" }}
-              />
-           
-              <VStack> <Accordion color={"black"}>
+            <VStack>
               <Image
                 rounded={"md"}
                 alt={"product image"}
@@ -150,7 +133,8 @@ function Product() {
                 py={4}
                 h={{ base: "auto", sm: "400px", lg: "500px" }}
               />
-           
+
+              <Accordion color={"black"}>
                 <AccordionItem>
                   {({ isExpanded }) => (
                     <>
@@ -179,9 +163,8 @@ function Product() {
                   )}
                 </AccordionItem>
               </Accordion>
-              <Rating rating={rating} setRating={setRating} /></VStack>
-             
-            </Flex>
+              <Rating rating={rating} setRating={setRating} />
+            </VStack>
             <Stack
               rounded={"md"}
               border={"2px solid"}
@@ -292,75 +275,73 @@ function Product() {
                     <Features feature={`${currentProduct.features}`} />
                   </Box> */}
                 </VStack>
-                  <SimpleGrid
-                    m={4}
-                    columns={{ base: 1, md: 2 }}
-                    spacing={2}
-                    alignItems={"center"}
-                    justifyContent={"space-evenly"}
-                  >
-                    <GridItem justifySelf={"center"}>
-                      <Button
-                        rounded={"none"}
-                        mt={4}
-                        p={4}
-                        size={"lg"}
-                        py={"7"}
-                        color={"black"}
-                        bgColor="#495C62"
-                        borderRadius="full"
-                        width={{
-                          base: "220px",
-                          sm: "250px",
+                <SimpleGrid
+                  m={4}
+                  columns={{ base: 1, md: 2 }}
+                  spacing={2}
+                  alignItems={"center"}
+                  justifyContent={"space-evenly"}
+                >
+                  <GridItem justifySelf={"center"}>
+                    <Button
+                      rounded={"none"}
+                      mt={4}
+                      p={4}
+                      size={"lg"}
+                      py={"7"}
+                      color={"black"}
+                      bgColor="#495C62"
+                      borderRadius="full"
+                      width={{
+                        base: "220px",
+                        sm: "250px",
 
-                          lg: "150px",
-                          xl: "200px",
-                        }}
-                        align={"center"}
-                        textTransform={"uppercase"}
-                        onClick={addToCart}
-                        _hover={{
-                          bg: "gray.700",
-                          transform: "translateY(2px)",
-                          boxShadow: "lg",
-                        }}
-                      >
-                        Add to cart
-                      </Button>
-                    </GridItem>
-                    <GridItem justifySelf={"center"}>
-                      {" "}
-                      <Button
-                        disabled={
-                          !cart.find((p) => p._id === currentProduct._id)
-                        }
-                        mt={4}
-                        p={4}
-                        size={"lg"}
-                        py={"7"}
-                        color={"black"}
-                        bgColor="#495C62"
-                        borderRadius="full"
-                        width={{
-                          base: "220px",
-                          sm: "250px",
+                        lg: "150px",
+                        xl: "200px",
+                      }}
+                      align={"center"}
+                      textTransform={"uppercase"}
+                      onClick={addToCart}
+                      _hover={{
+                        bg: "gray.700",
+                        transform: "translateY(2px)",
+                        boxShadow: "lg",
+                      }}
+                    >
+                      Add to cart
+                    </Button>
+                  </GridItem>
+                  <GridItem justifySelf={"center"}>
+                    {" "}
+                    <Button
+                      disabled={!cart.find((p) => p._id === currentProduct._id)}
+                      mt={4}
+                      p={4}
+                      size={"lg"}
+                      py={"7"}
+                      color={"black"}
+                      bgColor="#495C62"
+                      borderRadius="full"
+                      width={{
+                        base: "220px",
+                        sm: "250px",
 
-                          lg: "19 0px",
-                          xl: "200px",
-                        }}
-                        align={"center"}
-                        textTransform={"uppercase"}
-                        _hover={{
-                          bg: "gray.700",
-                          transform: "translateY(2px)",
-                          boxShadow: "lg",
-                        }}
-                        onClick={removeFromCart}
-                      >
-                        Remove from Cart
-                      </Button>
-                    </GridItem>
-                  </SimpleGrid>
+                        lg: "19 0px",
+                        xl: "200px",
+                      }}
+                      align={"center"}
+                      textTransform={"uppercase"}
+                      _hover={{
+                        bg: "gray.700",
+                        transform: "translateY(2px)",
+                        boxShadow: "lg",
+                      }}
+                      onClick={removeFromCart}
+                    >
+                      Remove from Cart
+                    </Button>
+                  </GridItem>
+                </SimpleGrid>
               </Stack>
 
               <Stack

@@ -72,7 +72,7 @@ export default function Header() {
             <HStack spacing={12} alignItems={"center"}>
               {/* logo */}
               <Box>
-                <Link to={"/"}>
+                <Link reloadDocument to={"/"}>
                   {" "}
                   <Image src={"/images/logo.jpg"} />
                 </Link>
