@@ -38,6 +38,13 @@ export default function Header() {
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
   }
+  const arr = [];
+  let totalQuantity;
+  function addPurchaseQuantity(quantity) {
+arr.push(quantity);
+return (arr.reduce((acc, val)=> { return acc + val; }, 0));
+  
+  }
   return (
     <>
       <Box bg={"back.900"} px={{ base: "30", md: "20", xl: "20" }} size={"md"}>
@@ -151,7 +158,10 @@ export default function Header() {
                         boxSize="1.25em"
                         bgGradient="linear(to-r, orange.300, yellow.400)"
                       >
-                        {state.cart.length}
+                        {state.cart.map((item) => {
+                      totalQuantity= addPurchaseQuantity(item.purchaseQuantity);
+                        })}
+                        {totalQuantity}
                       </Badge>
                     </Text>
                   </Box>
@@ -237,7 +247,7 @@ export default function Header() {
                       boxSize="1.25em"
                       bgGradient="linear(to-r, orange.300, yellow.400)"
                     >
-                     {state.cart.length}
+                     {totalQuantity}
                     </Badge>
                   </Text>
                 </Box>
