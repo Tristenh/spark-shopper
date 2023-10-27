@@ -49,37 +49,45 @@ function ProductList() {
     }
   }, [userWishListLoading, userWishListData, dispatch]);
   useEffect(() => {
-    if (productData) {
-      //dispatches the action UPDATE_PRODUCTS to update the state with new products
-      dispatch({
-        type: UPDATE_PRODUCTS,
-        products: productData.products,
-      });
-      //update indexedDB with new products
-      productData.products.forEach((product) => {
-        idbPromise("products", "put", product);
-      });
-    } else if (!productLoading) {
-      //gets the products from indexedDB and updates the state products
-      idbPromise("products", "get").then((products) => {
+    //checks whether the products are not rendering from search results
+    if (!state.search) {
+      console.log(productData);
+      if (productData) {
+        //dispatches the action UPDATE_PRODUCTS to update the state with new products
         dispatch({
           type: UPDATE_PRODUCTS,
-          products: products,
+          products: productData.products,
         });
-      });
+        //update indexedDB with new products
+        productData.products.forEach((product) => {
+          idbPromise("products", "put", product);
+        });
+      } else if (!productLoading) {
+        //gets the products from indexedDB and updates the state products
+        idbPromise("products", "get").then((products) => {
+          dispatch({
+            type: UPDATE_PRODUCTS,
+            products: products,
+          });
+        });
+      }
     }
-  }, [productData, productLoading, dispatch]);
+  }, [productData, productLoading, state.search, dispatch]);
 
   //return all products
   function filterProducts() {
     if (!currentSubCategory) {
       return state.products;
     }
+
+    // if (!state.search) {
     //returns  products based on subcategory
     return state.products.filter(
       (product) => product.subcategory._id === currentSubCategory
     );
+    // }
   }
+
   return (
     <Flex justify={"center"} mt={50}>
       {productLoading ? (
@@ -104,7 +112,6 @@ function ProductList() {
               borderColor="#51636C"
               mt={{ base: 12, md: 5 }}
               mb={{ base: 1, md: 5 }}
-              opacity={0.2}
             />
             <Grid
               templateRows={{

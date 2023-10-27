@@ -16,7 +16,8 @@ import {
   UPDATE_WISHLIST,
   CLEAR_WISHLIST,
   SEARCH,
-  CLEAR_STATES,
+  CLEAR_SEARCH,
+  CLEAR_CURRENT_SUBCATEGORY,
 } from "./actions";
 
 // The reducer is a function that accepts the current state and an action. It returns a new state based on that action.
@@ -141,10 +142,16 @@ export const reducer = (state, action) => {
         search: true,
       };
     //sets search as false
-    case CLEAR_STATES:
+    case CLEAR_SEARCH:
       return {
         ...state,
         search: false,
+        // currentSubCategory: "",
+      };
+    //sets search as false
+    case CLEAR_CURRENT_SUBCATEGORY:
+      return {
+        ...state,
         currentSubCategory: "",
       };
     // Return the state as is in the event that the `action.type` passed to the reducer was not accounted for by the developers

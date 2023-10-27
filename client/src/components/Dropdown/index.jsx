@@ -8,6 +8,7 @@ import { QUERY_SUBCATEGORIES } from "../../utils/queries";
 import {
   UPDATE_SUBCATEGORIES,
   UPDATE_CURRENT_SUBCATEGORY,
+  CLEAR_SEARCH,
 } from "../../utils/actions";
 // import package
 import { useLazyQuery } from "@apollo/client";
@@ -29,6 +30,9 @@ export default function Dropdown({ level, dropdown }) {
   const [getSubCategories, { loading }] = useLazyQuery(QUERY_SUBCATEGORIES);
   const { currentCategory } = state;
 
+  // useEffect(() => {
+  //   dispatch({ type: CLEAR_SEARCH });
+  // }, [dispatch]);
   useEffect(() => {
     // get subcategories of selected currentcategory
     // save subcategories to state and indexdb
@@ -58,6 +62,7 @@ export default function Dropdown({ level, dropdown }) {
 
   // update current subcategory state after click on subcategory
   const handleItemClick = async (id) => {
+    dispatch({ type: CLEAR_SEARCH });
     dispatch({
       type: UPDATE_CURRENT_SUBCATEGORY,
       currentSubCategory: id,
@@ -65,10 +70,9 @@ export default function Dropdown({ level, dropdown }) {
   };
 
   return (
-    
     <Box
       as="ul"
-      position="absolute"      
+      position="absolute"
       right={0}
       left="auto"
       border="2px solid white"
