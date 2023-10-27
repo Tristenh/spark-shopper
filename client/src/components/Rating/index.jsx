@@ -11,6 +11,7 @@ export default function StarRating({ rating, setRating, count, size }) {
     <HStack spacing={"2px"}>
       {[...Array(count || 5)].map((star, index) => {
         const ratingValue = index + 1;
+
         return (
           <Box
             as="label"
@@ -23,7 +24,7 @@ export default function StarRating({ rating, setRating, count, size }) {
               name="rating"
               onChange={() => setRating(ratingValue)}
               value={ratingValue}
-              d="none"
+              display="none"
             ></Radio>
             <FaStar
               cursor={"pointer"}

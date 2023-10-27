@@ -32,11 +32,37 @@ const productSchema = new Schema({
     ref: "SubCategory",
     required: true,
   },
+  comments:[
+    {
+      rating: {
+        type: Number,
+        required: true,
+        trim: true,
+        min: 1,
+        max: 5,
+      },
+      // define name with constraints
+      commentDesc: {
+        type: String,
+        trim: true,
+      },
+      //   get current date
+      dateCreated: {
+        type: Date,
+        required: true,
+        default: Date.now(),
+      },
+      userName:{
+        type: String,
+        required: true,
+      }
+    }
+  ]
   // reference Comments model
-  comments: {
-    type: Schema.Types.ObjectId,
-    ref: "Comment",
-  },
+  // comments: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Comment",
+  // },
 });
 
 // export the Product model

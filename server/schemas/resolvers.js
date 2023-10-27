@@ -163,17 +163,25 @@ const resolvers = {
       }
     },
     //add comment in product
-    addComment: async (parent, { productId, rating, commentDesc, userId }) => {
-      return Product.findOneAndUpdate(
-        { _id: productId },
-        {
-          $addToSet: { comments: { rating, commentDesc, userId } },
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+    addComment: async (parent, { productId, rating, commentDesc }, context) => {
+      if (context.user) {
+        return Product.findOneAndUpdate(
+          { _id: productId },
+          {
+            $addToSet: {
+              comments: {
+                rating,
+                commentDesc,
+                userName: context.user.userName,
+              },
+            },
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
+      }
     },
     //signup
     addUser: async (parent, args) => {

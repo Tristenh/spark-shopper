@@ -34,7 +34,7 @@ type Comment{
     rating:Int
     commentDesc:String
     dateCreated:String
-    users:User
+    userName:String
 }
 
 type User{
@@ -77,7 +77,7 @@ type Mutation {
     addCategory(name:String!):Category
     addSubCategory(name:String!,category:ID!):SubCategory
     addProduct(productDetails:ProductInput):Product
-    addComment(rating:Int!,commentDesc:String):Product
+    addComment(productId:ID!,rating:Int!,commentDesc:String):Product
     addUser(username: String!,email: String!,password: String!): Auth
     addOrder(products: [ID]!): Order
     updateCategory(name:String!):Category

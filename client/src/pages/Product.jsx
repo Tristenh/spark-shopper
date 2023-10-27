@@ -134,15 +134,35 @@ function Product() {
                 h={{ base: "auto", sm: "400px", lg: "500px" }}
               />
 
-              <Accordion color={"black"}>
+              <Accordion
+                rounded={"md"}
+                border={"2px solid"}
+                borderColor={"gray.100"}
+                boxShadow={"2xl"}
+                bg={"white"}
+                p={6}
+                spacing={{ base: 6, md: 10 }}
+                allowMultiple
+                w={"100%"}
+                px={2}
+              >
                 <AccordionItem>
                   {({ isExpanded }) => (
                     <>
                       <h2>
                         <AccordionButton
-                          _expanded={{ bg: "tomato", color: "white" }}
+                          _expanded={{ bg: "back.900", color: "white" }}
                         >
-                          <Box as="span" flex="1" textAlign="left">
+                          <Box
+                            fontSize={{ base: "16px", lg: "18px" }}
+                            color={headerColor}
+                            fontWeight={"500"}
+                            textTransform={"uppercase"}
+                            mb={"4"}
+                            as="span"
+                            flex="1"
+                            textAlign="left"
+                          >
                             Reviews
                           </Box>
                           {isExpanded ? (
@@ -153,35 +173,44 @@ function Product() {
                         </AccordionButton>
                       </h2>
                       <AccordionPanel pb={4}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
+                        <Rating rating={rating} setRating={setRating} />
                       </AccordionPanel>
                     </>
                   )}
                 </AccordionItem>
               </Accordion>
-              <Rating rating={rating} setRating={setRating} />
             </VStack>
-            <Stack
+            <VStack
               rounded={"md"}
               border={"2px solid"}
               borderColor={"gray.100"}
               boxShadow={"2xl"}
-              p={6}
+              p={10}
               spacing={{ base: 6, md: 10 }}
               divider={<StackDivider borderColor={dividerColor} />}
+              alignItems={"start"}
             >
               <Box as={"header"}>
                 <Heading
                   lineHeight={1.1}
-                  fontWeight={600}
-                  fontSize={{ base: "2xl", sm: "4xl", lg: "5    xl" }}
+                  fontWeight={500}
+                  fontSize={{ base: "3xl", lg: "4xl" }}
                 >
                   {currentProduct.name}
                 </Heading>
+                <Box display="flex" mt="4" alignItems="center">
+                  {Array(5)
+                    .fill("")
+                    .map((_, i) => (
+                      <StarIcon
+                        key={i}
+                        // color={i < property.rating ? 'teal.500' : 'gray.300'}
+                      />
+                    ))}
+                  <Box as="span" ml="2" color="gray.600" fontSize="sm">
+                    {/* {property.reviewCount} reviews */} 4 reviews
+                  </Box>
+                </Box>
                 <Box
                   p={2}
                   bgGradient="linear(to-r, #94948C, yellow.400, #94948C)"
@@ -196,72 +225,53 @@ function Product() {
                   {`$${currentProduct.price}`}
                 </Box>
               </Box>
-              <Stack
-                spacing={{ base: 4, sm: 6 }}
-                direction={"column"}
-                divider={<StackDivider borderColor={dividerColor} />}
-              >
-                <VStack alignItems={"start"} spacing={{ base: 4, sm: 6 }}>
-                  <Box display="flex" mt="2" alignItems="center">
-                    {Array(5)
-                      .fill("")
-                      .map((_, i) => (
-                        <StarIcon
-                          key={i}
-                          // color={i < property.rating ? 'teal.500' : 'gray.300'}
-                        />
-                      ))}
-                    <Box as="span" ml="2" color="gray.600" fontSize="sm">
-                      {/* {property.reviewCount} reviews */} 4 reviews
-                    </Box>
-                  </Box>
-                  <Text
-                    textAlign={"justify"}
-                    color={descriptionColor}
-                    fontSize={"md"}
-                    fontWeight={"400"}
-                  >
-                    {currentProduct.description}
-                  </Text>
-                </VStack>
-                <VStack alignItems={"start"}>
-                  <Accordion allowMultiple w={"100%"}>
-                    <AccordionItem>
-                      {({ isExpanded }) => (
-                        <>
-                          <h2>
-                            <AccordionButton
-                              _expanded={{ bg: "tomato", color: "white" }}
+              <Stack spacing={{ base: 4, sm: 6 }} direction={"column"}>
+                {/* <VStack  > */}
+                <Text
+                  textAlign={{ md: "justify" }}
+                  color={descriptionColor}
+                  fontSize={"1xl"}
+                  fontWeight={"400"}
+                >
+                  {currentProduct.description}
+                </Text>
+                {/* /VStack> */}
+                {/* <VStack alignItems={"start"}> */}
+                <Accordion allowMultiple w={"100%"}>
+                  <AccordionItem>
+                    {({ isExpanded }) => (
+                      <>
+                        <h2>
+                          <AccordionButton
+                            _expanded={{ bg: "back.900", color: "white" }}
+                          >
+                            <Box
+                              fontSize={{ base: "16px", lg: "18px" }}
+                              color={headerColor}
+                              fontWeight={"500"}
+                              textTransform={"uppercase"}
+                              mb={"4"}
+                              flex="1"
+                              textAlign="left"
                             >
-                              <Box
-                                fontSize={{ base: "16px", lg: "18px" }}
-                                color={headerColor}
-                                fontWeight={"500"}
-                                textTransform={"uppercase"}
-                                mb={"4"}
-                                flex="1"
-                                textAlign="left"
-                              >
-                                KEY Features
-                              </Box>
-                              {/* <Box as="span" flex="1" textAlign="left">
-                            Reviews
-                          </Box> */}
-                              {isExpanded ? (
-                                <MinusIcon fontSize="12px" />
-                              ) : (
-                                <AddIcon fontSize="12px" />
-                              )}
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel pb={4} textAlign={"justify"}>
-                            <Features feature={`${currentProduct.features}`} />
-                          </AccordionPanel>
-                        </>
-                      )}
-                    </AccordionItem>
-                  </Accordion>
-                  {/* <Text
+                              KEY Features
+                            </Box>
+
+                            {isExpanded ? (
+                              <MinusIcon fontSize="12px" />
+                            ) : (
+                              <AddIcon fontSize="12px" />
+                            )}
+                          </AccordionButton>
+                        </h2>
+                        <AccordionPanel pb={4} textAlign={"justify"}>
+                          <Features  feature={`${currentProduct.features}`} />
+                        </AccordionPanel>
+                      </>
+                    )}
+                  </AccordionItem>
+                </Accordion>
+                {/* <Text
                     fontSize={{ base: "16px", lg: "18px" }}
                     color={useColorModeValue("yellow.500", "yellow.300")}
                     fontWeight={"500"}
@@ -274,9 +284,9 @@ function Product() {
                   <Box w={"100%"} textAlign={"justify"}>
                     <Features feature={`${currentProduct.features}`} />
                   </Box> */}
-                </VStack>
+                {/* </VStack> */}
                 <SimpleGrid
-                  m={4}
+                  mx={4}
                   columns={{ base: 1, md: 2 }}
                   spacing={2}
                   alignItems={"center"}
@@ -294,9 +304,9 @@ function Product() {
                       borderRadius="full"
                       width={{
                         base: "220px",
-                        sm: "250px",
+                        sm: "220px",
 
-                        lg: "150px",
+                        lg: "170px",
                         xl: "200px",
                       }}
                       align={"center"}
@@ -324,9 +334,9 @@ function Product() {
                       borderRadius="full"
                       width={{
                         base: "220px",
-                        sm: "250px",
+                        sm: "220px",
 
-                        lg: "19 0px",
+                        lg: "200px",
                         xl: "200px",
                       }}
                       align={"center"}
@@ -343,16 +353,7 @@ function Product() {
                   </GridItem>
                 </SimpleGrid>
               </Stack>
-
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent={"center"}
-              >
-                <MdLocalShipping />
-                <Text>2-3 business days delivery</Text>
-              </Stack>
-            </Stack>
+            </VStack>
           </SimpleGrid>
         </Container>
       ) : (
