@@ -15,6 +15,10 @@ import {
   REMOVE_FROM_WISHLIST,
   UPDATE_WISHLIST,
   CLEAR_WISHLIST,
+  SEARCH,
+  CLEAR_SEARCH,
+  CLEAR_CURRENT_SUBCATEGORY,
+  UPDATE_SEARCHED_PRODUCTS,
 } from "./actions";
 
 // The reducer is a function that accepts the current state and an action. It returns a new state based on that action.
@@ -131,6 +135,30 @@ export const reducer = (state, action) => {
       return {
         ...state,
         wishList: [],
+      };
+    //sets the state as true for search
+    case SEARCH:
+      return {
+        ...state,
+        search: true,
+      };
+    //sets search as false
+    case CLEAR_SEARCH:
+      return {
+        ...state,
+        search: false,
+      };
+    //clears the current subcategory
+    case CLEAR_CURRENT_SUBCATEGORY:
+      return {
+        ...state,
+        currentSubCategory: "",
+      };
+    // Returns a copy of state with an updated searched products array. We use the action.products property and spread it's contents into the new array.
+    case UPDATE_SEARCHED_PRODUCTS:
+      return {
+        ...state,
+        searchedProducts: [...action.products],
       };
     // Return the state as is in the event that the `action.type` passed to the reducer was not accounted for by the developers
     // This saves us from a crash.

@@ -14,7 +14,6 @@ import {
   Heading,
   Flex,
   HStack,
-  Link,
   Drawer,
   DrawerBody,
   DrawerFooter,
@@ -27,7 +26,9 @@ import {
   VStack,
   Button,
 } from "@chakra-ui/react";
-
+//import files
+import Nav from "../Nav";
+import { Link } from "react-router-dom";
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Cart = () => {
@@ -81,16 +82,6 @@ const Cart = () => {
       variables: { products: productIds },
     });
   }
-
-  // if (!state.cartOpen) {
-  //   return (
-  //     <div className="cart-closed" onClick={toggleCart}>
-  //       <span role="img" aria-label="trash">
-  //         🛒
-  //       </span>
-  //     </div>
-  //   );
-  // }
 
   //if  cartOpen is true , then the cart is displayed
   if (state.cartOpen) {
@@ -171,7 +162,9 @@ const Cart = () => {
                                     onClick={toggleCart}
                                     color={"black"}
                                   >
-                                    Continue shopping
+                                    <Text fontWeight="semibold">
+                                      Continue shopping
+                                    </Text>
                                   </Link>
                                 </center>
                                 <center>
@@ -216,8 +209,7 @@ const Cart = () => {
                           </Box>
                         </Box>
                       ) : (
-                        <Heading>
-                          <Text>😱</Text>
+                        <Heading fontSize={20} mt={10}>
                           You haven't added anything to your cart yet!
                         </Heading>
                       )}

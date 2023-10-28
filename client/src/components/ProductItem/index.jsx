@@ -48,12 +48,11 @@ function ProductItem(item) {
   });
   //adds to  the  state wishList if the item not present already ,otherwise deletes the product from wishList state
   const addToWishList = () => {
-    console.log("removing from wish");
     //checks whether the user is authenticated before adding to wishlist
     if (!Auth.loggedIn()) {
       return;
     }
-    console.log(wishList);
+
     const itemInWishList = wishList.find(
       (wishListItem) => wishListItem._id === _id
     );
@@ -79,8 +78,7 @@ function ProductItem(item) {
     async function saveWishList() {
       const wish = await idbPromise("wishList", "get");
       const productIds = wish.map((item) => item._id);
-      console.log("save wshlist");
-      console.log(state.wishList);
+
       // const productIds = state.wishList.map((item) => item._id);
       const { data } = await addWishList({
         variables: { products: productIds },
@@ -88,10 +86,9 @@ function ProductItem(item) {
     }
     saveWishList();
   };
-  console.log(state.wishList);
+
   //adds to  the  state cart if the item not present already ,otherwise  updates the purchase quantity and also updates the indexedDB
   const addToCart = () => {
-    console.log("adding to cart");
     const itemInCart = cart.find((cartItem) => cartItem._id === _id);
     if (itemInCart) {
       dispatch({
