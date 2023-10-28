@@ -15,8 +15,9 @@ import {
   Image,
   Badge,
   useToast,
+  textDecoration,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 //import icons
@@ -50,6 +51,7 @@ export default function Header() {
   let totalQuantity = 0;
   const toast = useToast();
   const position = ["top"];
+  useEffect(() => {}, [searchTitle]);
   //toggles the cart
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
@@ -71,34 +73,37 @@ export default function Header() {
   const [Search, { loading }] = useLazyQuery(QUERY_SEARCH);
   //click event of search button
   const handleSearchBarClick = async () => {
-    Search({
-      variables: { name: searchTitle },
-    }).then((products) => {
-      if (products) {
-        //dispatches the action UPDATE_SEARCHED_PRODUCTS to update the state searchedProducts with the searched Products
-        dispatch({
-          type: UPDATE_SEARCHED_PRODUCTS,
-          products: products.data.search,
-        });
-        //update indexedDB with new products
-        products.data.search.forEach((product) => {
-          idbPromise("products", "put", product);
-        });
-        //dispatches the action SEARCH to set the state for search as true
-        dispatch({
-          type: SEARCH,
-        });
-        // setSearchTitle("");
-      } else if (!loading) {
-        //gets the products from indexedDB and updates the state searchedProducts
-        idbPromise("products", "get").then((products) => {
+    if (searchTitle) {
+      Search({
+        variables: { name: searchTitle },
+      }).then((products) => {
+        if (products) {
+          //dispatches the action UPDATE_SEARCHED_PRODUCTS to update the state searchedProducts with the searched Products
           dispatch({
             type: UPDATE_SEARCHED_PRODUCTS,
-            products: products,
+            products: products.data.search,
           });
-        });
-      }
-    });
+          //update indexedDB with new products
+          products.data.search.forEach((product) => {
+            idbPromise("products", "put", product);
+          });
+          //dispatches the action SEARCH to set the state for search as true
+          dispatch({
+            type: SEARCH,
+          });
+          setSearchTitle("");
+        } else if (!loading) {
+          //gets the products from indexedDB and updates the state searchedProducts
+          idbPromise("products", "get").then((products) => {
+            dispatch({
+              type: UPDATE_SEARCHED_PRODUCTS,
+              products: products,
+            });
+          });
+        }
+      });
+   
+    }
   };
   //clears the state search and current subcategory while clicking on logo to go back to home
   const handleLogoClick = async () => {
@@ -149,6 +154,7 @@ export default function Header() {
                 >
                   <InputLeftElement pointerEvents="none" />
                   <Input
+                    value={searchTitle}
                     type="text"
                     placeholder="Search..."
                     border="2px solid #949494"
