@@ -186,9 +186,12 @@ export default function Header() {
             w={{ base: "none", xl: "10%" }}
             display={{ base: "none", xl: "flex" }}
           >
-            <Text fontSize={"2xl"} color={"orange"} className="blink">
-              Welcome !
-            </Text>
+            <Text
+              fontSize={"2xl"}
+              className="blink"
+              bgGradient="linear(to-r, orange.300, yellow.400)"
+              bgClip="text"
+            ></Text>
           </Flex>
           <Flex w={{ xl: "50%" }} justifyContent={"center"}>
             <HStack spacing={12} display={{ base: "none", xl: "flex" }}>

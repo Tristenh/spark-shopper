@@ -97,6 +97,7 @@ function ProductList() {
   } else {
     title = " New Arrivals";
   }
+
   return (
     <Flex justify={"center"} mt={50}>
       {productLoading ? (
@@ -121,6 +122,7 @@ function ProductList() {
               borderColor="#51636C"
               mt={{ base: 12, md: 5 }}
               mb={{ base: 1, md: 5 }}
+              width={"full"}
             />
             <Grid
               templateRows={{
@@ -135,16 +137,20 @@ function ProductList() {
               }}
             >
               {/*Iterate through each product and renders the component ProductItem by passing values */}
-              {filterProducts().map((product) => (
-                <ProductItem
-                  key={product._id}
-                  _id={product._id}
-                  image={product.image}
-                  name={product.name}
-                  price={product.price}
-                  quantity={product.quantity}
-                />
-              ))}
+              {filterProducts().length ? (
+                filterProducts().map((product) => (
+                  <ProductItem
+                    key={product._id}
+                    _id={product._id}
+                    image={product.image}
+                    name={product.name}
+                    price={product.price}
+                    quantity={product.quantity}
+                  />
+                ))
+              ) : (
+                <Heading fontSize={20}>No Results found</Heading>
+              )}
             </Grid>
           </VStack>
         </>
