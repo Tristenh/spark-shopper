@@ -21,8 +21,10 @@ import { QUERY_PRODUCTS, QUERY_USER } from "../../utils/queries";
 import { idbPromise } from "../../utils/helpers";
 
 function ProductList() {
+  let title = "";
   const [state, dispatch] = useStoreContext();
   const { currentSubCategory } = state;
+
   //Call the useQuery QUERY_PRODUCTS to get all the products
   const { loading: productLoading, data: productData } =
     useQuery(QUERY_PRODUCTS);
@@ -88,7 +90,13 @@ function ProductList() {
       (product) => product.subcategory._id === currentSubCategory
     );
   }
-
+  if (state.search) {
+    title = "Search Results";
+  } else if (state.subCategoryName != "") {
+    title = state.subCategoryName;
+  } else {
+    title = " New Arrivals";
+  }
   return (
     <Flex justify={"center"} mt={50}>
       {productLoading ? (
@@ -107,7 +115,7 @@ function ProductList() {
               bgGradient="linear(to-r, orange.300, yellow.400)"
               bgClip="text"
             >
-              New Arrivals
+              {title}
             </Heading>
             <Divider
               borderColor="#51636C"

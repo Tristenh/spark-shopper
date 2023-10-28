@@ -36,6 +36,7 @@ import {
   CLEAR_SEARCH,
   UPDATE_SEARCHED_PRODUCTS,
   CLEAR_CURRENT_SUBCATEGORY,
+  CURRENT_SUBCATEGORY_NAME,
 } from "../../utils/actions";
 
 import { QUERY_SEARCH } from "../../utils/queries";
@@ -102,7 +103,6 @@ export default function Header() {
           });
         }
       });
-   
     }
   };
   //clears the state search and current subcategory while clicking on logo to go back to home
@@ -111,6 +111,7 @@ export default function Header() {
       type: CLEAR_SEARCH,
     });
     dispatch({ type: CLEAR_CURRENT_SUBCATEGORY });
+    dispatch({ type: CURRENT_SUBCATEGORY_NAME, currentSubCategoryName: "" });
   };
   return (
     <>
@@ -226,7 +227,7 @@ export default function Header() {
                         toast({
                           title: "Create an Account",
                           description: "You need to login to access wishlist",
-                          status: "error",
+                          status: "warning",
                           duration: 9000,
                           position: position,
                           isClosable: true,
