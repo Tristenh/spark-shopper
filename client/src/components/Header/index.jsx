@@ -47,7 +47,7 @@ export default function Header() {
   //useState for searchTitle
   const [searchTitle, setSearchTitle] = useState("");
   const arr = [];
-  let totalQuantity;
+  let totalQuantity = 0;
   const toast = useToast();
   const position = ["top"];
   //toggles the cart
@@ -180,7 +180,7 @@ export default function Header() {
             display={{ base: "none", xl: "flex" }}
           >
             <Text fontSize={"2xl"} color={"orange"} className="blink">
-              Welcome!
+              Welcome !
             </Text>
           </Flex>
           <Flex w={{ xl: "50%" }} justifyContent={"center"}>
@@ -252,7 +252,10 @@ export default function Header() {
                       <Badge
                         boxSize="1.25em"
                         bgGradient="linear(to-r, orange.300, yellow.400)"
+                        p={0}
+                        fontSize={".7rem"}
                       >
+                        {" "}
                         {state.cart.map((item) => {
                           totalQuantity = addPurchaseQuantity(
                             item.purchaseQuantity

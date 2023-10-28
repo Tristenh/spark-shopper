@@ -73,35 +73,20 @@ function ProductList() {
     }
   }, [productData, productLoading, state.search, dispatch]);
 
-  //return all products
   function filterProducts() {
-    let pro = [];
-    console.log("search state");
-    console.log(state.search);
-    console.log("searched products");
-    console.log(state.searchedProducts);
+    //return searched products based on search bar text
     if (state.search) {
       return state.searchedProducts;
     }
+    //return all products
     if (!currentSubCategory) {
       return state.products;
-    } else {
-      // idbPromise("products", "get").then((products) => {
-      //   return products.filter(
-      //     (product) => product.subcategory._id === currentSubCategory
-      //   );
-      // });
     }
 
     //returns  products based on subcategory
-
     return state.products.filter(
       (product) => product.subcategory._id === currentSubCategory
     );
-    // return pro.filter(
-    //   (product) => product.subcategory._id === currentSubCategory
-    // );
-    // }
   }
 
   return (

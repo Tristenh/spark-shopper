@@ -14,7 +14,6 @@ import {
   Heading,
   Flex,
   HStack,
-  Link,
   Drawer,
   DrawerBody,
   DrawerFooter,
@@ -27,7 +26,9 @@ import {
   VStack,
   Button,
 } from "@chakra-ui/react";
-
+//import files
+import Nav from "../Nav";
+import { Link } from "react-router-dom";
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Cart = () => {
@@ -161,7 +162,9 @@ const Cart = () => {
                                     onClick={toggleCart}
                                     color={"black"}
                                   >
-                                    Continue shopping
+                                    <Text fontWeight="semibold">
+                                      Continue shopping
+                                    </Text>
                                   </Link>
                                 </center>
                                 <center>

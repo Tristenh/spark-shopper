@@ -70,7 +70,9 @@ export default function Dropdown({ level, dropdown }) {
       type: CLEAR_SEARCH,
     });
   };
-
+  if (!state.subcategories.length) {
+    return;
+  }
   return (
     <Box
       as="ul"
