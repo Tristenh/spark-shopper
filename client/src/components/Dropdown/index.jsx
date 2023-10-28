@@ -84,7 +84,7 @@ export default function Dropdown({ level, dropdown }) {
       {...showDropdown}
     >
       {/* displays subcategories in menuitem */}
-      {state.subcategories.map((item) => (
+      {state.subcategories && state.subcategories.map((item) => (
         <MenuItem
           as="li"
           key={item._id}

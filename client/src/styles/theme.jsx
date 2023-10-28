@@ -7,5 +7,6 @@ const colors = {
       600: "#4A5568",
     },
   };
-   
+  
+ 
   export const theme = extendTheme({ colors});

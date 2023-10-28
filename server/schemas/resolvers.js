@@ -19,6 +19,7 @@ const resolvers = {
     subcategories: async (parent, { category }) => {
       return await SubCategory.find({ category });
     },
+  
     // get all products of given subcategory
     products: async (parent, { subcategory, name }) => {
       try {
@@ -45,9 +46,10 @@ const resolvers = {
     // get one product of particular id
     product: async (parent, { productId }) => {
       try {
-       
-        const a =await Product.findById(productId).populate("subcategory");
+       console.log(productId)
+        const a =await Product.findById(productId);
         console.log(a)
+        return a;
       } catch (error) {
         console.log("product not found", error);
       }

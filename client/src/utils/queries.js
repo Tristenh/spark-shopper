@@ -96,6 +96,7 @@ export const QUERY_PRODUCTS = gql`
         rating
         commentDesc
         dateCreated
+        userName
       }
     }
   }
@@ -110,12 +111,16 @@ export const QUERY_PRODUCT = gql`
       image
       price
       quantity
-      
+      subcategory{
+        _id
+        name
+      }
       comments {
         _id
         rating
         commentDesc
         dateCreated
+        userName
       }
     }
   }

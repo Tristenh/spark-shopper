@@ -17,7 +17,7 @@ import {
   AccordionButton,
 } from "@chakra-ui/react";
 
-import { StarIcon, MinusIcon, AddIcon } from "@chakra-ui/icons";
+import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
@@ -36,24 +36,26 @@ import { QUERY_PRODUCTS } from "../utils/queries";
 import { idbPromise } from "../utils/helpers";
 import Rating from "../components/Rating";
 import CommentList from "../components/CommentList";
+import StarDisplay from "../components/UI/StarDisplay";
+import { FaStar } from "react-icons/fa";
 function Product() {
   const [state, dispatch] = useStoreContext();
   const { id } = useParams();
 
   const [currentProduct, setCurrentProduct] = useState({});
 
-  const { loading, data:productData } = useQuery(QUERY_PRODUCTS);
+  const { loading, data: productData } = useQuery(QUERY_PRODUCTS);
 
   const { products, cart } = state;
   const [rating, setRating] = useState(0);
 
-   
   const descriptionColor = useColorModeValue("gray.500", "gray.400");
   const dividerColor = useColorModeValue("gray.200", "gray.600");
   const headerColor = useColorModeValue("yellow.500", "yellow.300");
 
   useEffect(() => {
     // already in global store
+
     if (products.length) {
       setCurrentProduct(products.find((product) => product._id === id));
     }
@@ -63,7 +65,6 @@ function Product() {
         type: UPDATE_PRODUCTS,
         products: productData.products,
       });
-
       productData.products.forEach((product) => {
         idbPromise("products", "put", product);
       });
@@ -78,7 +79,21 @@ function Product() {
       });
     }
   }, [products, productData, loading, dispatch, id]);
+  // const starArr=[];
+  // useEffect(() => {
+  //   let totalRating;
+  //   const arr = [];
+  //   if (currentProduct.comments) {
+  //     currentProduct.comments.map((comment) => {
+  //       arr.push(comment.rating);
+  //       totalRating = arr.reduce((acc, val) => {
+  //         return acc + val;
+  //       }, 0);
+  //     });
+  //     StarDisplay(totalRating / currentProduct.comments.length);
 
+  //   }
+  // },[currentProduct.comments]);
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);
     if (itemInCart) {
@@ -108,10 +123,24 @@ function Product() {
 
     idbPromise("cart", "delete", { ...currentProduct });
   };
+  function averageRating() {
+    let totalRating;
+    const arr = [];
+    if (currentProduct.comments) {
+      currentProduct.comments.map((comment) => {
+        arr.push(comment.rating);
+        totalRating = arr.reduce((acc, val) => {
+          return acc + val;
+        }, 0);
+      });
+      const starArr = StarDisplay(totalRating / currentProduct.comments.length);
+      return starArr;
+    }
+  }
 
   return (
     <>
-     {loading ? (
+      {loading ? (
         <Spinner
           thickness="4px"
           speed="0.65s"
@@ -183,9 +212,13 @@ function Product() {
                         </AccordionButton>
                       </h2>
                       <AccordionPanel pb={4}>
-                        
-                        <Rating rating={rating} setRating={setRating} count={5} productId={id} />
-                       <CommentList productId={id}/>
+                        <Rating
+                          rating={rating}
+                          setRating={setRating}
+                          count={5}
+                          productId={id}
+                        />
+                        <CommentList />
                       </AccordionPanel>
                     </>
                   )}
@@ -211,16 +244,19 @@ function Product() {
                   {currentProduct.name}
                 </Heading>
                 <Box display="flex" mt="4" alignItems="center">
-                  {Array(5)
-                    .fill("")
-                    .map((_, i) => (
-                      <StarIcon
+                  Overall Rating
+                  {averageRating() &&
+                    averageRating().map((val, i) => (
+                      <FaStar
                         key={i}
-                        // color={i < property.rating ? 'teal.500' : 'gray.300'}
+                        viewBox={`0 0 ${val * 576} 512`}
+                        size={val < 1 ? "18" : "20"}
+                        color="#FFFF00"
                       />
                     ))}
                   <Box as="span" ml="2" color="gray.600" fontSize="sm">
-                    {/* {property.reviewCount} reviews */} 4 reviews
+                    {currentProduct.comments && currentProduct.comments.length}{" "}
+                    reviews
                   </Box>
                 </Box>
                 <Box
@@ -277,12 +313,8 @@ function Product() {
                           </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4} textAlign={"justify"}>
-      
-
-                          <Features  feature={`${currentProduct.features}`} />
-                   
+                          <Features feature={`${currentProduct.features}`} />
                         </AccordionPanel>
-                      
                       </>
                     )}
                   </AccordionItem>
