@@ -51,7 +51,6 @@ function ProductList() {
   useEffect(() => {
     //checks whether the products are not rendering from search results
     if (!state.search) {
-      console.log(productData);
       if (productData) {
         //dispatches the action UPDATE_PRODUCTS to update the state with new products
         dispatch({
@@ -76,15 +75,32 @@ function ProductList() {
 
   //return all products
   function filterProducts() {
+    let pro = [];
+    console.log("search state");
+    console.log(state.search);
+    console.log("searched products");
+    console.log(state.searchedProducts);
+    if (state.search) {
+      return state.searchedProducts;
+    }
     if (!currentSubCategory) {
       return state.products;
+    } else {
+      // idbPromise("products", "get").then((products) => {
+      //   return products.filter(
+      //     (product) => product.subcategory._id === currentSubCategory
+      //   );
+      // });
     }
 
-    // if (!state.search) {
     //returns  products based on subcategory
+
     return state.products.filter(
       (product) => product.subcategory._id === currentSubCategory
     );
+    // return pro.filter(
+    //   (product) => product.subcategory._id === currentSubCategory
+    // );
     // }
   }
 

@@ -5,6 +5,7 @@ import { Box, MenuItem } from "@chakra-ui/react";
 import { useStoreContext } from "../../utils/GlobalState";
 // import query and action
 import { QUERY_SUBCATEGORIES } from "../../utils/queries";
+//import actions
 import {
   UPDATE_SUBCATEGORIES,
   UPDATE_CURRENT_SUBCATEGORY,
@@ -12,7 +13,6 @@ import {
 } from "../../utils/actions";
 // import package
 import { useLazyQuery } from "@apollo/client";
-
 import { idbPromise } from "../../utils/helpers";
 
 const submenu = {
@@ -30,9 +30,6 @@ export default function Dropdown({ level, dropdown }) {
   const [getSubCategories, { loading }] = useLazyQuery(QUERY_SUBCATEGORIES);
   const { currentCategory } = state;
 
-  // useEffect(() => {
-  //   dispatch({ type: CLEAR_SEARCH });
-  // }, [dispatch]);
   useEffect(() => {
     // get subcategories of selected currentcategory
     // save subcategories to state and indexdb
@@ -62,10 +59,15 @@ export default function Dropdown({ level, dropdown }) {
 
   // update current subcategory state after click on subcategory
   const handleItemClick = async (id) => {
-    dispatch({ type: CLEAR_SEARCH });
     dispatch({
       type: UPDATE_CURRENT_SUBCATEGORY,
       currentSubCategory: id,
+    });
+  };
+  //clears the state search inside click event of link
+  const handleLinkClick = async () => {
+    dispatch({
+      type: CLEAR_SEARCH,
     });
   };
 
@@ -99,7 +101,11 @@ export default function Dropdown({ level, dropdown }) {
           _hover={{ bg: "gray.400", color: "black" }}
           onClick={() => handleItemClick(item._id)}
         >
-          <Link style={{ textDecoration: "none" }} to={"/"}>
+          <Link
+            onClick={() => handleLinkClick}
+            style={{ textDecoration: "none" }}
+            to={"/"}
+          >
             {" "}
             {item.name}
           </Link>

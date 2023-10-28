@@ -29,11 +29,16 @@ import CategoryMenu from "../CategoryMenu";
 import Auth from "../../utils/auth";
 
 import { useStoreContext } from "../../utils/GlobalState";
-import { TOGGLE_CART, SEARCH } from "../../utils/actions";
+import {
+  TOGGLE_CART,
+  SEARCH,
+  CLEAR_SEARCH,
+  UPDATE_SEARCHED_PRODUCTS,
+  CLEAR_CURRENT_SUBCATEGORY,
+} from "../../utils/actions";
 
 import { QUERY_SEARCH } from "../../utils/queries";
 import { useLazyQuery } from "@apollo/client";
-import { UPDATE_PRODUCTS } from "../../utils/actions";
 import { idbPromise } from "../../utils/helpers";
 export default function Header() {
   //check menu open or close
@@ -62,6 +67,7 @@ export default function Header() {
     // set value of search bar text
     setSearchTitle(value);
   };
+
   const [Search, { loading }] = useLazyQuery(QUERY_SEARCH);
   //click event of search button
   const handleSearchBarClick = async () => {
@@ -69,9 +75,9 @@ export default function Header() {
       variables: { name: searchTitle },
     }).then((products) => {
       if (products) {
-        //dispatches the action UPDATE_PRODUCTS to update the state with new products
+        //dispatches the action UPDATE_SEARCHED_PRODUCTS to update the state searchedProducts with the searched Products
         dispatch({
-          type: UPDATE_PRODUCTS,
+          type: UPDATE_SEARCHED_PRODUCTS,
           products: products.data.search,
         });
         //update indexedDB with new products
@@ -84,15 +90,22 @@ export default function Header() {
         });
         // setSearchTitle("");
       } else if (!loading) {
-        //gets the products from indexedDB and updates the state products
+        //gets the products from indexedDB and updates the state searchedProducts
         idbPromise("products", "get").then((products) => {
           dispatch({
-            type: UPDATE_PRODUCTS,
+            type: UPDATE_SEARCHED_PRODUCTS,
             products: products,
           });
         });
       }
     });
+  };
+  //clears the state search and current subcategory while clicking on logo to go back to home
+  const handleLogoClick = async () => {
+    dispatch({
+      type: CLEAR_SEARCH,
+    });
+    dispatch({ type: CLEAR_CURRENT_SUBCATEGORY });
   };
   return (
     <>
@@ -115,7 +128,7 @@ export default function Header() {
           <Flex w={{ xl: "40%" }}>
             <HStack spacing={12} alignItems={"center"}>
               {/* logo */}
-              <Box>
+              <Box onClick={handleLogoClick}>
                 <Link to={"/"}>
                   {" "}
                   <Image src={"/images/logo.jpg"} />
@@ -140,6 +153,7 @@ export default function Header() {
                     placeholder="Search..."
                     border="2px solid #949494"
                     onChange={handleSearchInput}
+                    color={"white"}
                   />
                   <InputRightAddon p={0} border="none">
                     <Link to={"/search"}>
