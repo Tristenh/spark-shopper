@@ -7,6 +7,8 @@ import {
   Flex,
   VStack,
   Divider,
+  Center,
+  Box,
 } from "@chakra-ui/react";
 
 import { useQuery } from "@apollo/client";
@@ -124,21 +126,21 @@ function ProductList() {
               mb={{ base: 1, md: 5 }}
               width={"full"}
             />
-            <Grid
-              templateRows={{
-                base: "repeat(1, 1fr)",
-                md: "repeat(2, 1fr)",
-                lg: "repeat(3, 1fr)",
-              }}
-              templateColumns={{
-                base: "repeat(1, 1fr)",
-                md: "repeat(2, 1fr)",
-                lg: "repeat(3, 1fr)",
-              }}
-            >
-              {/*Iterate through each product and renders the component ProductItem by passing values */}
-              {filterProducts().length ? (
-                filterProducts().map((product) => (
+            {filterProducts().length ? (
+              <Grid
+                templateRows={{
+                  base: "repeat(1, 1fr)",
+                  md: "repeat(2, 1fr)",
+                  lg: "repeat(3, 1fr)",
+                }}
+                templateColumns={{
+                  base: "repeat(1, 1fr)",
+                  md: "repeat(2, 1fr)",
+                  lg: "repeat(3, 1fr)",
+                }}
+              >
+                {/*Iterate through each product and renders the component ProductItem by passing values */}
+                {filterProducts().map((product) => (
                   <ProductItem
                     key={product._id}
                     _id={product._id}
@@ -147,11 +149,13 @@ function ProductList() {
                     price={product.price}
                     quantity={product.quantity}
                   />
-                ))
-              ) : (
+                ))}
+              </Grid>
+            ) : (
+              <Center>
                 <Heading fontSize={20}>No Results found</Heading>
-              )}
-            </Grid>
+              </Center>
+            )}
           </VStack>
         </>
       ) : (

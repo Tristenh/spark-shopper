@@ -107,6 +107,7 @@ export default function Header() {
           dispatch({
             type: SEARCH,
           });
+          //sets the title and error message empty after search
           setSearchTitle("");
           setErrorMessage("");
         } else if (!loading) {
@@ -127,7 +128,7 @@ export default function Header() {
       }
     }
   };
-  //clears the state search and current subcategory while clicking on logo to go back to home
+  //clears the state search , current subcategory id and name while clicking on logo to go back to home
   const handleLogoClick = async () => {
     dispatch({
       type: CLEAR_SEARCH,
@@ -176,6 +177,7 @@ export default function Header() {
                   my={5}
                 >
                   <InputLeftElement pointerEvents="none" />
+                  {/*If the title ie empty then show the error message in placeholder */}
                   {errorMessage ? (
                     <Input
                       value={searchTitle}
