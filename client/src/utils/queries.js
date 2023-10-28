@@ -100,6 +100,27 @@ export const QUERY_PRODUCTS = gql`
     }
   }
 `;
+export const QUERY_PRODUCT = gql`
+  query getProductById($productId: ID!) {
+    product(productId: $productId) {
+      _id
+      name
+      description
+      features
+      image
+      price
+      quantity
+      
+      comments {
+        _id
+        rating
+        commentDesc
+        dateCreated
+      }
+    }
+  }
+`;
+
 
 export const QUERY_ORDER = gql`
   query getCheckout($products: [ID]!) {

@@ -35,7 +35,7 @@ import {
 import { QUERY_PRODUCTS } from "../utils/queries";
 import { idbPromise } from "../utils/helpers";
 import Rating from "../components/Rating";
-import CommentForm from "../components/CommentForm";
+import CommentList from "../components/CommentList";
 function Product() {
   const [state, dispatch] = useStoreContext();
   const { id } = useParams();
@@ -183,8 +183,9 @@ function Product() {
                         </AccordionButton>
                       </h2>
                       <AccordionPanel pb={4}>
-                        <Rating rating={rating} setRating={setRating} />
-                       <CommentForm productId={id}/>
+                        
+                        <Rating rating={rating} setRating={setRating} count={5} productId={id} />
+                       <CommentList productId={id}/>
                       </AccordionPanel>
                     </>
                   )}
@@ -276,8 +277,12 @@ function Product() {
                           </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4} textAlign={"justify"}>
+      
+
                           <Features  feature={`${currentProduct.features}`} />
+                   
                         </AccordionPanel>
+                      
                       </>
                     )}
                   </AccordionItem>

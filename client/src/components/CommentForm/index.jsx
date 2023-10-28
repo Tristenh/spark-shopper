@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/client";
 
-import { ADD_COMMENT } from '../../utils/mutations';
+import { ADD_COMMENT } from "../../utils/mutations";
 
-import Auth from '../../utils/auth';
+import Auth from "../../utils/auth";
 
-const CommentForm = ({ productId }) => {
-  const [commentDesc, setCommentDesc] = useState('');
+const CommentForm = ({ productId, rating, setRating }) => {
+  const [commentDesc, setCommentDesc] = useState("");
   const [characterCount, setCharacterCount] = useState(0);
 
   const [addComment, { error }] = useMutation(ADD_COMMENT);
@@ -19,12 +19,14 @@ const CommentForm = ({ productId }) => {
       const { data } = await addComment({
         variables: {
           productId,
+          rating,
           commentDesc,
-          userName: Auth.getProfile().data.username,
+          userName: "Auth.getProfile().data.username",
         },
       });
-console.log(data)
-      setCommentDesc('');
+      console.log(data);
+      setRating(0);
+      setCommentDesc("");
     } catch (err) {
       console.error(err);
     }
@@ -32,8 +34,7 @@ console.log(data)
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
-    if (name === 'commentDesc' && value.length <= 280) {
+    if (name === "commentDesc" && value.length <= 280) {
       setCommentDesc(value);
       setCharacterCount(value.length);
     }
@@ -47,7 +48,7 @@ console.log(data)
         <>
           <p
             className={`m-0 ${
-              characterCount === 280 || error ? 'text-danger' : ''
+              characterCount === 280 || error ? "text-danger" : ""
             }`}
           >
             Character Count: {characterCount}/280
@@ -63,7 +64,7 @@ console.log(data)
                 placeholder="Add your comment..."
                 value={commentDesc}
                 className="form-input w-100"
-                style={{ lineHeight: '1.5', resize: 'vertical' }}
+                style={{ lineHeight: "1.5", resize: "vertical" }}
                 onChange={handleChange}
               ></textarea>
             </div>
@@ -77,7 +78,7 @@ console.log(data)
         </>
       ) : (
         <p>
-          You need to be logged in to share your thoughts. Please{' '}
+          You need to be logged in to share your thoughts. Please{" "}
           <Link to="/login">login</Link> or <Link to="/signup">signup.</Link>
         </p>
       )}

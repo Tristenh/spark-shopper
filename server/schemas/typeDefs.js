@@ -1,4 +1,4 @@
-//type definitions for `Category`,`SubCategory`, `Product`, `Order`,`Comment` and `User` above the `Auth` type
+  //type definitions for `Category`,`SubCategory`, `Product`, `Order`,`Comment` and `User` above the `Auth` type
 const typeDefs = `
  
 type Category{
@@ -19,7 +19,7 @@ type Product{
   price:Float
   quantity:Int
   subcategory:SubCategory
-  comments:Comment
+  comments:[Comment]
 }
 
 type Order{
@@ -67,7 +67,7 @@ type Query {
 
     subcategories(category: ID!): [SubCategory]
     products(subcategory: ID, name: String): [Product]
-    product(_id: ID!): Product
+    product(productId: ID!): Product
     user: User
     order(_id: ID!): Order
     checkout(products: [ID]!): Checkout

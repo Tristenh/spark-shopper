@@ -34,20 +34,27 @@ export const ADD_COMMENT = gql`
       productId: $productId
       rating: $rating
       commentDesc: $commentDesc
-    ) {
+    ) {   
+      comments {
+        _id
+        rating
+        commentDesc        
+        dateCreated
+        userName        
+      }  
       _id
+      name
       description
       features
       image
-      name
+      quantity
       price
-      comments {
+      subcategory {
         _id
-        commentDesc
-        dateCreated
-        rating
-        userName
+        
+        
       }
+      
     }
   }
 `;

@@ -41,10 +41,13 @@ const resolvers = {
         console.log(error);
       }
     },
+  
     // get one product of particular id
-    product: async (parent, { _id }) => {
+    product: async (parent, { productId }) => {
       try {
-        return await Product.findById(_id).populate("subcategory");
+       
+        const a =await Product.findById(productId).populate("subcategory");
+        console.log(a)
       } catch (error) {
         console.log("product not found", error);
       }
@@ -164,24 +167,29 @@ const resolvers = {
     },
     //add comment in product
     addComment: async (parent, { productId, rating, commentDesc }, context) => {
-      if (context.user) {
-        return Product.findOneAndUpdate(
-          { _id: productId },
-          {
-            $addToSet: {
-              comments: {
-                rating,
-                commentDesc,
-                userName: context.user.userName,
+      try {
+        if (context.user) {
+          return Product.findOneAndUpdate(
+            { _id: productId },
+            {
+              $addToSet: {
+                comments: {
+                  rating,
+                  commentDesc,
+                  userName: context.user.username,
+                },
               },
             },
-          },
-          {
-            new: true,
-            runValidators: true,
-          }
-        );
+            {
+              new: true,
+              runValidators: true,
+            }
+          );
+        }
+      } catch (error) {
+        console.log(error);
       }
+      throw AuthenticationError;
     },
     //signup
     addUser: async (parent, args) => {
@@ -205,7 +213,7 @@ const resolvers = {
 
           return order;
         } catch (error) {
-          comsole.log("unable to add order", error);
+          console.log("unable to add order", error);
         }
       }
 

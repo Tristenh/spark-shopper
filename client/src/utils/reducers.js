@@ -97,7 +97,7 @@ export const reducer = (state, action) => {
         ...state,
         currentCategory: action.currentCategory,
       };
-    case UPDATE_CURRENT_SUBCATEGORY:
+      case UPDATE_CURRENT_SUBCATEGORY:
       return {
         ...state,
         currentSubCategory: action.currentSubCategory,
