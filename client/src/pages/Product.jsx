@@ -271,7 +271,7 @@ function Product() {
                             >
                               <ModalOverlay />
                               <ModalContent bg={"back.900"}>
-                                <ModalHeader>Write a Review</ModalHeader>
+                                <ModalHeader mb={5} borderBottom={"2px solid"} borderColor={"gray.400"}  color={"white"}>Write a Review</ModalHeader>
                                 <ModalCloseButton />
                                 <ModalBody>
                                   <Rating
@@ -279,20 +279,19 @@ function Product() {
                                     setRating={setRating}
                                     count={5}
                                     productId={id}
+                                    close={onClose}
                                   />
                                 </ModalBody>
 
                                 <ModalFooter>
-                                  <Button
+                                  {/* <Button
                                     colorScheme="blue"
                                     mr={3}
                                     onClick={onClose}
                                   >
                                     Close
-                                  </Button>
-                                  <Button variant="ghost">
-                                    Secondary Action
-                                  </Button>
+                                  </Button> */}
+                                 
                                 </ModalFooter>
                               </ModalContent>
                             </Modal>

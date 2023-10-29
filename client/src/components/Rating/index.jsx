@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
-import { Radio, HStack, Box } from "@chakra-ui/react";
+import { Radio, HStack, Box,Text } from "@chakra-ui/react";
 import CommentForm from "../CommentForm";
 export default function StarRating({ rating, setRating, count, productId }) {
 
@@ -9,14 +9,16 @@ export default function StarRating({ rating, setRating, count, productId }) {
 
   return (
     <>
-      <HStack spacing={"2px"}>
-        {[...Array(count || 5)].map((star, index) => {
+      <HStack spacing={"2px"} color={"white"}>
+        {[...Array(count || 5)].map((_, index) => {
           const ratingValue = index + 1;
 
           return (
             <Box
               as="label"
               key={index}
+              border={"1px solid #ffc107"}
+              m={.5}
               color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
               onMouseEnter={() => setHover(ratingValue)}
               onMouseLeave={() => setHover(null)}
@@ -32,7 +34,9 @@ export default function StarRating({ rating, setRating, count, productId }) {
             </Box>
           );
         })}
+        
       </HStack>
+      <Text color={"white"}>Review this product</Text>
       <HStack mt={6}>
         <CommentForm
           productId={productId}

@@ -170,6 +170,7 @@ function Nav({ inside }) {
                     textColor={"white"}
                     _selected={{ bg: "gray.400", color: "black" }}
                     fontSize={"2xl"}
+                    borderRadius={"md"}
                   >
                     Login
                   </Tab>
@@ -177,6 +178,7 @@ function Nav({ inside }) {
                     textColor={"white"}
                     _selected={{ bg: "gray.400", color: "black" }}
                     fontSize={"2xl"}
+                    borderRadius={"md"}
                   >
                     {" "}
                     Signup

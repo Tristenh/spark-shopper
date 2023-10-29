@@ -1,4 +1,15 @@
 import { useState } from "react";
+import {
+  FormControl,
+  FormLabel,
+  Textarea,
+  Stack,
+  ModalFooter,
+  Button,
+  Text,
+  Box,
+} from "@chakra-ui/react";
+
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 
@@ -6,9 +17,10 @@ import { ADD_COMMENT } from "../../utils/mutations";
 
 import Auth from "../../utils/auth";
 
-const CommentForm = ({ productId, rating, setRating }) => {
+const CommentForm = ({ productId, rating, setRating, close }) => {
   const [commentDesc, setCommentDesc] = useState("");
   const [characterCount, setCharacterCount] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [addComment, { error }] = useMutation(ADD_COMMENT);
 
@@ -29,6 +41,7 @@ const CommentForm = ({ productId, rating, setRating }) => {
       setCommentDesc("");
     } catch (err) {
       console.error(err);
+      setErrorMessage("Kindly select rating stars to add your review");
     }
   };
 
@@ -41,48 +54,61 @@ const CommentForm = ({ productId, rating, setRating }) => {
   };
 
   return (
-    <div>
-      <h4>What are your thoughts on this thought?</h4>
+    <Stack
+      width={"80%"}
+      textColor={"white"}
+      spacing={4}
+      justify={{ base: "center", md: "space-between" }}
+    >
+      {/* modal to display comment form  */}
+      {Auth.loggedIn ? (
+        <form
+          onSubmit={(e) => {
+            handleFormSubmit(e);
+          }}
+        >
+          <FormControl>
+            <FormLabel>Add a Comment</FormLabel>
 
-      {Auth.loggedIn() ? (
-        <>
-          <p
-            className={`m-0 ${
-              characterCount === 280 || error ? "text-danger" : ""
-            }`}
-          >
-            Character Count: {characterCount}/280
-            {error && <span className="ml-2">{error.message}</span>}
-          </p>
-          <form
-            className="flex-row justify-center justify-space-between-md align-center"
-            onSubmit={handleFormSubmit}
-          >
-            <div className="col-12 col-lg-9">
-              <textarea
-                name="commentDesc"
-                placeholder="Add your comment..."
-                value={commentDesc}
-                className="form-input w-100"
-                style={{ lineHeight: "1.5", resize: "vertical" }}
-                onChange={handleChange}
-              ></textarea>
-            </div>
+            <Textarea
+              name="commentDesc"
+              value={commentDesc}
+              onChange={handleChange}
+              placeholder="Write your valuable comment"
+            />
+            <Stack alignItems={"flex-end"}>
+              <Box
+                fontSize={"sm"}
+                color={characterCount === 280 || error ? "orange" : "white"}
+              >
+                Character Count: {characterCount}/280
+                {error && <span>{error.message}</span>}
+              </Box>
+            </Stack>
+          </FormControl>
 
-            <div className="col-12 col-lg-3">
-              <button className="btn btn-primary btn-block py-3" type="submit">
-                Add Comment
-              </button>
-            </div>
-          </form>
-        </>
+          {/* if state of error message changes */}
+          {errorMessage && (
+            <Stack>
+              <Text fontSize={"1xl"} color={"white"}>
+                {errorMessage}
+              </Text>
+            </Stack>
+          )}
+
+          <ModalFooter>
+            <Button _hover={{ bg: "gray.400" }} mr={5} onClick={close}>
+              Close
+            </Button>
+            <Button type="submit" _hover={{ bg: "gray.400" }}>
+              Comment
+            </Button>
+          </ModalFooter>
+        </form>
       ) : (
-        <p>
-          You need to be logged in to share your thoughts. Please{" "}
-          <Link to="/login">login</Link> or <Link to="/signup">signup.</Link>
-        </p>
+        ""
       )}
-    </div>
+    </Stack>
   );
 };
 
