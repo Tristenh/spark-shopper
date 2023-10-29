@@ -80,7 +80,6 @@ function ProductItem(item) {
       const wish = await idbPromise("wishList", "get");
       const productIds = wish.map((item) => item._id);
       console.log("save wshlist");
-      console.log(state.wishList);
       // const productIds = state.wishList.map((item) => item._id);
       const { data } = await addWishList({
         variables: { products: productIds },

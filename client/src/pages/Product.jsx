@@ -1,3 +1,5 @@
+// import packages from react
+import React from "react";
 import {
   Box,
   Container,
@@ -7,7 +9,6 @@ import {
   VStack,
   Button,
   Heading,
-  StackDivider,
   useColorModeValue,
   SimpleGrid,
   GridItem,
@@ -15,7 +16,16 @@ import {
   AccordionItem,
   AccordionPanel,
   AccordionButton,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  useDisclosure,
 } from "@chakra-ui/react";
+import { MdOutlineModeEditOutline } from "react-icons/md";
 
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
@@ -23,7 +33,6 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { Spinner } from "@chakra-ui/react";
 
-import Features from "../components/UI/Features";
 import Cart from "../components/Cart";
 import { useStoreContext } from "../utils/GlobalState";
 import {
@@ -38,7 +47,14 @@ import Rating from "../components/Rating";
 import CommentList from "../components/CommentList";
 import StarDisplay from "../components/UI/StarDisplay";
 import { FaStar } from "react-icons/fa";
+import Auth from "../utils/auth";
+
+import Feature from "../components/UI/Feature";
 function Product() {
+  // set state for modal open and close
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const finalRef = React.useRef(null);
+  // const initialRef = React.useRef(null);
   const [state, dispatch] = useStoreContext();
   const { id } = useParams();
 
@@ -50,8 +66,8 @@ function Product() {
   const [rating, setRating] = useState(0);
 
   const descriptionColor = useColorModeValue("gray.500", "gray.400");
-  const dividerColor = useColorModeValue("gray.200", "gray.600");
   const headerColor = useColorModeValue("yellow.500", "yellow.300");
+  let averageRatingAmount;
 
   useEffect(() => {
     // already in global store
@@ -79,21 +95,7 @@ function Product() {
       });
     }
   }, [products, productData, loading, dispatch, id]);
-  // const starArr=[];
-  // useEffect(() => {
-  //   let totalRating;
-  //   const arr = [];
-  //   if (currentProduct.comments) {
-  //     currentProduct.comments.map((comment) => {
-  //       arr.push(comment.rating);
-  //       totalRating = arr.reduce((acc, val) => {
-  //         return acc + val;
-  //       }, 0);
-  //     });
-  //     StarDisplay(totalRating / currentProduct.comments.length);
 
-  //   }
-  // },[currentProduct.comments]);
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);
     if (itemInCart) {
@@ -133,7 +135,10 @@ function Product() {
           return acc + val;
         }, 0);
       });
-      const starArr = StarDisplay(totalRating / currentProduct.comments.length);
+      averageRatingAmount = (
+        totalRating / currentProduct.comments.length
+      ).toFixed(2);
+      const starArr = StarDisplay(averageRatingAmount);
       return starArr;
     }
   }
@@ -212,12 +217,90 @@ function Product() {
                         </AccordionButton>
                       </h2>
                       <AccordionPanel pb={4}>
-                        <Rating
-                          rating={rating}
-                          setRating={setRating}
-                          count={5}
-                          productId={id}
-                        />
+                        <Box display="flex" alignItems="center">
+                          {averageRating() &&
+                            averageRating().map((val, i) => (
+                              <FaStar
+                                key={i}
+                                viewBox={`0 0 ${val * 576} 512`}
+                                size={val < 1 ? "18" : "20"}
+                                color="#FFFF00"
+                              />
+                            ))}
+                          <VStack>
+                            <Text mt={2} fontSize={"xs"}>
+                              Overall Rating
+                            </Text>{" "}
+                            <Text fontSize={"lg"} fontWeight={"400"}>
+                              {averageRatingAmount}
+                            </Text>{" "}
+                          </VStack>
+                        </Box>
+                        <Box as="span" ml="2" fontSize="sm">
+                          {currentProduct.comments &&
+                            currentProduct.comments.length}{" "}
+                          reviews
+                        </Box>
+                        {/*can write review when logged in */}
+                        {Auth.loggedIn() ? (
+                          <>
+                            <Box
+                              ref={finalRef}
+                              tabIndex={-1}
+                              aria-label="Focus moved to this box"
+                            ></Box>
+
+                            <Button
+                              variant="ghost"
+                              my={6}
+                              boxShadow={"2xl"}
+                              border={"2px solid"}
+                              borderColor={"gray.300"}
+                              onClick={onOpen}
+                              _hover={{ bg: "gray.400" }}
+                            >
+                              <MdOutlineModeEditOutline />
+                              <Text ml={3}>Write a Review</Text>
+                            </Button>
+                            <Modal
+                              size={{ base: "xs", md: "lg" }}
+                              aria-labelledby="review-modal"
+                              finalFocusRef={finalRef}
+                              isOpen={isOpen}
+                              onClose={onClose}
+                            >
+                              <ModalOverlay />
+                              <ModalContent bg={"back.900"}>
+                                <ModalHeader>Write a Review</ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody>
+                                  <Rating
+                                    rating={rating}
+                                    setRating={setRating}
+                                    count={5}
+                                    productId={id}
+                                  />
+                                </ModalBody>
+
+                                <ModalFooter>
+                                  <Button
+                                    colorScheme="blue"
+                                    mr={3}
+                                    onClick={onClose}
+                                  >
+                                    Close
+                                  </Button>
+                                  <Button variant="ghost">
+                                    Secondary Action
+                                  </Button>
+                                </ModalFooter>
+                              </ModalContent>
+                            </Modal>
+                          </>
+                        ) : (
+                          ""
+                        )}
+
                         <CommentList />
                       </AccordionPanel>
                     </>
@@ -232,7 +315,6 @@ function Product() {
               boxShadow={"2xl"}
               p={10}
               spacing={{ base: 6, md: 10 }}
-              divider={<StackDivider borderColor={dividerColor} />}
               alignItems={"start"}
             >
               <Box as={"header"}>
@@ -243,8 +325,8 @@ function Product() {
                 >
                   {currentProduct.name}
                 </Heading>
-                <Box display="flex" mt="4" alignItems="center">
-                  Overall Rating
+
+                <Box display="flex" mt={2} alignItems="center">
                   {averageRating() &&
                     averageRating().map((val, i) => (
                       <FaStar
@@ -254,11 +336,15 @@ function Product() {
                         color="#FFFF00"
                       />
                     ))}
-                  <Box as="span" ml="2" color="gray.600" fontSize="sm">
-                    {currentProduct.comments && currentProduct.comments.length}{" "}
-                    reviews
+                  <Text fontSize={"sm"} fontWeight={"400"}>
+                    {averageRatingAmount}
+                  </Text>{" "}
+                  <Box as="span" ml="2" fontSize="sm">
+                    ({currentProduct.comments && currentProduct.comments.length}
+                    ) reviews
                   </Box>
                 </Box>
+
                 <Box
                   p={2}
                   bgGradient="linear(to-r, #94948C, yellow.400, #94948C)"
@@ -270,6 +356,7 @@ function Product() {
                   mb={-2}
                   mt={4}
                 >
+                  {console.log(state.products)}
                   {`$${currentProduct.price}`}
                 </Box>
               </Box>
@@ -313,26 +400,13 @@ function Product() {
                           </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4} textAlign={"justify"}>
-                          <Features feature={`${currentProduct.features}`} />
+                          <Feature>{currentProduct.features}</Feature>
                         </AccordionPanel>
                       </>
                     )}
                   </AccordionItem>
                 </Accordion>
-                {/* <Text
-                    fontSize={{ base: "16px", lg: "18px" }}
-                    color={useColorModeValue("yellow.500", "yellow.300")}
-                    fontWeight={"500"}
-                    textTransform={"uppercase"}
-                    mb={"4"}
-                  >
-                    KEY Features
-                  </Text>
 
-                  <Box w={"100%"} textAlign={"justify"}>
-                    <Features feature={`${currentProduct.features}`} />
-                  </Box> */}
-                {/* </VStack> */}
                 <SimpleGrid
                   mx={4}
                   columns={{ base: 1, md: 2 }}
