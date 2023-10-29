@@ -229,7 +229,7 @@ function Product() {
                             ))}
                           <VStack>
                             <Text mt={2} fontSize={"xs"}>
-                              Overall Rating
+                              Average Rating
                             </Text>{" "}
                             <Text fontSize={"lg"} fontWeight={"400"}>
                               {averageRatingAmount}
@@ -271,28 +271,18 @@ function Product() {
                             >
                               <ModalOverlay />
                               <ModalContent bg={"back.900"}>
-                                <ModalHeader mb={5} borderBottom={"2px solid"} borderColor={"gray.400"}  color={"white"}>Write a Review</ModalHeader>
-                                <ModalCloseButton />
-                                <ModalBody>
+                              <ModalHeader mb={5} borderBottom={"2px solid"} borderColor={"gray.400"}  color={"white"}>Write a Review</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
                                   <Rating
+                            
                                     rating={rating}
                                     setRating={setRating}
                                     count={5}
                                     productId={id}
                                     close={onClose}
                                   />
-                                </ModalBody>
-
-                                <ModalFooter>
-                                  {/* <Button
-                                    colorScheme="blue"
-                                    mr={3}
-                                    onClick={onClose}
-                                  >
-                                    Close
-                                  </Button> */}
-                                 
-                                </ModalFooter>
+                              </ModalBody>
                               </ModalContent>
                             </Modal>
                           </>
