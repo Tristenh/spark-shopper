@@ -34,13 +34,13 @@ function Order() {
           </Link>
 
           {/* title */}
-          <h2>Order History for {user.username}</h2>
+          <Text  as='b' >Order History for {user.username}</Text>
           {user.orders.map((order) => (
             <div key={order._id}>
               {/* purchase date  */}
-              <h3>
+              <Text  as='b'>
                 {new Date(parseInt(order.purchaseDate)).toLocaleDateString()}
-              </h3>
+              </Text>
 
               {/* card wraps around all orders */}
               <Card>
@@ -72,6 +72,7 @@ function Order() {
                             h={500}
                           >
                             <img alt={name} src={`/images/${image}`} />
+                            {/* product name */}
                             <Text
                               pt={10}
                               fontSize={"md"}
@@ -79,11 +80,23 @@ function Order() {
                               align={"center"}
                               fontWeight={700}
                             >
-                              <p>{name}</p>
-                              <div>
-                                <span>${price}</span>
-                              </div>
+                              {name}
                             </Text>
+                            {/* price box */}
+                            <VStack pos={"center"} zIndex={-1} mt={"20px"}>
+                              <Box
+                                p={2}
+                                bgGradient="linear(to-r, #94948C, yellow.400, #94948C)"
+                                align={"center"}
+                                borderRadius={5}
+                                width="150px"
+                                fontWeight={700}
+                                mb={-3}
+                                mt={0}
+                              >
+                                {`$${price}`}
+                              </Box>
+                            </VStack>
                           </Box>
                           <Box
                             rounded={"lg"}
