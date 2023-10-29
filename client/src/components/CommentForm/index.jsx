@@ -4,7 +4,6 @@ import {
   FormLabel,
   Textarea,
   Stack,
-  ModalFooter,
   Button,
   Text,
   Box,
@@ -111,8 +110,8 @@ const CommentForm = ({ rating, setRating, close }) => {
       justify={{ base: "center", md: "space-between" }}
     >
       {/* modal to display comment form  */}
-      {/* {Auth.loggedIn ? (
-        <> */}
+      {Auth.loggedIn ? (
+        <>
       <form
         onSubmit={(e) => {
           handleFormSubmit(e);
@@ -166,10 +165,10 @@ const CommentForm = ({ rating, setRating, close }) => {
         </Button>
         {/* </ModalFooter> */}
       </form>
-      {/* </>
+      </>
       ) : (
         ""
-      )} */}
+      )}
     </Stack>
   );
 };

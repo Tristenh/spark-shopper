@@ -18,7 +18,7 @@ import { useEffect } from "react";
 import { useStoreContext } from "../../utils/GlobalState";
 
 import { QUERY_PRODUCT } from "../../utils/queries";
-const CommentList = ({ product }) => {
+const CommentList = () => {
   // const { id } = useParams();
   const [state, dispatch] = useStoreContext();
   const { currentProduct } = state;

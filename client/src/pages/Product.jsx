@@ -312,8 +312,7 @@ function Product() {
                         ) : (
                           ""
                         )}
-
-                        <CommentList product={currentProduct} />
+                        <CommentList/>
                       </AccordionPanel>
                     </>
                   )}
@@ -388,10 +387,9 @@ function Product() {
                     {({ isExpanded }) => (
                       <>
                         <h2>
-                          <AccordionButton
-                            _expanded={{ bg: "back.900", color: "white" }}
-                          >
+                          <AccordionButton>
                             <Box
+                              _expanded={{ bg: "back.900", color: "white" }}
                               fontSize={{ base: "16px", lg: "18px" }}
                               color={headerColor}
                               fontWeight={"500"}
@@ -402,7 +400,6 @@ function Product() {
                             >
                               KEY Features
                             </Box>
-
                             {isExpanded ? (
                               <MinusIcon fontSize="12px" />
                             ) : (
