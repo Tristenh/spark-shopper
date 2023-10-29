@@ -74,7 +74,8 @@ export default function Dropdown({ level, dropdown }) {
       border="2px solid white"
       fontSize="1xl"
       zIndex={"2"}
-      minWidth="12rem"
+      minWidth={{base:"8rem",md:"12rem"}}
+    
       padding="0.5rem 0"
       listStyleType="none"
       bgColor={"back.900"}
