@@ -131,7 +131,7 @@ function SignupForm(props) {
            {/* if state of error message changes */}
         {errorMessage && (
          <Stack>
-            <Text fontSize={"1xl"} color={"white"}>{errorMessage}</Text>
+            <Text fontSize={"1xl"} color={"orange"}>{errorMessage}</Text>
           </Stack>
         )}
         </ModalBody>

@@ -36,8 +36,12 @@ const CommentForm = ({ productId, rating, setRating, close }) => {
           userName: "Auth.getProfile().data.username",
         },
       });
-      console.log(data);
-      setRating(0);
+      if (!errorMessage) {
+        console.log("Review Received");
+        setRating(0);        
+        setCommentDesc("");
+      }
+      setRating(0);        
       setCommentDesc("");
     } catch (err) {
       console.error(err);
@@ -55,7 +59,7 @@ const CommentForm = ({ productId, rating, setRating, close }) => {
 
   return (
     <Stack
-      width={"80%"}
+      width={"100%"}
       textColor={"white"}
       spacing={4}
       justify={{ base: "center", md: "space-between" }}
@@ -71,18 +75,19 @@ const CommentForm = ({ productId, rating, setRating, close }) => {
             <FormLabel>Add a Comment</FormLabel>
 
             <Textarea
+            width={"95%"}
               name="commentDesc"
               value={commentDesc}
               onChange={handleChange}
               placeholder="Write your valuable comment"
             />
-            <Stack alignItems={"flex-end"}>
+            <Stack alignItems={"flex-end"} marginRight={"6"}>
               <Box
                 fontSize={"sm"}
-                color={characterCount === 280 || error ? "orange" : "white"}
+                color={characterCount === 280 ? "orange" : "white"}
               >
                 Character Count: {characterCount}/280
-                {error && <span>{error.message}</span>}
+               
               </Box>
             </Stack>
           </FormControl>
@@ -90,13 +95,13 @@ const CommentForm = ({ productId, rating, setRating, close }) => {
           {/* if state of error message changes */}
           {errorMessage && (
             <Stack>
-              <Text fontSize={"1xl"} color={"white"}>
+              <Text fontSize={"1xl"} color={"orange"}>
                 {errorMessage}
               </Text>
             </Stack>
           )}
 
-          <ModalFooter>
+          <ModalFooter >
             <Button _hover={{ bg: "gray.400" }} mr={5} onClick={close}>
               Close
             </Button>
