@@ -73,7 +73,7 @@ export default function Dropdown({ level, dropdown }) {
       left="auto"
       border="2px solid white"
       fontSize="1xl"
-      zIndex={"999"}
+      zIndex={"2"}
       minWidth="12rem"
       padding="0.5rem 0"
       listStyleType="none"
