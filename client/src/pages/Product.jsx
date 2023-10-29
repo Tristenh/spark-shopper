@@ -17,7 +17,6 @@ import {
   AccordionPanel,
   AccordionButton,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   Modal,
@@ -228,19 +227,38 @@ function Product() {
                               />
                             ))}
                           <VStack>
-                            <Text mt={2} fontSize={"xs"}>
-                              Average Rating
-                            </Text>{" "}
-                            <Text fontSize={"lg"} fontWeight={"400"}>
-                              {averageRatingAmount}
-                            </Text>{" "}
+                            {isNaN(averageRatingAmount) ? (
+                              <>
+                                {" "}
+                                <Text>This product has no reviews</Text>
+                              </>
+                            ) : (
+                              <>
+                                {" "}
+                                <Text mt={2} fontSize={"xs"}>
+                                  Average Rating
+                                </Text>{" "}
+                                <Text fontSize={"lg"} fontWeight={"400"}>
+                                  {averageRatingAmount}
+                                </Text>{" "}
+                              </>
+                            )}
                           </VStack>
                         </Box>
-                        <Box as="span" ml="2" fontSize="sm">
-                          {currentProduct.comments &&
-                            currentProduct.comments.length}{" "}
-                          reviews
-                        </Box>
+                        {currentProduct.comments &&
+                        currentProduct.comments.length === 0 ? (
+                          ""
+                        ) : (
+                          <>
+                            {" "}
+                            <Box as="span" ml="2" fontSize="sm">
+                              {currentProduct.comments &&
+                                currentProduct.comments.length}{" "}
+                              reviews
+                            </Box>
+                          </>
+                        )}
+
                         {/*can write review when logged in */}
                         {Auth.loggedIn() ? (
                           <>
@@ -271,18 +289,24 @@ function Product() {
                             >
                               <ModalOverlay />
                               <ModalContent bg={"back.900"}>
-                              <ModalHeader mb={5} borderBottom={"2px solid"} borderColor={"gray.400"}  color={"white"}>Write a Review</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
+                                <ModalHeader
+                                  mb={5}
+                                  borderBottom={"2px solid"}
+                                  borderColor={"gray.400"}
+                                  color={"white"}
+                                >
+                                  Write a Review
+                                </ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody>
                                   <Rating
-                            
                                     rating={rating}
                                     setRating={setRating}
                                     count={5}
                                     productId={id}
                                     close={onClose}
                                   />
-                              </ModalBody>
+                                </ModalBody>
                               </ModalContent>
                             </Modal>
                           </>
@@ -345,7 +369,6 @@ function Product() {
                   mb={-2}
                   mt={4}
                 >
-                  {console.log(state.products)}
                   {`$${currentProduct.price}`}
                 </Box>
               </Box>

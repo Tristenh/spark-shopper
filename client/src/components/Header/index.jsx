@@ -244,6 +244,15 @@ export default function Header() {
                 display={"inline-block"}
                 verticalAlign={"middle"}
                 _hover={{ bg: "gray.400" }}
+                onClick={() =>
+                  toast({
+                    title: "Create an Account",
+                    description: "You need to login to access wishlist",
+                    status: "error",
+                    duration: 9000,
+                    position: position,
+                    isClosable: true,
+                  })}
               >
                 <Box
                   display={"inline-block"}
@@ -251,6 +260,7 @@ export default function Header() {
                   align="center"
                   color={"white"}
                   _hover={{ color: "black" }}
+                  
                 >
                   <BsSuitHeart /> <Text fontSize={"1xl"}>Wishlist</Text>
                 </Box>

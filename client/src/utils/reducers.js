@@ -15,7 +15,7 @@ import {
   REMOVE_FROM_WISHLIST,
   UPDATE_WISHLIST,
   CLEAR_WISHLIST,
-  ADD_COMMENT
+  ADD_COMMENT_TEXT
 } from "./actions";
 
 // The reducer is a function that accepts the current state and an action. It returns a new state based on that action.
@@ -133,10 +133,10 @@ export const reducer = (state, action) => {
         ...state,
         wishList: [],
       };
-      case ADD_COMMENT:
+      case ADD_COMMENT_TEXT:
         return {
           ...state,
-          comment: [...action.comment],
+          comments: [...action.comments],
         };
 
     // Return the state as is in the event that the `action.type` passed to the reducer was not accounted for by the developers

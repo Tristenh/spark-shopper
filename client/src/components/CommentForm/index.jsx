@@ -1,28 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FormControl,
   FormLabel,
   Textarea,
   Stack,
   ModalFooter,
-  ModalBody,
-  ModalHeader,
-  ModalCloseButton,
   Button,
   Text,
   Box,
 } from "@chakra-ui/react";
 
+import { ADD_COMMENT_TEXT } from "../../utils/actions";
 import { useMutation } from "@apollo/client";
+import { idbPromise } from "../../utils/helpers";
 
 import { ADD_COMMENT } from "../../utils/mutations";
+import { useStoreContext } from "../../utils/GlobalState";
 
 import Auth from "../../utils/auth";
 
 const CommentForm = ({ productId, rating, setRating, close }) => {
+  const [state, dispatch] = useStoreContext();
+
   const [commentDesc, setCommentDesc] = useState("");
   const [characterCount, setCharacterCount] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
+  const [currentProduct, setCurrentProduct] = useState({});
+  const { comments, products } = state;
+
+  useEffect(() => {
+    // already in global store
+ 
+    if (products.length) {
+      setCurrentProduct(products.find((product) => product._id === productId));
+    }
+  }, [products, productId]);
 
   const [addComment, { error }] = useMutation(ADD_COMMENT);
 
@@ -38,17 +50,35 @@ const CommentForm = ({ productId, rating, setRating, close }) => {
           userName: "Auth.getProfile().data.username",
         },
       });
+      console.log(data.addComment.comments)
+      if (comments.length) {
+        dispatch({
+          type: ADD_COMMENT_TEXT,
+          comments: data.addComment.comments,
+        });
+        comments.forEach((comment) => {
+          idbPromise("comments", "put", comment);
+        });
+      } else {
+        idbPromise("comments", "get").then((indexedComments) => {
+          dispatch({
+            type: ADD_COMMENT_TEXT,
+            comments: indexedComments,
+          });
+        });
+      }
+
       if (!errorMessage) {
         console.log("Review Received");
         setRating(0);
         setCommentDesc("");
       }
-      setRating(0);
-      setCommentDesc("");
     } catch (err) {
       console.error(err);
       setErrorMessage("Kindly select rating stars to add your review");
     }
+    setRating(0);
+    setCommentDesc("");
   };
 
   const handleChange = (event) => {
@@ -58,26 +88,26 @@ const CommentForm = ({ productId, rating, setRating, close }) => {
       setCharacterCount(value.length);
     }
   };
-  const handleCommentClick = () => {
-    const itemInCart = cart.find((cartItem) => cartItem._id === id);
-    if (itemInCart) {
-      dispatch({
-        type: UPDATE_CART_QUANTITY,
-        _id: id,
-        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-      });
-      idbPromise("cart", "put", {
-        ...itemInCart,
-        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-      });
-    } else {
-      dispatch({
-        type: ADD_TO_CART,
-        product: { ...currentProduct, purchaseQuantity: 1 },
-      });
-      idbPromise("cart", "put", { ...currentProduct, purchaseQuantity: 1 });
-    }
-  };
+  // const handleCommentClick = () => {
+  //   const itemInCart = cart.find((cartItem) => cartItem._id === id);
+  //   if (itemInCart) {
+  //     dispatch({
+  //       type: UPDATE_CART_QUANTITY,
+  //       _id: id,
+  //       purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+  //     });
+  //     idbPromise("cart", "put", {
+  //       ...itemInCart,
+  //       purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+  //     });
+  //   } else {
+  //     dispatch({
+  //       type: ADD_TO_CART,
+  //       product: { ...currentProduct, purchaseQuantity: 1 },
+  //     });
+  //     idbPromise("cart", "put", { ...currentProduct, purchaseQuantity: 1 });
+  //   }
+  // };
 
   return (
     <Stack
@@ -89,13 +119,11 @@ const CommentForm = ({ productId, rating, setRating, close }) => {
       {/* modal to display comment form  */}
       {Auth.loggedIn ? (
         <>
-          
-        <form
-          onSubmit={(e) => {
-            handleFormSubmit(e);
-          }}
-        >
-         
+          <form
+            onSubmit={(e) => {
+              handleFormSubmit(e);
+            }}
+          >
             <FormControl>
               <FormLabel>Add a Comment</FormLabel>
 
@@ -124,26 +152,26 @@ const CommentForm = ({ productId, rating, setRating, close }) => {
                 </Text>
               </Stack>
             )}
-    
-          <ModalFooter>
-            <Button
-              _hover={{ bg: "gray.400" }}
-              mr={5}
-              onClick={() => {
-                close();
-              }}
-            >
-              Close
-            </Button>
-            <Button
-              type="submit"
-              // onClick={handleCommentClick}
-              _hover={{ bg: "gray.400" }}
-            >
-              Comment
-            </Button>
-          </ModalFooter>
-        </form>
+
+            <ModalFooter>
+              <Button
+                _hover={{ bg: "gray.400" }}
+                mr={5}
+                onClick={() => {
+                  close();
+                }}
+              >
+                Close
+              </Button>
+              <Button
+                type="submit"
+                // onClick={handleCommentClick}
+                _hover={{ bg: "gray.400" }}
+              >
+                Comment
+              </Button>
+            </ModalFooter>
+          </form>
         </>
       ) : (
         ""
