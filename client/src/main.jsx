@@ -9,6 +9,8 @@ import Product from "./pages/Product";
 import Order from "./pages/Order";
 import Profile from "./pages/Profile";
 import Search from "./pages/Search";
+import Success from "./pages/Success";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/order",
         element: <Order />,
+      },
+      {
+        path: "/success",
+        element: <Success />,
       },
       {
         path: "/profile",

@@ -60,12 +60,20 @@ export const ADD_ORDER = gql`
         _id
         name
         description
+        features
+        image
         price
         quantity
-        category {
+        subcategory {
+          _id
           name
+          category {
+            _id
+            name
+          }
         }
       }
+      totalPrice
     }
   }
 `;
