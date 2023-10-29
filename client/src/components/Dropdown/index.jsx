@@ -10,6 +10,7 @@ import {
   UPDATE_SUBCATEGORIES,
   UPDATE_CURRENT_SUBCATEGORY,
   CLEAR_SEARCH,
+  CURRENT_SUBCATEGORY_NAME,
 } from "../../utils/actions";
 // import package
 import { useLazyQuery } from "@apollo/client";
@@ -57,11 +58,15 @@ export default function Dropdown({ level, dropdown }) {
     }
   }, [dispatch, getSubCategories, currentCategory, loading]);
 
-  // update current subcategory state after click on subcategory
-  const handleItemClick = async (id) => {
+  // update current subcategory state after click on subcategory and set the subCategoryName to display in title
+  const handleItemClick = async (id, name) => {
     dispatch({
       type: UPDATE_CURRENT_SUBCATEGORY,
       currentSubCategory: id,
+    });
+    dispatch({
+      type: CURRENT_SUBCATEGORY_NAME,
+      currentSubCategoryName: name,
     });
   };
   //clears the state search inside click event of link
@@ -101,7 +106,7 @@ export default function Dropdown({ level, dropdown }) {
           color={"white"}
           bg={"back.900"}
           _hover={{ bg: "gray.400", color: "black" }}
-          onClick={() => handleItemClick(item._id)}
+          onClick={() => handleItemClick(item._id, item.name)}
         >
           <Link
             onClick={() => handleLinkClick}

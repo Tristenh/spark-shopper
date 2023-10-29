@@ -25,12 +25,13 @@ import {
   Text,
   VStack,
   Button,
+  IconButton,
 } from "@chakra-ui/react";
 //import files
-import Nav from "../Nav";
+
 import { Link } from "react-router-dom";
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
-
+import { BsFillCartCheckFill, BsCart } from "react-icons/bs";
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
@@ -110,14 +111,17 @@ const Cart = () => {
               fontWeight="extrabold"
             />
             <DrawerHeader bgColor={"#51636C"}>
-              <Heading
-                fontSize="xl"
-                fontWeight="extrabold"
-                bgGradient="linear(to-r,yellow.400, orange.200, yellow.400)"
-                bgClip="text"
-              >
-                Shopping Cart ({totalQuantity} items)
-              </Heading>
+              <HStack>
+                <Heading
+                  fontSize="xl"
+                  fontWeight="extrabold"
+                  bgGradient="linear(to-r,yellow.400, orange.200, yellow.400)"
+                  bgClip="text"
+                >
+                  Shopping Cart ({totalQuantity} items)
+                </Heading>
+                <BsFillCartCheckFill color="#E6B712" />
+              </HStack>
             </DrawerHeader>
 
             <DrawerBody>
@@ -209,9 +213,10 @@ const Cart = () => {
                           </Box>
                         </Box>
                       ) : (
-                        <Heading fontSize={20} mt={10}>
-                          You haven't added anything to your cart yet!
-                        </Heading>
+                        <HStack mt={10}>
+                          <Heading fontSize={20}>Your cart is empty !</Heading>
+                          <BsCart />
+                        </HStack>
                       )}
                     </Stack>
                   </Stack>

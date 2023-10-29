@@ -236,8 +236,9 @@ function ProductItem(item) {
                     p={2}
                     bgGradient="linear(to-r, #94948C, yellow.400, #94948C)"
                     align={"center"}
-                    borderTopLeftRadius={40}
-                    borderBottomRightRadius={40}
+                    // borderTopLeftRadius={40}
+                    // borderBottomRightRadius={40}
+                    borderRadius={5}
                     width="150px"
                     fontWeight={700}
                     mb={-3}
@@ -254,6 +255,8 @@ function ProductItem(item) {
                     borderRadius="full"
                     _hover={{
                       bg: "gray.700",
+                      transform: "translateY(2px)",
+                      boxShadow: "lg",
                     }}
                     width={{
                       base: "150px",

@@ -16,6 +16,7 @@ import {
   Badge,
   useToast,
   textDecoration,
+  VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -36,17 +37,20 @@ import {
   CLEAR_SEARCH,
   UPDATE_SEARCHED_PRODUCTS,
   CLEAR_CURRENT_SUBCATEGORY,
+  CURRENT_SUBCATEGORY_NAME,
 } from "../../utils/actions";
 
 import { QUERY_SEARCH } from "../../utils/queries";
 import { useLazyQuery } from "@apollo/client";
 import { idbPromise } from "../../utils/helpers";
+import { useNavigate } from "react-router-dom";
 export default function Header() {
   //check menu open or close
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [state, dispatch] = useStoreContext();
   //useState for searchTitle
   const [searchTitle, setSearchTitle] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const arr = [];
   let totalQuantity = 0;
   const toast = useToast();
@@ -67,9 +71,21 @@ export default function Header() {
   const handleSearchInput = (e) => {
     const value = e.target.value;
     // set value of search bar text
+    if (value === "camera") {
+      setSearchTitle("cameras");
+      return;
+    }
+    if (value === "mobiles") {
+      setSearchTitle("mobile");
+      return;
+    }
+    if (value === "tv") {
+      setSearchTitle("tvs");
+      return;
+    }
     setSearchTitle(value);
   };
-
+  const navigate = useNavigate();
   const [Search, { loading }] = useLazyQuery(QUERY_SEARCH);
   //click event of search button
   const handleSearchBarClick = async () => {
@@ -91,7 +107,9 @@ export default function Header() {
           dispatch({
             type: SEARCH,
           });
+          //sets the title and error message empty after search
           setSearchTitle("");
+          setErrorMessage("");
         } else if (!loading) {
           //gets the products from indexedDB and updates the state searchedProducts
           idbPromise("products", "get").then((products) => {
@@ -102,15 +120,21 @@ export default function Header() {
           });
         }
       });
-   
+      //navigate to search page on successful search
+      navigate("/search");
+    } else {
+      {
+        setErrorMessage("Please enter a product or brand  ");
+      }
     }
   };
-  //clears the state search and current subcategory while clicking on logo to go back to home
+  //clears the state search , current subcategory id and name while clicking on logo to go back to home
   const handleLogoClick = async () => {
     dispatch({
       type: CLEAR_SEARCH,
     });
     dispatch({ type: CLEAR_CURRENT_SUBCATEGORY });
+    dispatch({ type: CURRENT_SUBCATEGORY_NAME, currentSubCategoryName: "" });
   };
   return (
     <>
@@ -153,28 +177,50 @@ export default function Header() {
                   my={5}
                 >
                   <InputLeftElement pointerEvents="none" />
-                  <Input
-                    value={searchTitle}
-                    type="text"
-                    placeholder="Search..."
-                    border="2px solid #949494"
-                    onChange={handleSearchInput}
-                    color={"white"}
-                  />
+                  {/*If the title ie empty then show the error message in placeholder */}
+                  {errorMessage ? (
+                    <Input
+                      value={searchTitle}
+                      type="text"
+                      placeholder={errorMessage}
+                      border="2px solid #949494"
+                      onChange={handleSearchInput}
+                      color={"white"}
+                      _hover={{
+                        borderColor: "#C8C3C3",
+                      }}
+                      _focusVisible={{
+                        borderColor: "#C8C3C3",
+                      }}
+                    />
+                  ) : (
+                    <Input
+                      value={searchTitle}
+                      type="text"
+                      placeholder="Search..."
+                      border="2px solid #949494"
+                      onChange={handleSearchInput}
+                      color={"white"}
+                      _hover={{
+                        borderColor: "#C8C3C3",
+                      }}
+                      _focusVisible={{
+                        borderColor: "#C8C3C3",
+                      }}
+                    />
+                  )}
                   <InputRightAddon p={0} border="none">
-                    <Link to={"/search"}>
-                      <Button
-                        size="md"
-                        borderLeftRadius={0}
-                        borderRightRadius={5}
-                        border="2px solid #949494"
-                        bgGradient="linear(to-r, orange.300, yellow.400)"
-                        _hover={{ bg: "gray.500" }}
-                        onClick={handleSearchBarClick}
-                      >
-                        <SearchIcon />
-                      </Button>
-                    </Link>
+                    <Button
+                      size="md"
+                      borderLeftRadius={0}
+                      borderRightRadius={5}
+                      border="2px solid #949494"
+                      bgGradient="linear(to-r, orange.300, yellow.400)"
+                      _hover={{ bg: "gray.500" }}
+                      onClick={handleSearchBarClick}
+                    >
+                      <SearchIcon />
+                    </Button>
                   </InputRightAddon>
                 </InputGroup>
               </HStack>
@@ -185,9 +231,12 @@ export default function Header() {
             w={{ base: "none", xl: "10%" }}
             display={{ base: "none", xl: "flex" }}
           >
-            <Text fontSize={"2xl"} color={"orange"} className="blink">
-              Welcome !
-            </Text>
+            <Text
+              fontSize={"2xl"}
+              className="blink"
+              bgGradient="linear(to-r, orange.300, yellow.400)"
+              bgClip="text"
+            ></Text>
           </Flex>
           <Flex w={{ xl: "50%" }} justifyContent={"center"}>
             <HStack spacing={12} display={{ base: "none", xl: "flex" }}>
@@ -226,7 +275,7 @@ export default function Header() {
                         toast({
                           title: "Create an Account",
                           description: "You need to login to access wishlist",
-                          status: "error",
+                          status: "warning",
                           duration: 9000,
                           position: position,
                           isClosable: true,

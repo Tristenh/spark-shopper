@@ -19,6 +19,7 @@ import {
   CLEAR_SEARCH,
   CLEAR_CURRENT_SUBCATEGORY,
   UPDATE_SEARCHED_PRODUCTS,
+  CURRENT_SUBCATEGORY_NAME,
 } from "./actions";
 
 // The reducer is a function that accepts the current state and an action. It returns a new state based on that action.
@@ -159,6 +160,12 @@ export const reducer = (state, action) => {
       return {
         ...state,
         searchedProducts: [...action.products],
+      };
+    //sets the current subcategory name
+    case CURRENT_SUBCATEGORY_NAME:
+      return {
+        ...state,
+        subCategoryName: [...action.currentSubCategoryName],
       };
     // Return the state as is in the event that the `action.type` passed to the reducer was not accounted for by the developers
     // This saves us from a crash.
