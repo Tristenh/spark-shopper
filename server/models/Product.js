@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const dateFormat = require('../utils/dateFormat');
 
 const productSchema = new Schema({
   // define values with constraints
@@ -49,8 +50,8 @@ const productSchema = new Schema({
       //   get current date
       dateCreated: {
         type: Date,
-        required: true,
         default: Date.now(),
+        get: (timestamp) => dateFormat(timestamp),
       },
       userName:{
         type: String,
