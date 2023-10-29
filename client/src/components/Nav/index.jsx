@@ -171,6 +171,7 @@ function Nav({ inside }) {
                     _selected={{ bg: "gray.400", color: "black" }}
                     fontSize={"2xl"}
                     borderRadius={"md"}
+                    
                   >
                     Login
                   </Tab>
