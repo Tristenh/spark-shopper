@@ -39,6 +39,7 @@ import {
   UPDATE_CART_QUANTITY,
   ADD_TO_CART,
   UPDATE_PRODUCTS,
+  CURRENT_PRODUCT,
 } from "../utils/actions";
 import { QUERY_PRODUCTS } from "../utils/queries";
 import { idbPromise } from "../utils/helpers";
@@ -57,12 +58,11 @@ function Product() {
   const [state, dispatch] = useStoreContext();
   const { id } = useParams();
 
-  const [currentProduct, setCurrentProduct] = useState({});
+  const [product, setProduct] = useState({});
 
   const { loading, data: productData } = useQuery(QUERY_PRODUCTS);
 
-  const { products, cart } = state;
-  const [rating, setRating] = useState(0);
+  const { products, cart, currentProduct } = state;
 
   const descriptionColor = useColorModeValue("gray.500", "gray.400");
   const headerColor = useColorModeValue("yellow.500", "yellow.300");
@@ -72,7 +72,12 @@ function Product() {
     // already in global store
 
     if (products.length) {
-      setCurrentProduct(products.find((product) => product._id === id));
+      setProduct(products.find((product) => product._id === id));
+      dispatch({
+        type: CURRENT_PRODUCT,
+        currentProduct: { ...product },
+      });
+      // console.log(state.currentProduct)
     }
     // retrieved from server
     else if (productData) {
@@ -93,7 +98,7 @@ function Product() {
         });
       });
     }
-  }, [products, productData, loading, dispatch, id]);
+  }, [products, productData, loading, dispatch, id, product]);
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);
@@ -299,13 +304,7 @@ function Product() {
                                 </ModalHeader>
                                 <ModalCloseButton />
                                 <ModalBody>
-                                  <Rating
-                                    rating={rating}
-                                    setRating={setRating}
-                                    count={5}
-                                    productId={id}
-                                    close={onClose}
-                                  />
+                                  <Rating close={onClose} />
                                 </ModalBody>
                               </ModalContent>
                             </Modal>
@@ -314,7 +313,7 @@ function Product() {
                           ""
                         )}
 
-                        <CommentList />
+                        <CommentList product={currentProduct} />
                       </AccordionPanel>
                     </>
                   )}

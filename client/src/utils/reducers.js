@@ -15,7 +15,8 @@ import {
   REMOVE_FROM_WISHLIST,
   UPDATE_WISHLIST,
   CLEAR_WISHLIST,
-  ADD_COMMENT_TEXT
+  ADD_COMMENT_TEXT,
+  CURRENT_PRODUCT
 } from "./actions";
 
 // The reducer is a function that accepts the current state and an action. It returns a new state based on that action.
@@ -133,10 +134,19 @@ export const reducer = (state, action) => {
         ...state,
         wishList: [],
       };
+    // Returns a copy of state with an updated comments array. We use the action.comments property and spread it's contents into the new array.
+
       case ADD_COMMENT_TEXT:
         return {
           ...state,
           comments: [...action.comments],
+        };
+    // Returns a copy of state with an updated current product. We use the action.currentproduct property.
+
+        case CURRENT_PRODUCT:
+        return {
+          ...state,
+          currentProduct: action.currentProduct,
         };
 
     // Return the state as is in the event that the `action.type` passed to the reducer was not accounted for by the developers

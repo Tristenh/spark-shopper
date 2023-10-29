@@ -2,19 +2,14 @@ import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { Radio, HStack, Box, Text } from "@chakra-ui/react";
 import CommentForm from "../CommentForm";
-export default function StarRating({
-  rating,
-  setRating,
-  count,
-  productId,
-  close,
-}) {
+export default function StarRating({ close }) {
+  const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(null);
 
   return (
     <>
       <HStack spacing={"2px"} color={"white"}>
-        {[...Array(count || 5)].map((_, index) => {
+        {[...Array(5)].map((_, index) => {
           const ratingValue = index + 1;
 
           return (
@@ -40,12 +35,7 @@ export default function StarRating({
       </HStack>
       <Text color={"white"}>Review this product</Text>
       <HStack mt={6}>
-        <CommentForm
-          productId={productId}
-          rating={rating}
-          setRating={setRating}
-          close={close}
-        />
+        <CommentForm  rating={rating} setRating={setRating} close={close} />
       </HStack>
     </>
   );
