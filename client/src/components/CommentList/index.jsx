@@ -8,6 +8,7 @@ import {
   Text,
   Box,
   HStack,
+  VStack,
 } from "@chakra-ui/react";
 // import { useStoreContext } from "../utils/GlobalState";
 import { useLazyQuery } from "@apollo/client";
@@ -48,17 +49,24 @@ const CommentList = ({ product }) => {
 
   return (
     <>
-      <HStack>
-        <Box w={"90%"} borderBottom={"2px solid"} borderColor={"gray.300"}>
-          <Text fontSize={{base:"lg",lg:"xl"}}>Customer Reviews</Text>
+      <Stack>
+        <Box w={"100%"} borderBottom={"2px solid"} borderColor={"gray.300"}>
+          <Text fontSize={{ base: "lg", lg: "xl" }}>Customer Reviews</Text>
         </Box>
+      </Stack>
+      <VStack alignItems={"flex-start"}>
         {currentProduct.comments &&
-          currentProduct.comments.map((comment,i) => (
-        <Box key={i} display={"inline-block"}>
-         {comment.userName}
-        </Box>
-             ))}
-      </HStack>
+          currentProduct.comments.map((comment, i) => (
+            <>
+            <Box key={i} w={"100%"} mt={5} border={"2px solid"} borderColor={"gray.300"}>
+
+              {comment.userName}
+            </Box>
+            </>
+          ))}
+         
+      </VStack>
+
       {/* <h3
         className="p-5 display-inline-block"
         style={{ borderBottom: "1px dotted #1a1a1a" }}

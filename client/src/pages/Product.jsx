@@ -349,7 +349,7 @@ function Product() {
                       />
                     ))}
                   <Text fontSize={"sm"} fontWeight={"400"}>
-                    {averageRatingAmount}
+                    {isNaN(averageRatingAmount) ? "" : averageRatingAmount}
                   </Text>{" "}
                   <Box as="span" ml="2" fontSize="sm">
                     ({currentProduct.comments && currentProduct.comments.length}
