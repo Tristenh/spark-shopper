@@ -27,7 +27,6 @@ export function idbPromise(storeName, method, object) {
       db.createObjectStore("wishList", { keyPath: "_id" });
       db.createObjectStore("singleProduct", { keyPath: "_id" });
       db.createObjectStore("comments", { keyPath: "_id" });
-
     };
 
     request.onerror = function (e) {
