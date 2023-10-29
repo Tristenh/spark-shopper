@@ -4,24 +4,19 @@ import { useQuery } from '@apollo/client';
 import { QUERY_USER } from '../utils/queries';
 
 function Order() {
- 
-  const { data,loading } = useQuery(QUERY_USER);
+  const { data } = useQuery(QUERY_USER);
   let user;
 
   if (data) {
     user = data.user;
   }
-  console.log(user)
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+
   return (
     <>
-    
       <div className="container my-1">
-        <Link to="/" color='black'>← Back to Products</Link>
+        <Link to="/">← Back to Products</Link>
 
-        {user? (
+        {user ? (
           <>
             <h2>
               Order History for {user.username}

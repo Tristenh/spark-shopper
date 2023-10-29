@@ -15,7 +15,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    minlength:8
+    minlength: 8,
   },
 
   // define email with constraints and email validation
@@ -26,17 +26,11 @@ const userSchema = new Schema({
     match: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
   },
   isAdmin: {
-    type:Boolean,
-    default:false
+    type: Boolean,
+    default: false,
   },
-  // define oders as an array that references the order model
-  orders: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Order",
-    },
-  ],
-  
+  orders: [Order.schema],
+
   wishList: [
     {
       type: Schema.Types.ObjectId,
