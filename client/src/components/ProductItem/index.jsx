@@ -37,7 +37,7 @@ import { QUERY_USER } from "../../utils/queries";
 
 function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
-
+  const [isActive, setIsActive] = useState(false);
   const { image, name, _id, price } = item;
   const { cart, wishList } = state;
 
@@ -108,7 +108,6 @@ function ProductItem(item) {
       idbPromise("cart", "put", { ...item, purchaseQuantity: 1 });
     }
   };
-  const [isActive, setIsActive] = useState(false);
 
   if (Auth.loggedIn()) {
     idbPromise("wishList", "get").then((wishListProducts) => {

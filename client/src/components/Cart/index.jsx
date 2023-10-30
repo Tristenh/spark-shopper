@@ -25,7 +25,6 @@ import {
   Text,
   VStack,
   Button,
-  IconButton,
 } from "@chakra-ui/react";
 //import files
 
@@ -174,7 +173,7 @@ const Cart = () => {
                                 <center>
                                   <Button
                                     mt={10}
-                                    ml={120}
+                                    ml={{ base: 50, md: 100 }}
                                     p={2}
                                     colorScheme="black"
                                     type="submit"

@@ -8,7 +8,6 @@ import {
   VStack,
   Divider,
   Center,
-
 } from "@chakra-ui/react";
 
 import { useQuery } from "@apollo/client";
@@ -31,8 +30,10 @@ function ProductList() {
   const { loading: productLoading, data: productData } =
     useQuery(QUERY_PRODUCTS);
   //Call the useQuery QUERY_USER to get the wishlist of current user
-  const { loading: userWishListLoading, data: userWishListData } =
-    useQuery(QUERY_USER);
+  const { loading: userWishListLoading, data: userWishListData } = useQuery(
+    QUERY_USER,
+    { fetchPolicy: "network-only" }
+  );
 
   useEffect(() => {
     //clears the wishlist in indexedDB
