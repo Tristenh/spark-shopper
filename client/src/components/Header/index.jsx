@@ -184,8 +184,7 @@ export default function Header() {
                       Cart{" "}
                       <Badge
                         bgGradient="linear(to-r, orange.300, yellow.400)"
-                        p={0}
-                        fontSize={".7rem"}
+                       
                       >
                         {" "}
                         {state.cart.map((item) => {
@@ -241,32 +240,44 @@ export default function Header() {
               {/* category menu */}
               <CategoryMenu />
               {/* wishlist button */}
-              <Button
-                variant="ghost"
-                display={"inline-block"}
-                verticalAlign={"middle"}
-                _hover={{ bg: "gray.400" }}
-                onClick={() =>
-                  toast({
-                    title: "Create an Account",
-                    description: "You need to login to access wishlist",
-                    status: "error",
-                    duration: 9000,
-                    position: position,
-                    isClosable: true,
-                  })}
-              >
-                <Box
-                  display={"inline-block"}
-                  verticalAlign={"middle"}
-                  align="center"
-                  color={"white"}
-                  _hover={{ color: "black" }}
-                  
-                >
-                  <BsSuitHeart /> <Text fontSize={"1xl"}>Wishlist</Text>
-                </Box>
-              </Button>
+              <Button variant="ghost" _hover={{ bg: "gray.400" }}>
+                  {Auth.loggedIn() ? (
+                    <Box
+                      display={"inline-block"}
+                      verticalAlign={"middle"}
+                      align="center"
+                      color={"white"}
+                      _hover={{ color: "black" }}
+                    >
+                      <BsSuitHeart />
+                      <Link to="/profile">
+                        {" "}
+                        <Text fontSize={"1.25rem"}>Wishlist</Text>
+                      </Link>
+                    </Box>
+                  ) : (
+                    <Box
+                      display={"inline-block"}
+                      verticalAlign={"middle"}
+                      align="center"
+                      color={"white"}
+                      _hover={{ color: "black" }}
+                      // to display message
+                      onClick={() =>
+                        toast({
+                          title: "Create an Account",
+                          description: "You need to login to access wishlist",
+                          status: "warning",
+                          duration: 9000,
+                          position: position,
+                          isClosable: true,
+                        })
+                      }
+                    >
+                      <BsSuitHeart /> <Text fontSize={"1.25rem"}>Wishlist</Text>
+                    </Box>
+                  )}
+                </Button>
               {/* cart button */}
               <Button
                 variant="ghost"
@@ -283,7 +294,7 @@ export default function Header() {
                   onClick={toggleCart}
                 >
                   <BsCart4 />
-                  <Text fontSize={"1xl"}>
+                  <Text fontSize={"1.25rem"}>
                     Cart{" "}
                     <Badge
                     
