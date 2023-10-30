@@ -1,6 +1,7 @@
 // import packages from react
 import React from "react";
 import { FaStar } from "react-icons/fa";
+// import chakra components
 import {
   Box,
   AccordionItem,
@@ -18,29 +19,31 @@ import {
   Text,
   Button,
 } from "@chakra-ui/react";
+// import icons
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
-import { useStoreContext } from "../../utils/GlobalState";
-
 import { MdOutlineModeEditOutline } from "react-icons/md";
+
+import { useStoreContext } from "../../utils/GlobalState";
+import Auth from "../../utils/auth";
+// import functions from files
 import Rating from "../Rating";
 import CommentList from "../CommentList";
 import StarDisplay from "../UI/StarDisplay";
-import Auth from "../../utils/auth";
 
 export default function Reviews({ averageRatingAmount }) {
   // set state for modal open and close
   const { isOpen, onOpen, onClose } = useDisclosure();
   const finalRef = React.useRef(null);
+
   const [state] = useStoreContext();
+  // get current product from state
   const { currentProduct } = state;
   const headerColor = useColorModeValue("yellow.500", "yellow.300");
 
   function averageRating() {
     const starArr = StarDisplay(averageRatingAmount);
     return starArr;
-  
   }
-
   return (
     <>
       <AccordionItem>
@@ -69,6 +72,8 @@ export default function Reviews({ averageRatingAmount }) {
             </h2>
             <AccordionPanel pb={4}>
               <Box display="flex" alignItems="center">
+                {/* if rating present then calls function to find average and displays stars in full and partial for decimal  */}
+                {/* eg. if average is 4.3 then it will show 4 stars and .3 as partial star */}
                 {averageRating() &&
                   averageRating().map((val, i) => (
                     <FaStar
@@ -79,6 +84,8 @@ export default function Reviews({ averageRatingAmount }) {
                     />
                   ))}
                 <VStack>
+                  {/* if no reviews then shows message*/}
+
                   {isNaN(averageRatingAmount) ? (
                     <>
                       {" "}
@@ -103,6 +110,7 @@ export default function Reviews({ averageRatingAmount }) {
               ) : (
                 <>
                   {" "}
+                  {/* total comments */}
                   <Box as="span" ml="2" fontSize="sm">
                     {currentProduct.comments && currentProduct.comments.length}{" "}
                     reviews

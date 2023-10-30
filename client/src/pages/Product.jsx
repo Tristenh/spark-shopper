@@ -21,15 +21,25 @@ import {
   IconButton,
   StackDivider,
 } from "@chakra-ui/react";
-// import react icons for wishlist and write a review button
+// import react icons for wishlist, write a review and star button
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { Spinner } from "@chakra-ui/react";
+import { FaStar } from "react-icons/fa";
+
 // import chakra icon for accordian button
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { useQuery, useMutation } from "@apollo/client";
+import { useStoreContext } from "../utils/GlobalState";
+import { idbPromise } from "../utils/helpers";
+import Auth from "../utils/auth";
+
+// import components from files
 import Reviews from "../components/Reviews";
 import Cart from "../components/Cart";
-import { useStoreContext } from "../utils/GlobalState";
+import StarDisplay from "../components/UI/StarDisplay";
+import Feature from "../components/UI/Feature";
+
+// import actions
 import {
   UPDATE_CART_QUANTITY,
   ADD_TO_CART,
@@ -38,16 +48,10 @@ import {
   ADD_TO_WISHLIST,
   REMOVE_FROM_WISHLIST,
 } from "../utils/actions";
+// import query and mutation
 import { QUERY_PRODUCTS, QUERY_USER } from "../utils/queries";
-import { idbPromise } from "../utils/helpers";
-
 import { ADD_WISHLIST } from "../utils/mutations";
 
-import StarDisplay from "../components/UI/StarDisplay";
-import { FaStar } from "react-icons/fa";
-import Auth from "../utils/auth";
-
-import Feature from "../components/UI/Feature";
 function Product() {
   //mutation to add wish list
   const [addWishList] = useMutation(ADD_WISHLIST, {
@@ -56,23 +60,21 @@ function Product() {
   let tooTipText = "";
 
   const [state, dispatch] = useStoreContext();
+  //get product id from route
   const { id } = useParams();
-
   const [product, setProduct] = useState({});
-
+  // query to get all products
   const { loading, data: productData } = useQuery(QUERY_PRODUCTS);
-
   const { products, cart, currentProduct, wishList } = state;
   const [isActive, setIsActive] = useState(false);
-
+  // colors
   const descriptionColor = useColorModeValue("gray.500", "gray.400");
   const headerColor = useColorModeValue("yellow.500", "yellow.300");
-  const dividerColor=useColorModeValue('gray.200', 'gray.600');
+  const dividerColor = useColorModeValue("gray.200", "gray.600");
   let averageRatingAmount;
 
   useEffect(() => {
-    // already in global store
-
+    // set currentProduct in state
     if (products.length) {
       setProduct(products.find((product) => product._id === id));
       dispatch({
@@ -80,12 +82,13 @@ function Product() {
         currentProduct: { ...product },
       });
     }
-    // retrieved from server
+    // when received from database save it in state
     else if (productData) {
       dispatch({
         type: UPDATE_PRODUCTS,
         products: productData.products,
       });
+      //save it to indexdb cache
       productData.products.forEach((product) => {
         idbPromise("products", "put", product);
       });
@@ -100,6 +103,7 @@ function Product() {
       });
     }
   }, [products, productData, loading, dispatch, id, product]);
+
   const addToWishList = () => {
     //checks whether the user is authenticated before adding to wishlist
     if (!Auth.loggedIn()) {
@@ -126,6 +130,7 @@ function Product() {
       //Add the product to wishList in indexedDB
       idbPromise("wishList", "put", { ...currentProduct });
     }
+
     //saves the wishlist to database
     async function saveWishList() {
       const wish = await idbPromise("wishList", "get");
@@ -137,6 +142,7 @@ function Product() {
     }
     saveWishList();
   };
+  // add to cart triggers on add to cart button clicks
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);
     if (itemInCart) {
@@ -158,9 +164,11 @@ function Product() {
     }
   };
 
+  // set average rating amount and return array of 5 stars-- full stars as 1 and partial stars in decimal otherwise 0
   function averageRating() {
     let totalRating;
     const arr = [];
+    // total of all ratings given by users
     if (currentProduct.comments) {
       currentProduct.comments.map((comment) => {
         arr.push(comment.rating);
@@ -168,6 +176,7 @@ function Product() {
           return acc + val;
         }, 0);
       });
+      // find average by dividing it with total number of comments
       averageRatingAmount = (
         totalRating / currentProduct.comments.length
       ).toFixed(2);
@@ -175,6 +184,7 @@ function Product() {
       return starArr;
     }
   }
+
   if (Auth.loggedIn()) {
     idbPromise("wishList", "get").then((wishListProducts) => {
       const itemInWishList = wishListProducts.find(
@@ -212,6 +222,7 @@ function Product() {
             py={{ base: 18, md: 24 }}
           >
             <VStack>
+              {/* product image */}
               <Image
                 rounded={"md"}
                 alt={"product image"}
@@ -239,6 +250,7 @@ function Product() {
                 justifyContent={"center"}
                 width={"100%"}
               >
+                {/* add to cart button  */}
                 <Button
                   rounded={"none"}
                   mr={2}
@@ -265,7 +277,7 @@ function Product() {
                 >
                   Add to cart
                 </Button>
-
+                {/* add to wishlist button */}
                 <Box
                   onClick={() => {
                     setIsActive(!isActive);
@@ -320,10 +332,9 @@ function Product() {
               p={10}
               spacing={{ base: 6, md: 10 }}
               alignItems={"start"}
-              divider={
-                <StackDivider borderColor={dividerColor} />
-              }
+              divider={<StackDivider borderColor={dividerColor} />}
             >
+              {/* product name */}
               <Box as={"header"}>
                 <Heading
                   lineHeight={1.1}
@@ -332,7 +343,8 @@ function Product() {
                 >
                   {currentProduct.name}
                 </Heading>
-
+                {/* if rating present then calls function to find average and displays stars in full and partial for decimal  */}
+                {/* eg. if average is 4.3 then it will show 4 stars and .3 as partial star */}
                 <Box display="flex" mt={2} alignItems="center">
                   {averageRating() &&
                     averageRating().map((val, i) => (
@@ -343,9 +355,11 @@ function Product() {
                         color="#FFEE58"
                       />
                     ))}
+                  {/* if no reviews then shows empty string */}
                   <Text fontSize={"sm"} fontWeight={"400"}>
                     {isNaN(averageRatingAmount) ? "" : averageRatingAmount}
                   </Text>{" "}
+                  {/* total comments */}
                   <Box as="span" ml="2" fontSize="sm">
                     ({currentProduct.comments && currentProduct.comments.length}
                     ) reviews
@@ -365,8 +379,7 @@ function Product() {
                   {`$${currentProduct.price}`}
                 </Box>
               </Box>
-              <Stack spacing={{ base: 4, sm: 6 }} direction={"column"}
-              >
+              <Stack spacing={{ base: 4, sm: 6 }} direction={"column"}>
                 <Text
                   textAlign={{ md: "justify" }}
                   color={descriptionColor}
@@ -407,6 +420,7 @@ function Product() {
                         </AccordionPanel>
                       </>
                     )}
+                    {/* review component */}
                   </AccordionItem>
                   <Reviews averageRatingAmount={averageRatingAmount} />
                 </Accordion>

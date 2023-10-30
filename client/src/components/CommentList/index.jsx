@@ -1,18 +1,12 @@
-import {
-  Stack,
-  Text,
-  Box,
-  VStack,
-  Flex,
-  HStack,
-} from "@chakra-ui/react";
+// import chakra components
+import { Stack, Text, Box, VStack, Flex, HStack } from "@chakra-ui/react";
+// import react icon
 import { AiFillStar } from "react-icons/ai";
 import { useStoreContext } from "../../utils/GlobalState";
+
 const CommentList = () => {
-  // const { id } = useParams();
   const [state] = useStoreContext();
   const { currentProduct } = state;
-
   return (
     <>
       <Stack>
@@ -33,12 +27,8 @@ const CommentList = () => {
               bg="white"
               border={"1px"}
               borderColor="gray.400"
-
-              // // boxShadow={useColorModeValue(
-              //   "6px 6px 0 black",
-              //   "6px 6px 0 cyan"
-              // )}
             >
+              {/* displays user name, comment text, rating in numbers and date of comment */}
               <Box p={4}>
                 <Stack direction={"column"} spacing={0}>
                   <Text fontSize={"md"} fontWeight={600}>
@@ -68,18 +58,20 @@ const CommentList = () => {
                       </Text>{" "}
                     </Flex>
                   </Box>
-                  <Text borderLeft={"1px"} borderColor="gray.600" pl={4} fontSize={"md"} fontWeight={"semibold"}>
+                  <Text
+                    borderLeft={"1px"}
+                    borderColor="gray.600"
+                    pl={4}
+                    fontSize={"md"}
+                    fontWeight={"semibold"}
+                  >
                     {comment.commentDesc}
                   </Text>
                 </Flex>
               </HStack>
             </Box>
-
-          
           ))}
       </VStack>
-
-     
     </>
   );
 };
