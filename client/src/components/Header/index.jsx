@@ -84,7 +84,7 @@ export default function Header() {
             onClick={isOpen ? onClose : onOpen}
             mr={10}
           />
-          <Flex w={{ xl: "40%" }}>
+          <Flex w={{ xl: "40%" }} justifyContent={"center"}>
             <HStack spacing={12} alignItems={"center"}>
               {/* logo */}
               <Box onClick={handleLogoClick}>
@@ -116,7 +116,7 @@ export default function Header() {
               bgClip="text"
             ></Text>
           </Flex>
-          <Flex w={{ xl: "50%" }} justifyContent={"center"}>
+          <Flex w={{ xl: "50%" }} justifyContent={"center"} px={0}>
             <HStack spacing={8} display={{ base: "none", xl: "flex" }} mr={8}>
               {/* category menu component */}
               <CategoryMenu />
