@@ -86,8 +86,9 @@ export default function Dropdown({ level, dropdown }) {
       left="auto"
       border="2px solid white"
       fontSize="1xl"
-      zIndex={"999"}
-      minWidth="12rem"
+      zIndex={"2"}
+      minWidth={{base:"8rem",md:"12rem"}}
+    
       padding="0.5rem 0"
       listStyleType="none"
       bgColor={"back.900"}
@@ -97,7 +98,7 @@ export default function Dropdown({ level, dropdown }) {
       {...showDropdown}
     >
       {/* displays subcategories in menuitem */}
-      {state.subcategories.map((item) => (
+      {state.subcategories && state.subcategories.map((item) => (
         <MenuItem
           as="li"
           key={item._id}

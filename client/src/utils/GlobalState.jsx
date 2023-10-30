@@ -16,6 +16,7 @@ const StoreProvider = ({ value = [], ...props }) => {
     currentCategory: "",
     currentSubCategory: "",
     wishList: [],
+    currentProduct:"",
     search: false,
     searchedProducts: [],
     subCategoryName: "",

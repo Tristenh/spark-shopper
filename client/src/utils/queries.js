@@ -96,10 +96,12 @@ export const QUERY_PRODUCTS = gql`
         rating
         commentDesc
         dateCreated
+        userName
       }
     }
   }
 `;
+
 
 export const QUERY_ORDER = gql`
   query getCheckout($products: [ID]!) {

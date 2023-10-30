@@ -25,6 +25,8 @@ export function idbPromise(storeName, method, object) {
       db.createObjectStore("subcategories", { keyPath: "_id" });
       db.createObjectStore("cart", { keyPath: "_id" });
       db.createObjectStore("wishList", { keyPath: "_id" });
+      db.createObjectStore("singleProduct", { keyPath: "_id" });
+      db.createObjectStore("comments", { keyPath: "_id" });
     };
 
     request.onerror = function (e) {

@@ -15,6 +15,8 @@ import {
   REMOVE_FROM_WISHLIST,
   UPDATE_WISHLIST,
   CLEAR_WISHLIST,
+  ADD_COMMENT_TEXT,
+  CURRENT_PRODUCT,
   SEARCH,
   CLEAR_SEARCH,
   CLEAR_CURRENT_SUBCATEGORY,
@@ -102,7 +104,7 @@ export const reducer = (state, action) => {
         ...state,
         currentCategory: action.currentCategory,
       };
-    case UPDATE_CURRENT_SUBCATEGORY:
+      case UPDATE_CURRENT_SUBCATEGORY:
       return {
         ...state,
         currentSubCategory: action.currentSubCategory,
@@ -137,6 +139,22 @@ export const reducer = (state, action) => {
         ...state,
         wishList: [],
       };
+
+    // Returns a copy of state with an updated comments array. We use the action.comments property and spread it's contents into the new array.
+
+      case ADD_COMMENT_TEXT:
+        return {
+          ...state,
+          comments: [...action.comments],
+        };
+    // Returns a copy of state with an updated current product. We use the action.currentproduct property.
+
+        case CURRENT_PRODUCT:
+        return {
+          ...state,
+          currentProduct: action.currentProduct,
+        };
+
     //sets the state as true for search
     case SEARCH:
       return {

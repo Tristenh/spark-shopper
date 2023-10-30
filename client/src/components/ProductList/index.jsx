@@ -8,7 +8,7 @@ import {
   VStack,
   Divider,
   Center,
-  Box,
+
 } from "@chakra-ui/react";
 
 import { useQuery } from "@apollo/client";

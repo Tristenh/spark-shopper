@@ -19,6 +19,7 @@ const resolvers = {
     subcategories: async (parent, { category }) => {
       return await SubCategory.find({ category });
     },
+  
     // get all products of given subcategory
     products: async (parent, { subcategory, name }) => {
       try {
@@ -41,10 +42,14 @@ const resolvers = {
         console.log(error);
       }
     },
+  
     // get one product of particular id
-    product: async (parent, { _id }) => {
+    product: async (parent, { productId }) => {
       try {
-        return await Product.findById(_id).populate("subcategory");
+       console.log(productId)
+        const a =await Product.findById(productId);
+        console.log(a)
+        return a;
       } catch (error) {
         console.log("product not found", error);
       }
@@ -208,17 +213,30 @@ const resolvers = {
       }
     },
     //add comment in product
-    addComment: async (parent, { productId, rating, commentDesc, userId }) => {
-      return Product.findOneAndUpdate(
-        { _id: productId },
-        {
-          $addToSet: { comments: { rating, commentDesc, userId } },
-        },
-        {
-          new: true,
-          runValidators: true,
+    addComment: async (parent, { productId, rating, commentDesc }, context) => {
+      try {
+        if (context.user) {
+          return Product.findOneAndUpdate(
+            { _id: productId },
+            {
+              $addToSet: {
+                comments: {
+                  rating,
+                  commentDesc,
+                  userName: context.user.username,
+                },
+              },
+            },
+            {
+              new: true,
+              runValidators: true,
+            }
+          );
         }
-      );
+      } catch (error) {
+        console.log(error);
+      }
+      throw AuthenticationError;
     },
     //signup
     addUser: async (parent, args) => {
@@ -242,7 +260,7 @@ const resolvers = {
 
           return order;
         } catch (error) {
-          comsole.log("unable to add order", error);
+          console.log("unable to add order", error);
         }
       }
 

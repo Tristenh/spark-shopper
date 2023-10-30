@@ -29,9 +29,32 @@ export const ADD_PRODUCT = gql`
 
 // Mutation to add a new comment
 export const ADD_COMMENT = gql`
-  mutation addComment($rating: Int!, $commentDesc: String) {
-    addComment(rating: $rating, commentDesc: $commentDesc) {
+  mutation addComment($productId: ID!, $rating: Int!, $commentDesc: String) {
+    addComment(
+      productId: $productId
+      rating: $rating
+      commentDesc: $commentDesc
+    ) {   
+      comments {
+        _id
+        rating
+        commentDesc        
+        dateCreated
+        userName        
+      }  
       _id
+      name
+      description
+      features
+      image
+      quantity
+      price
+      subcategory {
+        _id
+        
+        
+      }
+      
     }
   }
 `;
