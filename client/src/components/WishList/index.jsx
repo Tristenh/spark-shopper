@@ -82,7 +82,9 @@ function WishList() {
           </VStack>
         </>
       ) : (
-        <Heading>No Products !</Heading>
+        <VStack w={"1000px"}>
+          <Heading fontSize={20}>Your Wishlist is empty !</Heading>
+        </VStack>
       )}
     </Flex>
   );

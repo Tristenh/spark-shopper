@@ -32,7 +32,7 @@ function Success() {
 
   return (
     <div>
-      <Heading>
+      <Heading fontSize={20}>
       <Jumbotron>
         <h1>Success!</h1>
         <h2>Thank you for your purchase!</h2>
