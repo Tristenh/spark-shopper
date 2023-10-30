@@ -8,6 +8,7 @@ import {
   Button,
   Text,
   Box,
+  ModalFooter
 } from "@chakra-ui/react";
 // import actions
 import { ADD_COMMENT_TEXT } from "../../utils/actions";
@@ -146,7 +147,7 @@ const CommentForm = ({ rating, setRating, close }) => {
               </Stack>
             )}
 
-            {/* <ModalFooter> */}
+            <ModalFooter>
             <Button
               _hover={{ bg: "gray.400" }}
               mr={5}
@@ -163,7 +164,7 @@ const CommentForm = ({ rating, setRating, close }) => {
             >
               Comment
             </Button>
-            {/* </ModalFooter> */}
+            </ModalFooter>
           </form>
         </>
       ) : (

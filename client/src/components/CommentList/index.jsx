@@ -1,12 +1,16 @@
 // import chakra components
 import { Stack, Text, Box, VStack, Flex, HStack } from "@chakra-ui/react";
 // import react icon
-import { AiFillStar } from "react-icons/ai";
+import { AiFillStar,AiFillDelete } from "react-icons/ai";
+
 import { useStoreContext } from "../../utils/GlobalState";
 
 const CommentList = () => {
   const [state] = useStoreContext();
   const { currentProduct } = state;
+  // function removeComment(){
+
+  // }
   return (
     <>
       <Stack>
@@ -36,6 +40,7 @@ const CommentList = () => {
                   </Text>
                   <Text fontSize={"xs"} color={"gray.500"}>
                     {comment.dateCreated}
+                  {/* <Box onClick={removeComment}><AiFillDelete/></Box>   */}
                   </Text>
                 </Stack>
               </Box>
