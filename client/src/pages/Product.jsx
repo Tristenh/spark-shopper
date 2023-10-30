@@ -197,6 +197,9 @@ function Product() {
       if (itemInWishList) {
         setIsActive(true);
       }
+      else {
+        setIsActive(false);
+      }
     });
   }
   //changes the tootip text according to authentication
@@ -421,6 +424,7 @@ function Product() {
                   borderBottomRightRadius={40}
                   width="150px"
                   fontWeight={700}
+                  borderRadius={5}
                   mb={-2}
                   mt={4}
                 >
