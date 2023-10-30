@@ -1,7 +1,7 @@
 # Spark Shopper
 
 ## Description
-ntroducing SparkShopper, your one-stop shop for hassle free online shopping. Whether you're hunting for the latest gadgets or curating a wish list, we've got you covered. Here's what we offer:
+Introducing SparkShopper, your one-stop shop for hassle free online shopping. Whether you're hunting for the latest gadgets or curating a wish list, we've got you covered. Here's what we offer:
 * **Easy Registration:** Sign up and start your personalised shopping experience in no time.
 * **Efficient Search:** Discover a wide range of electronics with our powerful search feature.
 * **Quick Car Additions:** Add products to your cart with a single click for a seamless shopping experience.
@@ -28,13 +28,13 @@ At SparkShopper, we’re all about making  your shopping experience enjoyable an
 #### Features
 
 User Authentication : Secure signup and login system.
-Search : by product name and category
-Cart :
-Checkout and Payment :
-Product Details :
-Review & Ratings :
-Wishlist :
-Order History :
+Search : by product name and category.
+Cart :  users to add products they are interested in purchasing.
+Checkout and Payment :  proceed to payment, providing their billing and shipping information.
+Product Details : product pages offer in-depth information about each item in the store.
+Review & Ratings : user engagement by allowing customers to provide reviews and ratings for products they have purchased or used.
+Wishlist : wishlist feature allows users to curate a list of their favorite products.
+Order History :  history section provides users with a complete record of their past purchases.
 
 #### Deployment Link :
 
