@@ -490,7 +490,7 @@ function Product() {
                       p={4}
                       size={"lg"}
                       py={"7"}
-                      color={"black"}
+                      colorScheme="black"
                       bgColor="#495C62"
                       borderRadius="full"
                       width={{
