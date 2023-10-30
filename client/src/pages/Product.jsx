@@ -224,6 +224,7 @@ function Product() {
           >
             <VStack>
               <Image
+              
                 rounded={"md"}
                 alt={"product image"}
                 border={"2px solid"}
