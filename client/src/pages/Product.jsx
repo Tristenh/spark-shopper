@@ -14,7 +14,7 @@ import {
   Heading,
   useColorModeValue,
   SimpleGrid,
-  GridItem,
+  Flex,
   Accordion,
   AccordionItem,
   AccordionPanel,
@@ -35,7 +35,7 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { Spinner } from "@chakra-ui/react";
 // import chakra icon for accordian button
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
-import { useQuery,useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 
 import Cart from "../components/Cart";
 import { useStoreContext } from "../utils/GlobalState";
@@ -47,11 +47,10 @@ import {
   ADD_TO_WISHLIST,
   REMOVE_FROM_WISHLIST,
 } from "../utils/actions";
-import { QUERY_PRODUCTS,QUERY_USER } from "../utils/queries";
+import { QUERY_PRODUCTS, QUERY_USER } from "../utils/queries";
 import { idbPromise } from "../utils/helpers";
 
 import { ADD_WISHLIST } from "../utils/mutations";
-
 
 import Rating from "../components/Rating";
 import CommentList from "../components/CommentList";
@@ -196,8 +195,7 @@ function Product() {
       );
       if (itemInWishList) {
         setIsActive(true);
-      }
-      else {
+      } else {
         setIsActive(false);
       }
     });
@@ -234,15 +232,99 @@ function Product() {
                 borderColor={"gray.100"}
                 boxShadow={"2xl"}
                 src={`/images/${currentProduct.image}`}
-                objectFit={"contain "}
+                objectFit={"contain"}
                 overflow={"hidden"}
                 align={"center"}
                 w={"100%"}
                 py={4}
-                h={{ base: "auto", sm: "400px", lg: "500px" }}
+                h={{ base: "auto", sm: "500px", lg: "700px" }}
               />
+              <Flex
+                rounded={"md"}
+                border={"2px solid"}
+                borderColor={"gray.100"}
+                boxShadow={"2xl"}
+                bg={"white"}
+                p={6}
+                spacing={{ base: 6, md: 10 }}
+             
+                columns={2}
+                alignItems={"center"}
+                justifyContent={"center"}
+                width={"100%"}
+              >
+                <Button
+                  rounded={"none"}
+                 mr={2}
+                  p={4}
+                  size={"lg"}
+                  py={"7"}
+                  colorScheme="black"
+                  bgColor="#495C62"
+                  borderRadius="full"
+                  width={{
+                    base: "150px",
+                      sm: "190px",
+                      md: "220px",
+                      lg: "200px",
+                  }}
+                  align={"center"}
+                  textTransform={"uppercase"}
+                  onClick={addToCart}
+                  _hover={{
+                    bg: "gray.700",
+                    transform: "translateY(2px)",
+                    boxShadow: "lg",
+                  }}
+                >
+                  Add to cart
+                </Button>
 
-              <Accordion
+                <Box
+                  onClick={() => {
+                    setIsActive(!isActive);
+                  }}
+                >
+                  {isActive && Auth.loggedIn() ? (
+                    <IconButton
+                      isRound={true}
+                      variant="solid"
+                      colorScheme="gray"
+                      aria-label="Done"
+                      fontSize="20px"
+                      icon={<FaHeart />}
+                      color="red.600"
+                      onClick={addToWishList}
+                      _hover={{
+                        fontSize: { base: "20px", md: "24px" },
+                      }}
+                    />
+                  ) : (
+                    <Tooltip
+                      label={tooTipText}
+                      bg="white"
+                      placement={"top"}
+                      color={"gray.800"}
+                      fontSize={"1.2em"}
+                    >
+                      <IconButton
+                        isRound={true}
+                        variant="solid"
+                        colorScheme="gray"
+                        aria-label="Done"
+                        fontSize="20px"
+                        icon={<FaRegHeart />}
+                        onClick={addToWishList}
+                        _hover={{
+                          color: "red.600",
+                          fontSize: { base: "20px", md: "24px" },
+                        }}
+                      />
+                    </Tooltip>
+                  )}
+                </Box>
+              </Flex>
+              {/* <Accordion
                 rounded={"md"}
                 border={"2px solid"}
                 borderColor={"gray.100"}
@@ -254,132 +336,11 @@ function Product() {
                 w={"100%"}
                 px={2}
               >
-                <AccordionItem>
-                  {({ isExpanded }) => (
-                    <>
-                      <h2>
-                        <AccordionButton
-                          _expanded={{ bg: "back.900", color: "white" }}
-                        >
-                          <Box
-                            fontSize={{ base: "16px", lg: "18px" }}
-                            color={headerColor}
-                            fontWeight={"500"}
-                            textTransform={"uppercase"}
-                            mb={"4"}
-                            as="span"
-                            flex="1"
-                            textAlign="left"
-                          >
-                            Reviews
-                          </Box>
-                          {isExpanded ? (
-                            <MinusIcon fontSize="12px" />
-                          ) : (
-                            <AddIcon fontSize="12px" />
-                          )}
-                        </AccordionButton>
-                      </h2>
-                      <AccordionPanel pb={4}>
-                        <Box display="flex" alignItems="center">
-                          {averageRating() &&
-                            averageRating().map((val, i) => (
-                              <FaStar
-                                key={i}
-                                viewBox={`0 0 ${val * 576} 512`}
-                                size={val < 1 ? "18" : "20"}
-                                color="#FFFF00"
-                              />
-                            ))}
-                          <VStack>
-                            {isNaN(averageRatingAmount) ? (
-                              <>
-                                {" "}
-                                <Text>This product has no reviews</Text>
-                              </>
-                            ) : (
-                              <>
-                                {" "}
-                                <Text mt={2} fontSize={"xs"}>
-                                  Average Rating
-                                </Text>{" "}
-                                <Text fontSize={"lg"} fontWeight={"400"}>
-                                  {averageRatingAmount}
-                                </Text>{" "}
-                              </>
-                            )}
-                          </VStack>
-                        </Box>
-                        {currentProduct.comments &&
-                        currentProduct.comments.length === 0 ? (
-                          ""
-                        ) : (
-                          <>
-                            {" "}
-                            <Box as="span" ml="2" fontSize="sm">
-                              {currentProduct.comments &&
-                                currentProduct.comments.length}{" "}
-                              reviews
-                            </Box>
-                          </>
-                        )}
-
-                        {/*can write review when logged in */}
-                        {Auth.loggedIn() ? (
-                          <>
-                            <Box
-                              ref={finalRef}
-                              tabIndex={-1}
-                              aria-label="Focus moved to this box"
-                            ></Box>
-
-                            <Button
-                              variant="ghost"
-                              my={6}
-                              boxShadow={"2xl"}
-                              border={"2px solid"}
-                              borderColor={"gray.300"}
-                              onClick={onOpen}
-                              _hover={{ bg: "gray.400" }}
-                            >
-                              <MdOutlineModeEditOutline />
-                              <Text ml={3}>Write a Review</Text>
-                            </Button>
-                            <Modal
-                              size={{ base: "xs", md: "lg" }}
-                              aria-labelledby="review-modal"
-                              finalFocusRef={finalRef}
-                              isOpen={isOpen}
-                              onClose={onClose}
-                            >
-                              <ModalOverlay />
-                              <ModalContent bg={"back.900"}>
-                                <ModalHeader
-                                  mb={5}
-                                  borderBottom={"2px solid"}
-                                  borderColor={"gray.400"}
-                                  color={"white"}
-                                >
-                                  Write a Review
-                                </ModalHeader>
-                                <ModalCloseButton />
-                                <ModalBody>
-                                  <Rating close={onClose} />
-                                </ModalBody>
-                              </ModalContent>
-                            </Modal>
-                          </>
-                        ) : (
-                          ""
-                        )}
-                        <CommentList />
-                      </AccordionPanel>
-                    </>
-                  )}
-                </AccordionItem>
-              </Accordion>
+               
+              </Accordion> */}
             </VStack>
             <VStack
+            h={"auto"}
               rounded={"md"}
               border={"2px solid"}
               borderColor={"gray.100"}
@@ -448,9 +409,10 @@ function Product() {
                     {({ isExpanded }) => (
                       <>
                         <h2>
-                          <AccordionButton>
+                          <AccordionButton
+                            _expanded={{ bg: "back.900", color: "white" }}
+                          >
                             <Box
-                              _expanded={{ bg: "back.900", color: "white" }}
                               fontSize={{ base: "16px", lg: "18px" }}
                               color={headerColor}
                               fontWeight={"500"}
@@ -474,91 +436,130 @@ function Product() {
                       </>
                     )}
                   </AccordionItem>
+                  <AccordionItem>
+                    {({ isExpanded }) => (
+                      <>
+                        <h2>
+                          <AccordionButton
+                            _expanded={{ bg: "back.900", color: "white" }}
+                          >
+                            <Box
+                              fontSize={{ base: "16px", lg: "18px" }}
+                              color={headerColor}
+                              fontWeight={"500"}
+                              textTransform={"uppercase"}
+                              mb={"4"}
+                              as="span"
+                              flex="1"
+                              textAlign="left"
+                            >
+                              Reviews
+                            </Box>
+                            {isExpanded ? (
+                              <MinusIcon fontSize="12px" />
+                            ) : (
+                              <AddIcon fontSize="12px" />
+                            )}
+                          </AccordionButton>
+                        </h2>
+                        <AccordionPanel pb={4}>
+                          <Box display="flex" alignItems="center">
+                            {averageRating() &&
+                              averageRating().map((val, i) => (
+                                <FaStar
+                                  key={i}
+                                  viewBox={`0 0 ${val * 576} 512`}
+                                  size={val < 1 ? "18" : "20"}
+                                  color="#FFFF00"
+                                />
+                              ))}
+                            <VStack>
+                              {isNaN(averageRatingAmount) ? (
+                                <>
+                                  {" "}
+                                  <Text>This product has no reviews</Text>
+                                </>
+                              ) : (
+                                <>
+                                  {" "}
+                                  <Text mt={2} fontSize={"xs"}>
+                                    Average Rating
+                                  </Text>{" "}
+                                  <Text fontSize={"lg"} fontWeight={"400"}>
+                                    {averageRatingAmount}
+                                  </Text>{" "}
+                                </>
+                              )}
+                            </VStack>
+                          </Box>
+                          {currentProduct.comments &&
+                          currentProduct.comments.length === 0 ? (
+                            ""
+                          ) : (
+                            <>
+                              {" "}
+                              <Box as="span" ml="2" fontSize="sm">
+                                {currentProduct.comments &&
+                                  currentProduct.comments.length}{" "}
+                                reviews
+                              </Box>
+                            </>
+                          )}
+
+                          {/*can write review when logged in */}
+                          {Auth.loggedIn() ? (
+                            <>
+                              <Box
+                                ref={finalRef}
+                                tabIndex={-1}
+                                aria-label="Focus moved to this box"
+                              ></Box>
+
+                              <Button
+                                variant="ghost"
+                                my={6}
+                                boxShadow={"2xl"}
+                                border={"2px solid"}
+                                borderColor={"gray.300"}
+                                onClick={onOpen}
+                                _hover={{ bg: "gray.400" }}
+                              >
+                                <MdOutlineModeEditOutline />
+                                <Text ml={3}>Write a Review</Text>
+                              </Button>
+                              <Modal
+                                size={{ base: "xs", md: "lg" }}
+                                aria-labelledby="review-modal"
+                                finalFocusRef={finalRef}
+                                isOpen={isOpen}
+                                onClose={onClose}
+                              >
+                                <ModalOverlay />
+                                <ModalContent bg={"back.900"}>
+                                  <ModalHeader
+                                    mb={5}
+                                    borderBottom={"2px solid"}
+                                    borderColor={"gray.400"}
+                                    color={"white"}
+                                  >
+                                    Write a Review
+                                  </ModalHeader>
+                                  <ModalCloseButton />
+                                  <ModalBody>
+                                    <Rating close={onClose} />
+                                  </ModalBody>
+                                </ModalContent>
+                              </Modal>
+                            </>
+                          ) : (
+                            ""
+                          )}
+                          <CommentList />
+                        </AccordionPanel>
+                      </>
+                    )}
+                  </AccordionItem>
                 </Accordion>
-
-                <SimpleGrid
-                  mx={4}
-                  columns={2}
-                  spacing={2}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                >
-                  <GridItem justifySelf={"flex-end"}>
-                    <Button
-                      rounded={"none"}
-                      mt={4}
-                      p={4}
-                      size={"lg"}
-                      py={"7"}
-                      colorScheme="black"
-                      bgColor="#495C62"
-                      borderRadius="full"
-                      width={{
-                        base: "220px",
-                        sm: "220px",
-
-                        lg: "170px",
-                        xl: "200px",
-                      }}
-                      align={"center"}
-                      textTransform={"uppercase"}
-                      onClick={addToCart}
-                      _hover={{
-                        bg: "gray.700",
-                        transform: "translateY(2px)",
-                        boxShadow: "lg",
-                      }}
-                    >
-                      Add to cart
-                    </Button>
-                  </GridItem>
-                  <GridItem justifySelf={"flex-start"} mt={2}>
-                    {" "}
-                    <Box
-                      onClick={() => {
-                        setIsActive(!isActive);
-                      }}
-                    >
-                      {isActive && Auth.loggedIn() ? (
-                        <IconButton
-                          isRound={true}
-                          variant="solid"
-                          colorScheme="gray"
-                          aria-label="Done"
-                          fontSize="20px"
-                          icon={<FaHeart />}
-                          color="red.600"
-                          onClick={addToWishList}
-                          _hover={{
-                            fontSize: { base: "20px", md: "24px" },
-                          }}
-                        />
-                      ) : (
-                        <Tooltip
-                          label={tooTipText}
-                          bg="white"
-                          placement={"top"}
-                          color={"gray.800"}
-                          fontSize={"1.2em"}
-                        >
-                          <IconButton
-                            isRound={true}
-                            variant="solid"
-                            colorScheme="gray"
-                            aria-label="Done"
-                            fontSize="20px"
-                            icon={<FaRegHeart />}
-                            onClick={addToWishList}
-                            _hover={{
-                              color: "red.600",
-                              fontSize: { base: "20px", md: "24px" },
-                            }}
-                          />
-                        </Tooltip>
-                      )}
-                    </Box>
-                  </GridItem>
-                </SimpleGrid>
               </Stack>
             </VStack>
           </SimpleGrid>
