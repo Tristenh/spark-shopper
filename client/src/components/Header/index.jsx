@@ -84,7 +84,7 @@ export default function Header() {
             onClick={isOpen ? onClose : onOpen}
             mr={10}
           />
-          <Flex w={{ xl: "40%" }}>
+          <Flex w={{ xl: "40%" }} justifyContent={"center"}>
             <HStack spacing={12} alignItems={"center"}>
               {/* logo */}
               <Box onClick={handleLogoClick}>
@@ -116,7 +116,7 @@ export default function Header() {
               bgClip="text"
             ></Text>
           </Flex>
-          <Flex w={{ xl: "50%" }} justifyContent={"center"}>
+          <Flex w={{ xl: "50%" }} justifyContent={"center"} px={0}>
             <HStack spacing={8} display={{ base: "none", xl: "flex" }} mr={8}>
               {/* category menu component */}
               <CategoryMenu />
@@ -184,8 +184,7 @@ export default function Header() {
                       Cart{" "}
                       <Badge
                         bgGradient="linear(to-r, orange.300, yellow.400)"
-                        p={0}
-                        fontSize={".7rem"}
+                       
                       >
                         {" "}
                         {state.cart.map((item) => {
@@ -215,58 +214,48 @@ export default function Header() {
               justify={{ base: "center", md: "space-between" }}
             >
               {/* search bar */}
-              <InputGroup borderRadius={5} size="md">
-                <InputLeftElement
-                  pointerEvents="none"
-                  // children={<Search2Icon color="gray.600" />}
-                />
-                <Input
-                  type="text"
-                  placeholder="Search..."
-                  border="1px solid #949494"
-                />
-                <InputRightAddon p={0} border="none">
-                  <Button
-                    size="md"
-                    borderLeftRadius={0}
-                    borderRightRadius={5}
-                    border="2px solid #949494"
-                    bgGradient="linear(to-r, orange.300, yellow.400)"
-                    _hover={{ bg: "gray.500" }}
-                  >
-                    <SearchIcon />
-                  </Button>
-                </InputRightAddon>
-              </InputGroup>
+              <SearchBar />
               {/* category menu */}
               <CategoryMenu />
               {/* wishlist button */}
-              <Button
-                variant="ghost"
-                display={"inline-block"}
-                verticalAlign={"middle"}
-                _hover={{ bg: "gray.400" }}
-                onClick={() =>
-                  toast({
-                    title: "Create an Account",
-                    description: "You need to login to access wishlist",
-                    status: "error",
-                    duration: 9000,
-                    position: position,
-                    isClosable: true,
-                  })}
-              >
-                <Box
-                  display={"inline-block"}
-                  verticalAlign={"middle"}
-                  align="center"
-                  color={"white"}
-                  _hover={{ color: "black" }}
-                  
-                >
-                  <BsSuitHeart /> <Text fontSize={"1xl"}>Wishlist</Text>
-                </Box>
-              </Button>
+              <Button variant="ghost" _hover={{ bg: "gray.400" }}>
+                  {Auth.loggedIn() ? (
+                    <Box
+                      display={"inline-block"}
+                      verticalAlign={"middle"}
+                      align="center"
+                      color={"white"}
+                      _hover={{ color: "black" }}
+                    >
+                      <BsSuitHeart />
+                      <Link to="/profile">
+                        {" "}
+                        <Text fontSize={"1.25rem"}>Wishlist</Text>
+                      </Link>
+                    </Box>
+                  ) : (
+                    <Box
+                      display={"inline-block"}
+                      verticalAlign={"middle"}
+                      align="center"
+                      color={"white"}
+                      _hover={{ color: "black" }}
+                      // to display message
+                      onClick={() =>
+                        toast({
+                          title: "Create an Account",
+                          description: "You need to login to access wishlist",
+                          status: "warning",
+                          duration: 9000,
+                          position: position,
+                          isClosable: true,
+                        })
+                      }
+                    >
+                      <BsSuitHeart /> <Text fontSize={"1.25rem"}>Wishlist</Text>
+                    </Box>
+                  )}
+                </Button>
               {/* cart button */}
               <Button
                 variant="ghost"
@@ -283,7 +272,7 @@ export default function Header() {
                   onClick={toggleCart}
                 >
                   <BsCart4 />
-                  <Text fontSize={"1xl"}>
+                  <Text fontSize={"1.25rem"}>
                     Cart{" "}
                     <Badge
                     
