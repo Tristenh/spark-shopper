@@ -23,9 +23,12 @@ import {
   ModalOverlay,
   ModalContent,
   useDisclosure,
+  Tooltip,
+  IconButton,
 } from "@chakra-ui/react";
 import { MdOutlineModeEditOutline } from "react-icons/md";
-
+//import icon used for wishlist
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -35,13 +38,18 @@ import { Spinner } from "@chakra-ui/react";
 import Cart from "../components/Cart";
 import { useStoreContext } from "../utils/GlobalState";
 import {
-  REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
   ADD_TO_CART,
   UPDATE_PRODUCTS,
   CURRENT_PRODUCT,
+  ADD_TO_WISHLIST,
+  REMOVE_FROM_WISHLIST,
 } from "../utils/actions";
 import { QUERY_PRODUCTS } from "../utils/queries";
+import { ADD_WISHLIST } from "../utils/mutations";
+import { useMutation } from "@apollo/client";
+import { QUERY_USER } from "../utils/queries";
+
 import { idbPromise } from "../utils/helpers";
 import Rating from "../components/Rating";
 import CommentList from "../components/CommentList";
@@ -51,6 +59,11 @@ import Auth from "../utils/auth";
 
 import Feature from "../components/UI/Feature";
 function Product() {
+    //mutation to add wish list
+    const [addWishList] = useMutation(ADD_WISHLIST, {
+      refetchQueries: [QUERY_USER, "getUser"],
+    });
+  let tooTipText = "";
   // set state for modal open and close
   const { isOpen, onOpen, onClose } = useDisclosure();
   const finalRef = React.useRef(null);
@@ -62,7 +75,8 @@ function Product() {
 
   const { loading, data: productData } = useQuery(QUERY_PRODUCTS);
 
-  const { products, cart, currentProduct } = state;
+  const { products, cart, currentProduct,wishList } = state;
+  const [isActive, setIsActive] = useState(false);
 
   const descriptionColor = useColorModeValue("gray.500", "gray.400");
   const headerColor = useColorModeValue("yellow.500", "yellow.300");
@@ -77,7 +91,6 @@ function Product() {
         type: CURRENT_PRODUCT,
         currentProduct: { ...product },
       });
-      // console.log(state.currentProduct)
     }
     // retrieved from server
     else if (productData) {
@@ -99,7 +112,43 @@ function Product() {
       });
     }
   }, [products, productData, loading, dispatch, id, product]);
+  const addToWishList = () => {
+    //checks whether the user is authenticated before adding to wishlist
+    if (!Auth.loggedIn()) {
+      return;
+    }
+    const itemInWishList = wishList.find(
+      (wishListItem) => wishListItem._id === currentProduct._id
+    );
 
+    if (itemInWishList) {
+      dispatch({
+        type: REMOVE_FROM_WISHLIST,
+        _id: currentProduct._id,
+      });
+      //remove the product from wishList in indexedDB
+      idbPromise("wishList", "delete", {
+        ...currentProduct,
+      });
+    } else {
+      dispatch({
+        type: ADD_TO_WISHLIST,
+        product: { ...currentProduct },
+      });
+      //Add the product to wishList in indexedDB
+      idbPromise("wishList", "put", { ...currentProduct });
+    }
+    //saves the wishlist to database
+    async function saveWishList() {
+      const wish = await idbPromise("wishList", "get");
+      const productIds = wish.map((item) => item._id);
+      // const productIds = state.wishList.map((item) => item._id);
+      const { data } = await addWishList({
+        variables: { products: productIds },
+      });
+    }
+    saveWishList();
+  };
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);
     if (itemInCart) {
@@ -121,14 +170,7 @@ function Product() {
     }
   };
 
-  const removeFromCart = () => {
-    dispatch({
-      type: REMOVE_FROM_CART,
-      _id: currentProduct._id,
-    });
 
-    idbPromise("cart", "delete", { ...currentProduct });
-  };
   function averageRating() {
     let totalRating;
     const arr = [];
@@ -146,6 +188,20 @@ function Product() {
       return starArr;
     }
   }
+  if (Auth.loggedIn()) {
+    idbPromise("wishList", "get").then((wishListProducts) => {
+      const itemInWishList = wishListProducts.find(
+        (wishListItem) => wishListItem._id === currentProduct._id
+      );
+      if (itemInWishList) {
+        setIsActive(true);
+      }
+    });
+  }
+  //changes the tootip text according to authentication
+  !Auth.loggedIn()
+    ? (tooTipText = "Login to add to Wish list")
+    : (tooTipText = "Add to Wish list");
 
   return (
     <>
@@ -417,12 +473,12 @@ function Product() {
 
                 <SimpleGrid
                   mx={4}
-                  columns={{ base: 1, md: 2 }}
+                  columns={2}
                   spacing={2}
                   alignItems={"center"}
-                  justifyContent={"space-evenly"}
+                  justifyContent={"center"}
                 >
-                  <GridItem justifySelf={"center"}>
+                  <GridItem justifySelf={"flex-end"}>
                     <Button
                       rounded={"none"}
                       mt={4}
@@ -451,35 +507,51 @@ function Product() {
                       Add to cart
                     </Button>
                   </GridItem>
-                  <GridItem justifySelf={"center"}>
+                  <GridItem justifySelf={"flex-start"} mt={2} >
                     {" "}
-                    <Button
-                      disabled={!cart.find((p) => p._id === currentProduct._id)}
-                      mt={4}
-                      p={4}
-                      size={"lg"}
-                      py={"7"}
-                      color={"black"}
-                      bgColor="#495C62"
-                      borderRadius="full"
-                      width={{
-                        base: "220px",
-                        sm: "220px",
-
-                        lg: "200px",
-                        xl: "200px",
-                      }}
-                      align={"center"}
-                      textTransform={"uppercase"}
-                      _hover={{
-                        bg: "gray.700",
-                        transform: "translateY(2px)",
-                        boxShadow: "lg",
-                      }}
-                      onClick={removeFromCart}
-                    >
-                      Remove from Cart
-                    </Button>
+                    <Box
+            onClick={() => {
+              setIsActive(!isActive);
+            }}
+          >
+            {isActive && Auth.loggedIn() ? (
+              <IconButton
+                isRound={true}
+                variant="solid"
+                colorScheme="gray"
+                aria-label="Done"
+                fontSize="20px"
+                icon={<FaHeart />}
+                color="red.600"
+                onClick={addToWishList}
+                _hover={{
+                  fontSize: { base: "20px", md: "24px" },
+                }}
+              />
+            ) : (
+              <Tooltip
+                label={tooTipText}
+                bg="white"
+                placement={"top"}
+                color={"gray.800"}
+                fontSize={"1.2em"}
+              >
+                <IconButton
+                  isRound={true}
+                  variant="solid"
+                  colorScheme="gray"
+                  aria-label="Done"
+                  fontSize="20px"
+                  icon={<FaRegHeart />}
+                  onClick={addToWishList}
+                  _hover={{
+                    color: "red.600",
+                    fontSize: { base: "20px", md: "24px" },
+                  }}
+                />
+              </Tooltip>
+            )}
+          </Box>
                   </GridItem>
                 </SimpleGrid>
               </Stack>
