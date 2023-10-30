@@ -1,7 +1,7 @@
 # Spark Shopper
 
 ## Description
-ntroducing SparkShopper, your one-stop shop for hassle free online shopping. Weather you're hunting for the latest gadgets or curating a wish list, we've got you covered. Here's what we offer:
+ntroducing SparkShopper, your one-stop shop for hassle free online shopping. Whether you're hunting for the latest gadgets or curating a wish list, we've got you covered. Here's what we offer:
 * **Easy Registration:** Sign up and start your personalised shopping experience in no time.
 * **Efficient Search:** Discover a wide range of electronics with our powerful search feature.
 * **Quick Car Additions:** Add products to your cart with a single click for a seamless shopping experience.
