@@ -132,6 +132,37 @@ db.once("open", async () => {
       subcategory: subcategories[15]._id,
     },
     {
+      name: '"Sony 75" X77L Bravia LED 4K Google TV [2023]',
+      description:
+        'A clear picture, whatever you watch.\n\n Images filmed in 2K and even HD are upscaled close to 4K. Our 4K X-Reality™ PRO uses a unique 4K database to sharpen and refine pictures in real time, revealing extra details.1\n Incredibly sharp 6.5" Full HD+ display\n\n Bring movies, shows, games, and video calls to life with picture perfect clarity.\n\n Stereo speakers with Dolby Atmos®\n\nImmerse yourself in multidimensional sound, listening with improved bass, cleaner vocals, and more clarity.\n\n Advanced 50MP2 camera system\n\nCapture beautifully detailed photos day or night and explore up close with a dedicated Macro Vision lens.\n\n Beautifully crafted design.',
+      features:
+        'Incredibly sharp 6.5" Full HD+ display\n\n Stereo speakers with Dolby Atmos®\n\n  Advanced 50MP2 camera system\n\n Beautifully crafted design\n\nOutstanding battery life\n\n 128GB built-in storage4\n\n Powerful octa-core performance',
+      image: "tv1.webp",
+      price: 1795,
+      quantity: 10,
+      subcategory: subcategories[20]._id,
+    },
+    {
+      name: "MARVEL’S SPIDER-MAN 2",
+      description:
+        "Spider-Men, Peter Parker and Miles Morales, return for an exciting new adventure in the critically acclaimed Marvel’s Spider-Man franchise.\n\n.Swing, jump and utilise the new Web Wings to travel across Marvel’s New York, quickly switching between Peter Parker and Miles Morales to experience different stories and epic new powers, as the iconic villain Venom threatens to destroy their lives, their city and the ones they love",
+      features:
+        "An evolution of the Spider-Man story\n The incredible power of the symbiote forces Peter and Miles to face the ultimate test of strength, both inside and outside the mask, as they balance their lives, friendships and their duty to protect those in need.\n\n Experience two playable Spider-Men\n Quickly swap between both Spider-Men as you explore an expanded Marvel’s New York. Experience Peter’s new symbiote abilities and Miles’ explosive bio-electric venom powers, and discover upgradeable, high-tech equipment that enhances the combat experience for extensive gameplay depth and variety.\n\n Battle iconic Marvel Super Villains\nFight against a variety of new and iconic villains, including an original take on the monstrous Venom, the ruthless Kraven the Hunter, the volatile Lizard and many more!",
+      image: "spider.webp",
+      price: 99,
+      quantity: 10,
+      subcategory: subcategories[21]._id,
+    },
+    {
+      name: "Assassin's Creed Mirage",
+      description:"Experience the story of Basim, a cunning street thief with nightmarish visions, seeking answers and justice as he navigates the bustling streets of ninth-century Baghdad. Through a mysterious, ancient organization known as the Hidden Ones, he will become a deadly Master Assassin and change his fate in ways he never could have imagined.",
+      features:"Discover a tightly crafted, narrative-driven action-adventure experience that follows the transformation of a defiant young man into a refined Master Assassin. \n Journey to Alamut, the legendary home of the Assassins who laid the foundations of the Creed in this heartfelt homage to the game that started it all\nExperience a modern take on the iconic features and gameplay that have defined a franchise for 15 years as you parkour seamlessly through the city and stealthily take down targets with more visceral assassinations than ever before.",
+      image: "xbox.webp",
+      price: 69,
+      quantity: 2,
+      subcategory: subcategories[22]._id,
+    },
+    {
       name: "Panasonic LUMIX S5II Full-Frame Mirrorless Camera with 20-60mm Lens [6K Video]",
       description:
         "Focus On What Matters\n\nThe new Phase Hybrid Autofocus is fast, accurate and continuously tracks the subject, meeting the demands of modern content creators. The LUMIX S5II has you covered even in the most challenging situations.\n\n Same Shot. Different Crop.\nModern filmmakers, content creators and vloggers will love the full sensor 6K (3:2) recording in the new S5II. Giving you more room to crop from a single shot while maintaining 4K resolution even with vertical cuts. With endless aspect ratios and guides to help you frame your shot, this is a workflow game changer.\n\nA Look to Suit Your Style\nLove a preset? Now LUMIX S5II gives you the ability to add your favourite LUTs directly into the camera. Get a stylised look instantly without the need to edit your photos and videos.\n\n Long Takes. No Breaks.\nEnjoy unlimited recording time with our new Active Cooling Technology, perfect for hot Aussie summers. \n\n",
@@ -188,37 +219,7 @@ db.once("open", async () => {
       quantity: 10,
       subcategory: subcategories[13]._id,
     },
-    {
-      name: '"Sony 75" X77L Bravia LED 4K Google TV [2023]',
-      description:
-        'A clear picture, whatever you watch.\n\n Images filmed in 2K and even HD are upscaled close to 4K. Our 4K X-Reality™ PRO uses a unique 4K database to sharpen and refine pictures in real time, revealing extra details.1\n Incredibly sharp 6.5" Full HD+ display\n\n Bring movies, shows, games, and video calls to life with picture perfect clarity.\n\n Stereo speakers with Dolby Atmos®\n\nImmerse yourself in multidimensional sound, listening with improved bass, cleaner vocals, and more clarity.\n\n Advanced 50MP2 camera system\n\nCapture beautifully detailed photos day or night and explore up close with a dedicated Macro Vision lens.\n\n Beautifully crafted design.',
-      features:
-        'Incredibly sharp 6.5" Full HD+ display\n\n Stereo speakers with Dolby Atmos®\n\n  Advanced 50MP2 camera system\n\n Beautifully crafted design\n\nOutstanding battery life\n\n 128GB built-in storage4\n\n Powerful octa-core performance',
-      image: "tv1.webp",
-      price: 1795,
-      quantity: 10,
-      subcategory: subcategories[20]._id,
-    },
-    {
-      name: "MARVEL’S SPIDER-MAN 2",
-      description:
-        "Spider-Men, Peter Parker and Miles Morales, return for an exciting new adventure in the critically acclaimed Marvel’s Spider-Man franchise.\n\n.Swing, jump and utilise the new Web Wings to travel across Marvel’s New York, quickly switching between Peter Parker and Miles Morales to experience different stories and epic new powers, as the iconic villain Venom threatens to destroy their lives, their city and the ones they love",
-      features:
-        "An evolution of the Spider-Man story\n The incredible power of the symbiote forces Peter and Miles to face the ultimate test of strength, both inside and outside the mask, as they balance their lives, friendships and their duty to protect those in need.\n\n Experience two playable Spider-Men\n Quickly swap between both Spider-Men as you explore an expanded Marvel’s New York. Experience Peter’s new symbiote abilities and Miles’ explosive bio-electric venom powers, and discover upgradeable, high-tech equipment that enhances the combat experience for extensive gameplay depth and variety.\n\n Battle iconic Marvel Super Villains\nFight against a variety of new and iconic villains, including an original take on the monstrous Venom, the ruthless Kraven the Hunter, the volatile Lizard and many more!",
-      image: "spider.webp",
-      price: 99,
-      quantity: 10,
-      subcategory: subcategories[21]._id,
-    },
-    {
-      name: "Assassin's Creed Mirage",
-      description:"Experience the story of Basim, a cunning street thief with nightmarish visions, seeking answers and justice as he navigates the bustling streets of ninth-century Baghdad. Through a mysterious, ancient organization known as the Hidden Ones, he will become a deadly Master Assassin and change his fate in ways he never could have imagined.",
-      features:"Discover a tightly crafted, narrative-driven action-adventure experience that follows the transformation of a defiant young man into a refined Master Assassin. \n Journey to Alamut, the legendary home of the Assassins who laid the foundations of the Creed in this heartfelt homage to the game that started it all\nExperience a modern take on the iconic features and gameplay that have defined a franchise for 15 years as you parkour seamlessly through the city and stealthily take down targets with more visceral assassinations than ever before.",
-      image: "xbox.webp",
-      price: 69,
-      quantity: 2,
-      subcategory: subcategories[22]._id,
-    },
+    
   ]);
 
   console.log("products seeded");

@@ -17,8 +17,9 @@ const CommentList = () => {
         </Box>
       </Stack>
       <VStack alignItems={"flex-start"}>
+        
         {currentProduct.comments &&
-          currentProduct.comments.map((comment) => (
+         currentProduct.comments.map((comment) => (
             <Box
               key={comment._id}
               w="90%"

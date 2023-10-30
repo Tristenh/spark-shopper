@@ -14,7 +14,7 @@ export default function ErrorPage() {
         <h1>Oops! You seem to be lost.</h1>
 
         <Link to="/">Go back to main page</Link>
-        <img src="./images/404.jpg/" />
+        <img src="../images/404.jpg/" />
       </Jumbotron>
     </div>
   );
