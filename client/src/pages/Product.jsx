@@ -1,5 +1,3 @@
-// import packages from react
-import React from "react";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 // import chakra components
@@ -19,24 +17,17 @@ import {
   AccordionItem,
   AccordionPanel,
   AccordionButton,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  useDisclosure,
   Tooltip,
   IconButton,
+  StackDivider,
 } from "@chakra-ui/react";
 // import react icons for wishlist and write a review button
-import { MdOutlineModeEditOutline } from "react-icons/md";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { Spinner } from "@chakra-ui/react";
 // import chakra icon for accordian button
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
 import { useQuery, useMutation } from "@apollo/client";
-
+import Reviews from "../components/Reviews";
 import Cart from "../components/Cart";
 import { useStoreContext } from "../utils/GlobalState";
 import {
@@ -52,8 +43,6 @@ import { idbPromise } from "../utils/helpers";
 
 import { ADD_WISHLIST } from "../utils/mutations";
 
-import Rating from "../components/Rating";
-import CommentList from "../components/CommentList";
 import StarDisplay from "../components/UI/StarDisplay";
 import { FaStar } from "react-icons/fa";
 import Auth from "../utils/auth";
@@ -65,10 +54,7 @@ function Product() {
     refetchQueries: [QUERY_USER, "getUser"],
   });
   let tooTipText = "";
-  // set state for modal open and close
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const finalRef = React.useRef(null);
-  // const initialRef = React.useRef(null);
+
   const [state, dispatch] = useStoreContext();
   const { id } = useParams();
 
@@ -81,6 +67,7 @@ function Product() {
 
   const descriptionColor = useColorModeValue("gray.500", "gray.400");
   const headerColor = useColorModeValue("yellow.500", "yellow.300");
+  const dividerColor=useColorModeValue('gray.200', 'gray.600');
   let averageRatingAmount;
 
   useEffect(() => {
@@ -144,7 +131,7 @@ function Product() {
       const wish = await idbPromise("wishList", "get");
       const productIds = wish.map((item) => item._id);
       // const productIds = state.wishList.map((item) => item._id);
-      const { data } = await addWishList({
+      await addWishList({
         variables: { products: productIds },
       });
     }
@@ -237,7 +224,7 @@ function Product() {
                 align={"center"}
                 w={"100%"}
                 py={4}
-                h={{ base: "auto", sm: "500px", lg: "700px" }}
+                h={{ base: "auto", sm: "400px", lg: "500px" }}
               />
               <Flex
                 rounded={"md"}
@@ -247,7 +234,6 @@ function Product() {
                 bg={"white"}
                 p={6}
                 spacing={{ base: 6, md: 10 }}
-             
                 columns={2}
                 alignItems={"center"}
                 justifyContent={"center"}
@@ -255,7 +241,7 @@ function Product() {
               >
                 <Button
                   rounded={"none"}
-                 mr={2}
+                  mr={2}
                   p={4}
                   size={"lg"}
                   py={"7"}
@@ -264,9 +250,9 @@ function Product() {
                   borderRadius="full"
                   width={{
                     base: "150px",
-                      sm: "190px",
-                      md: "220px",
-                      lg: "200px",
+                    sm: "190px",
+                    md: "220px",
+                    lg: "200px",
                   }}
                   align={"center"}
                   textTransform={"uppercase"}
@@ -324,23 +310,9 @@ function Product() {
                   )}
                 </Box>
               </Flex>
-              {/* <Accordion
-                rounded={"md"}
-                border={"2px solid"}
-                borderColor={"gray.100"}
-                boxShadow={"2xl"}
-                bg={"white"}
-                p={6}
-                spacing={{ base: 6, md: 10 }}
-                allowMultiple
-                w={"100%"}
-                px={2}
-              >
-               
-              </Accordion> */}
             </VStack>
             <VStack
-            h={"auto"}
+              h={"auto"}
               rounded={"md"}
               border={"2px solid"}
               borderColor={"gray.100"}
@@ -348,6 +320,9 @@ function Product() {
               p={10}
               spacing={{ base: 6, md: 10 }}
               alignItems={"start"}
+              divider={
+                <StackDivider borderColor={dividerColor} />
+              }
             >
               <Box as={"header"}>
                 <Heading
@@ -365,7 +340,7 @@ function Product() {
                         key={i}
                         viewBox={`0 0 ${val * 576} 512`}
                         size={val < 1 ? "18" : "20"}
-                        color="#FFFF00"
+                        color="#FFEE58"
                       />
                     ))}
                   <Text fontSize={"sm"} fontWeight={"400"}>
@@ -381,19 +356,17 @@ function Product() {
                   p={2}
                   bgGradient="linear(to-r, #94948C, yellow.400, #94948C)"
                   align={"center"}
-                  borderTopLeftRadius={40}
-                  borderBottomRightRadius={40}
                   width="150px"
                   fontWeight={700}
                   borderRadius={5}
                   mb={-2}
-                  mt={4}
+                  mt={6}
                 >
                   {`$${currentProduct.price}`}
                 </Box>
               </Box>
-              <Stack spacing={{ base: 4, sm: 6 }} direction={"column"}>
-                {/* <VStack  > */}
+              <Stack spacing={{ base: 4, sm: 6 }} direction={"column"}
+              >
                 <Text
                   textAlign={{ md: "justify" }}
                   color={descriptionColor}
@@ -402,8 +375,7 @@ function Product() {
                 >
                   {currentProduct.description}
                 </Text>
-                {/* /VStack> */}
-                {/* <VStack alignItems={"start"}> */}
+
                 <Accordion allowMultiple w={"100%"}>
                   <AccordionItem>
                     {({ isExpanded }) => (
@@ -436,129 +408,7 @@ function Product() {
                       </>
                     )}
                   </AccordionItem>
-                  <AccordionItem>
-                    {({ isExpanded }) => (
-                      <>
-                        <h2>
-                          <AccordionButton
-                            _expanded={{ bg: "back.900", color: "white" }}
-                          >
-                            <Box
-                              fontSize={{ base: "16px", lg: "18px" }}
-                              color={headerColor}
-                              fontWeight={"500"}
-                              textTransform={"uppercase"}
-                              mb={"4"}
-                              as="span"
-                              flex="1"
-                              textAlign="left"
-                            >
-                              Reviews
-                            </Box>
-                            {isExpanded ? (
-                              <MinusIcon fontSize="12px" />
-                            ) : (
-                              <AddIcon fontSize="12px" />
-                            )}
-                          </AccordionButton>
-                        </h2>
-                        <AccordionPanel pb={4}>
-                          <Box display="flex" alignItems="center">
-                            {averageRating() &&
-                              averageRating().map((val, i) => (
-                                <FaStar
-                                  key={i}
-                                  viewBox={`0 0 ${val * 576} 512`}
-                                  size={val < 1 ? "18" : "20"}
-                                  color="#FFFF00"
-                                />
-                              ))}
-                            <VStack>
-                              {isNaN(averageRatingAmount) ? (
-                                <>
-                                  {" "}
-                                  <Text>This product has no reviews</Text>
-                                </>
-                              ) : (
-                                <>
-                                  {" "}
-                                  <Text mt={2} fontSize={"xs"}>
-                                    Average Rating
-                                  </Text>{" "}
-                                  <Text fontSize={"lg"} fontWeight={"400"}>
-                                    {averageRatingAmount}
-                                  </Text>{" "}
-                                </>
-                              )}
-                            </VStack>
-                          </Box>
-                          {currentProduct.comments &&
-                          currentProduct.comments.length === 0 ? (
-                            ""
-                          ) : (
-                            <>
-                              {" "}
-                              <Box as="span" ml="2" fontSize="sm">
-                                {currentProduct.comments &&
-                                  currentProduct.comments.length}{" "}
-                                reviews
-                              </Box>
-                            </>
-                          )}
-
-                          {/*can write review when logged in */}
-                          {Auth.loggedIn() ? (
-                            <>
-                              <Box
-                                ref={finalRef}
-                                tabIndex={-1}
-                                aria-label="Focus moved to this box"
-                              ></Box>
-
-                              <Button
-                                variant="ghost"
-                                my={6}
-                                boxShadow={"2xl"}
-                                border={"2px solid"}
-                                borderColor={"gray.300"}
-                                onClick={onOpen}
-                                _hover={{ bg: "gray.400" }}
-                              >
-                                <MdOutlineModeEditOutline />
-                                <Text ml={3}>Write a Review</Text>
-                              </Button>
-                              <Modal
-                                size={{ base: "xs", md: "lg" }}
-                                aria-labelledby="review-modal"
-                                finalFocusRef={finalRef}
-                                isOpen={isOpen}
-                                onClose={onClose}
-                              >
-                                <ModalOverlay />
-                                <ModalContent bg={"back.900"}>
-                                  <ModalHeader
-                                    mb={5}
-                                    borderBottom={"2px solid"}
-                                    borderColor={"gray.400"}
-                                    color={"white"}
-                                  >
-                                    Write a Review
-                                  </ModalHeader>
-                                  <ModalCloseButton />
-                                  <ModalBody>
-                                    <Rating close={onClose} />
-                                  </ModalBody>
-                                </ModalContent>
-                              </Modal>
-                            </>
-                          ) : (
-                            ""
-                          )}
-                          <CommentList />
-                        </AccordionPanel>
-                      </>
-                    )}
-                  </AccordionItem>
+                  <Reviews averageRatingAmount={averageRatingAmount} />
                 </Accordion>
               </Stack>
             </VStack>

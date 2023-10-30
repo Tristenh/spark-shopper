@@ -35,6 +35,7 @@ export default function StarRating({ close }) {
       </HStack>
       <Text color={"white"}>Review this product</Text>
       <HStack mt={6}>
+        
         <CommentForm  rating={rating} setRating={setRating} close={close} />
       </HStack>
     </>

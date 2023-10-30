@@ -5,7 +5,6 @@ import {
   VStack,
   Flex,
   HStack,
-  Heading,
 } from "@chakra-ui/react";
 import { AiFillStar } from "react-icons/ai";
 import { useStoreContext } from "../../utils/GlobalState";
@@ -72,7 +71,6 @@ const CommentList = () => {
                   <Text borderLeft={"1px"} borderColor="gray.600" pl={4} fontSize={"md"} fontWeight={"semibold"}>
                     {comment.commentDesc}
                   </Text>
-                  {/* <BsArrowUpRight   /> */}
                 </Flex>
               </HStack>
             </Box>
