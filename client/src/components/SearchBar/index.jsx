@@ -20,7 +20,7 @@ function SearchBar() {
   //useState for searchTitle
   const [searchTitle, setSearchTitle] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [state, dispatch] = useStoreContext();
+  const [ dispatch] = useStoreContext();
 
   const handleSearchInput = (e) => {
     const value = e.target.value;

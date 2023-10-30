@@ -35,9 +35,7 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { Spinner } from "@chakra-ui/react";
 // import chakra icon for accordian button
 import { MinusIcon, AddIcon } from "@chakra-ui/icons";
-
-import { useQuery } from "@apollo/client";
-
+import { useQuery,useMutation } from "@apollo/client";
 
 import Cart from "../components/Cart";
 import { useStoreContext } from "../utils/GlobalState";
@@ -49,12 +47,12 @@ import {
   ADD_TO_WISHLIST,
   REMOVE_FROM_WISHLIST,
 } from "../utils/actions";
-import { QUERY_PRODUCTS } from "../utils/queries";
-import { ADD_WISHLIST } from "../utils/mutations";
-import { useMutation } from "@apollo/client";
-import { QUERY_USER } from "../utils/queries";
-
+import { QUERY_PRODUCTS,QUERY_USER } from "../utils/queries";
 import { idbPromise } from "../utils/helpers";
+
+import { ADD_WISHLIST } from "../utils/mutations";
+
+
 import Rating from "../components/Rating";
 import CommentList from "../components/CommentList";
 import StarDisplay from "../components/UI/StarDisplay";

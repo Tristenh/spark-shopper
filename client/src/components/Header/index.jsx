@@ -214,29 +214,7 @@ export default function Header() {
               justify={{ base: "center", md: "space-between" }}
             >
               {/* search bar */}
-              <InputGroup borderRadius={5} size="md">
-                <InputLeftElement
-                  pointerEvents="none"
-                  // children={<Search2Icon color="gray.600" />}
-                />
-                <Input
-                  type="text"
-                  placeholder="Search..."
-                  border="1px solid #949494"
-                />
-                <InputRightAddon p={0} border="none">
-                  <Button
-                    size="md"
-                    borderLeftRadius={0}
-                    borderRightRadius={5}
-                    border="2px solid #949494"
-                    bgGradient="linear(to-r, orange.300, yellow.400)"
-                    _hover={{ bg: "gray.500" }}
-                  >
-                    <SearchIcon />
-                  </Button>
-                </InputRightAddon>
-              </InputGroup>
+              <SearchBar />
               {/* category menu */}
               <CategoryMenu />
               {/* wishlist button */}
