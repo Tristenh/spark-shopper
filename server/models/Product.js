@@ -69,6 +69,11 @@ const productSchema = new Schema({
 productSchema.index({
   name: "text",
 });
+//creates index for search
+productSchema.index({
+  name: "text",
+});
+
 // export the Product model
 const Product = model("Product", productSchema);
 module.exports = Product;

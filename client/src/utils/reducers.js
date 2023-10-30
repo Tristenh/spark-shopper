@@ -139,6 +139,7 @@ export const reducer = (state, action) => {
         ...state,
         wishList: [],
       };
+
     // Returns a copy of state with an updated comments array. We use the action.comments property and spread it's contents into the new array.
 
       case ADD_COMMENT_TEXT:

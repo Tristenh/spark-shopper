@@ -89,7 +89,9 @@ function CategoryMenu() {
                 {isOpen ? "Products" : "Products"}
               </Text>
             </MenuButton>
+
             <MenuList bg={"back.900"} color={"white"}  opacity={".8"} minWidth={{base:"8rem",sm:"12rem"}} >
+
               {/* run through all categories */}
               {categories.map((item) => (
                 <MenuItem
