@@ -7,6 +7,8 @@ import {
   Flex,
   VStack,
   Divider,
+  Center,
+  
 } from "@chakra-ui/react";
 
 import { useQuery } from "@apollo/client";
@@ -21,8 +23,10 @@ import { QUERY_PRODUCTS, QUERY_USER } from "../../utils/queries";
 import { idbPromise } from "../../utils/helpers";
 
 function ProductList() {
+  let title = "";
   const [state, dispatch] = useStoreContext();
   const { currentSubCategory } = state;
+
   //Call the useQuery QUERY_PRODUCTS to get all the products
   const { loading: productLoading, data: productData } =
     useQuery(QUERY_PRODUCTS);
@@ -49,37 +53,53 @@ function ProductList() {
     }
   }, [userWishListLoading, userWishListData, dispatch]);
   useEffect(() => {
-    if (productData) {
-      //dispatches the action UPDATE_PRODUCTS to update the state with new products
-      dispatch({
-        type: UPDATE_PRODUCTS,
-        products: productData.products,
-      });
-      //update indexedDB with new products
-      productData.products.forEach((product) => {
-        idbPromise("products", "put", product);
-      });
-    } else if (!productLoading) {
-      //gets the products from indexedDB and updates the state products
-      idbPromise("products", "get").then((products) => {
+    //checks whether the products are not rendering from search results
+    if (!state.search) {
+      if (productData) {
+        //dispatches the action UPDATE_PRODUCTS to update the state with new products
         dispatch({
           type: UPDATE_PRODUCTS,
-          products: products,
+          products: productData.products,
         });
-      });
+        //update indexedDB with new products
+        productData.products.forEach((product) => {
+          idbPromise("products", "put", product);
+        });
+      } else if (!productLoading) {
+        //gets the products from indexedDB and updates the state products
+        idbPromise("products", "get").then((products) => {
+          dispatch({
+            type: UPDATE_PRODUCTS,
+            products: products,
+          });
+        });
+      }
     }
-  }, [productData, productLoading, dispatch]);
+  }, [productData, productLoading, state.search, dispatch]);
 
-  //return all products
   function filterProducts() {
+    //return searched products based on search bar text
+    if (state.search) {
+      return state.searchedProducts;
+    }
+    //return all products
     if (!currentSubCategory) {
       return state.products;
     }
+
     //returns  products based on subcategory
     return state.products.filter(
       (product) => product.subcategory._id === currentSubCategory
     );
   }
+  if (state.search) {
+    title = "Search Results";
+  } else if (state.subCategoryName != "") {
+    title = state.subCategoryName;
+  } else {
+    title = " New Arrivals";
+  }
+
   return (
     <Flex justify={"center"} mt={50}>
       {productLoading ? (
@@ -98,38 +118,44 @@ function ProductList() {
               bgGradient="linear(to-r, orange.300, yellow.400)"
               bgClip="text"
             >
-              New Arrivals
+              {title}
             </Heading>
             <Divider
               borderColor="#51636C"
               mt={{ base: 12, md: 5 }}
               mb={{ base: 1, md: 5 }}
-              opacity={0.2}
+              width={"full"}
             />
-            <Grid
-              templateRows={{
-                base: "repeat(1, 1fr)",
-                md: "repeat(2, 1fr)",
-                lg: "repeat(3, 1fr)",
-              }}
-              templateColumns={{
-                base: "repeat(1, 1fr)",
-                md: "repeat(2, 1fr)",
-                lg: "repeat(3, 1fr)",
-              }}
-            >
-              {/*Iterate through each product and renders the component ProductItem by passing values */}
-              {filterProducts().map((product) => (
-                <ProductItem
-                  key={product._id}
-                  _id={product._id}
-                  image={product.image}
-                  name={product.name}
-                  price={product.price}
-                  quantity={product.quantity}
-                />
-              ))}
-            </Grid>
+            {filterProducts().length ? (
+              <Grid
+                templateRows={{
+                  base: "repeat(1, 1fr)",
+                  md: "repeat(2, 1fr)",
+                  lg: "repeat(3, 1fr)",
+                }}
+                templateColumns={{
+                  base: "repeat(1, 1fr)",
+                  md: "repeat(2, 1fr)",
+                  lg: "repeat(3, 1fr)",
+                }}
+              >
+                {/*Iterate through each product and renders the component ProductItem by passing values */}
+                {filterProducts().map((product) => (
+                  <ProductItem
+                    key={product._id}
+                    _id={product._id}
+                    image={product.image}
+                    name={product.name}
+                    price={product.price}
+                    quantity={product.quantity}
+                  />
+                ))}
+              </Grid>
+            ) : (
+              <Center>
+                <Heading fontSize={20}>No Results found</Heading>
+              </Center>
+            )}
           </VStack>
         </>
       ) : (

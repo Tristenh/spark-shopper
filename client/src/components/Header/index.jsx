@@ -27,18 +27,25 @@ import { BsSuitHeart, BsCart4 } from "react-icons/bs";
 import Nav from "../Nav";
 import CategoryMenu from "../CategoryMenu";
 import Auth from "../../utils/auth";
-
+import SearchBar from "../SearchBar";
 import { useStoreContext } from "../../utils/GlobalState";
-import { TOGGLE_CART } from "../../utils/actions";
+import {
+  TOGGLE_CART,
+  CLEAR_SEARCH,
+  CLEAR_CURRENT_SUBCATEGORY,
+  CURRENT_SUBCATEGORY_NAME,
+} from "../../utils/actions";
 
 export default function Header() {
   //check menu open or close
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [state, dispatch] = useStoreContext();
+
   const arr = [];
-  let totalQuantity;
+  let totalQuantity = 0;
   const toast = useToast();
   const position = ["top"];
+
   //toggles the cart
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
@@ -50,6 +57,15 @@ export default function Header() {
       return acc + val;
     }, 0);
   }
+
+  //clears the state search , current subcategory id and name while clicking on logo to go back to home
+  const handleLogoClick = async () => {
+    dispatch({
+      type: CLEAR_SEARCH,
+    });
+    dispatch({ type: CLEAR_CURRENT_SUBCATEGORY });
+    dispatch({ type: CURRENT_SUBCATEGORY_NAME, currentSubCategoryName: "" });
+  };
   return (
     <>
       <Box bg={"back.900"} px={{ base: "30", md: "20", xl: "20" }} size={"md"}>
@@ -71,8 +87,8 @@ export default function Header() {
           <Flex w={{ xl: "40%" }}>
             <HStack spacing={12} alignItems={"center"}>
               {/* logo */}
-              <Box>
-                <Link reloadDocument to={"/"}>
+              <Box onClick={handleLogoClick}>
+                <Link to={"/"}>
                   {" "}
                   <Image src={"/images/logo.jpg"} />
                 </Link>
@@ -84,31 +100,7 @@ export default function Header() {
                 display={{ base: "none", xl: "flex" }}
               >
                 {/* search bar */}
-                <InputGroup
-                  borderRadius={5}
-                  size={"md"}
-                  w={{ base: "300px", "2xl": "400px" }}
-                  my={5}
-                >
-                  <InputLeftElement pointerEvents="none" />
-                  <Input
-                    type="text"
-                    placeholder="Search..."
-                    border="2px solid #949494"
-                  />
-                  <InputRightAddon p={0} border="none">
-                    <Button
-                      size="md"
-                      borderLeftRadius={0}
-                      borderRightRadius={5}
-                      border="2px solid #949494"
-                      bgGradient="linear(to-r, orange.300, yellow.400)"
-                      _hover={{ bg: "gray.500" }}
-                    >
-                      <SearchIcon />
-                    </Button>
-                  </InputRightAddon>
-                </InputGroup>
+                <SearchBar />
               </HStack>
             </HStack>
           </Flex>
@@ -117,9 +109,12 @@ export default function Header() {
             w={{ base: "none", xl: "10%" }}
             display={{ base: "none", xl: "flex" }}
           >
-            <Text fontSize={"2xl"} color={"orange"} className="blink">
-              Welcome!
-            </Text>
+            <Text
+              fontSize={"2xl"}
+              className="blink"
+              bgGradient="linear(to-r, orange.300, yellow.400)"
+              bgClip="text"
+            ></Text>
           </Flex>
           <Flex w={{ xl: "50%" }} justifyContent={"center"}>
             <HStack spacing={8} display={{ base: "none", xl: "flex" }} mr={8}>
@@ -140,7 +135,11 @@ export default function Header() {
                       color={"white"}
                       _hover={{ color: "black" }}
                     >
-                      <BsSuitHeart /><Link to='/profile' > <Text fontSize={"1.25rem"}>Wishlist</Text></Link> 
+                      <BsSuitHeart />
+                      <Link to="/profile">
+                        {" "}
+                        <Text fontSize={"1.25rem"}>Wishlist</Text>
+                      </Link>
                     </Box>
                   ) : (
                     <Box
@@ -154,7 +153,7 @@ export default function Header() {
                         toast({
                           title: "Create an Account",
                           description: "You need to login to access wishlist",
-                          status: "error",
+                          status: "warning",
                           duration: 9000,
                           position: position,
                           isClosable: true,
@@ -185,7 +184,10 @@ export default function Header() {
                       Cart{" "}
                       <Badge
                         bgGradient="linear(to-r, orange.300, yellow.400)"
+                        p={0}
+                        fontSize={".7rem"}
                       >
+                        {" "}
                         {state.cart.map((item) => {
                           totalQuantity = addPurchaseQuantity(
                             item.purchaseQuantity

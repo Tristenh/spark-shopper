@@ -11,8 +11,8 @@ const productSchema = new Schema({
   description: {
     type: String,
   },
-  features:{
-    type:String,
+  features: {
+    type: String,
   },
   image: {
     type: String,
@@ -65,7 +65,10 @@ const productSchema = new Schema({
   //   ref: "Comment",
   // },
 });
-
+//creates index for search
+productSchema.index({
+  name: "text",
+});
 // export the Product model
 const Product = model("Product", productSchema);
 module.exports = Product;

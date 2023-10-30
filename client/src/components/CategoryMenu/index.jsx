@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
-// importing package 
+// importing package
 import { useQuery } from "@apollo/client";
 import { useStoreContext } from "../../utils/GlobalState";
 import {
@@ -32,7 +32,7 @@ function CategoryMenu() {
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
   //create state for dropdown to check open or close
   const [dropdown, setDropdown] = useState(false);
-// level to check menu has submenu item
+  // level to check menu has submenu item
   const level = 0;
 
   useEffect(() => {
@@ -85,7 +85,7 @@ function CategoryMenu() {
               _hover={{ bg: "gray.400", color: "black" }}
               rightIcon={<ChevronDownIcon />}
             >
-              <Text fontSize={"1.50rem"}>
+              <Text fontSize={"1.25rem"}>
                 {isOpen ? "Products" : "Products"}
               </Text>
             </MenuButton>
@@ -95,7 +95,6 @@ function CategoryMenu() {
                 <MenuItem
                   as="ul"
                   position={"relative"}
-                 
                   key={item._id}
                   px={2}
                   py={1}
@@ -106,14 +105,16 @@ function CategoryMenu() {
                   _hover={{ bg: "gray.400", color: "black" }}
                   onClick={closeDropdown}
                 >
-                  <Text >
-                   {item.name} </Text>
-                    {level === 0 ? (
-                      <span style={{right:"4px",position: "absolute"}} > &raquo;</span>
-                    ) : (
-                      <Link to={"/"}>{item.name}</Link>
-                    )}
-                 {/* check current category is same as selected id and fetches subcategories of selected category */}
+                  <Text>{item.name} </Text>
+                  {level === 0 ? (
+                    <span style={{ right: "4px", position: "absolute" }}>
+                      {" "}
+                      &raquo;
+                    </span>
+                  ) : (
+                    <Link to={"/"}>{item.name}</Link>
+                  )}
+                  {/* check current category is same as selected id and fetches subcategories of selected category */}
                   {state.currentCategory === item._id ? (
                     <Dropdown
                       setDropdown={setDropdown}

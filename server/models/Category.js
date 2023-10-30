@@ -8,7 +8,10 @@ const categorySchema = new Schema({
     trim: true,
   },
 });
-
+//creates index for search
+categorySchema.index({
+  name: "text",
+});
 // export the Category model
 const Category = model("Category", categorySchema);
 module.exports = Category;

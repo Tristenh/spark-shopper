@@ -118,3 +118,14 @@ export const QUERY_CHECKOUT = gql`
     }
   }
 `;
+export const QUERY_SEARCH = gql`
+  query Search($name: String!) {
+    search(name: $name) {
+      _id
+      name
+      image
+      price
+      quantity
+    }
+  }
+`;

@@ -48,12 +48,11 @@ function ProductItem(item) {
   });
   //adds to  the  state wishList if the item not present already ,otherwise deletes the product from wishList state
   const addToWishList = () => {
-    console.log("removing from wish");
     //checks whether the user is authenticated before adding to wishlist
     if (!Auth.loggedIn()) {
       return;
     }
-    console.log(wishList);
+
     const itemInWishList = wishList.find(
       (wishListItem) => wishListItem._id === _id
     );
@@ -79,7 +78,7 @@ function ProductItem(item) {
     async function saveWishList() {
       const wish = await idbPromise("wishList", "get");
       const productIds = wish.map((item) => item._id);
-      console.log("save wshlist");
+
       // const productIds = state.wishList.map((item) => item._id);
       const { data } = await addWishList({
         variables: { products: productIds },
@@ -87,10 +86,9 @@ function ProductItem(item) {
     }
     saveWishList();
   };
-  console.log(state.wishList);
+
   //adds to  the  state cart if the item not present already ,otherwise  updates the purchase quantity and also updates the indexedDB
   const addToCart = () => {
-    console.log("adding to cart");
     const itemInCart = cart.find((cartItem) => cartItem._id === _id);
     if (itemInCart) {
       dispatch({
@@ -238,8 +236,9 @@ function ProductItem(item) {
                     p={2}
                     bgGradient="linear(to-r, #94948C, yellow.400, #94948C)"
                     align={"center"}
-                    borderTopLeftRadius={40}
-                    borderBottomRightRadius={40}
+                    // borderTopLeftRadius={40}
+                    // borderBottomRightRadius={40}
+                    borderRadius={5}
                     width="150px"
                     fontWeight={700}
                     mb={-3}
@@ -256,6 +255,8 @@ function ProductItem(item) {
                     borderRadius="full"
                     _hover={{
                       bg: "gray.700",
+                      transform: "translateY(2px)",
+                      boxShadow: "lg",
                     }}
                     width={{
                       base: "150px",

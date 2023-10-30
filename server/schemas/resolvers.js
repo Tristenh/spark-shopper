@@ -75,23 +75,24 @@ const resolvers = {
 
       throw AuthenticationError;
     },
-    //
-    // order: async (parent, { _id }, context) => {
-    //   if (context.user) {
-    //     try {
-    //       const user = await User.findById(context.user._id).populate({
-    //         path: "orders.products",
-    //         populate: "category",
-    //       });
 
-    //       return user.orders.id(_id);
-    //     } catch (error) {
-    //       console.log("No orders found", error);
-    //     }
-    //   }
+    // find user orders
+    order: async (parent, { _id }, context) => {
+      if (context.user) {
+        try {
+          const user = await User.findById(context.user._id).populate({
+            path: "orders.products",
+            populate: "category",
+          });
 
-    //   throw AuthenticationError;
-    // },
+          return user.orders.id(_id);
+        } catch (error) {
+          console.log("No orders found", error);
+        }
+      }
+
+      throw AuthenticationError;
+    },
 
     checkout: async (parent, args, context) => {
       try {
@@ -126,11 +127,55 @@ const resolvers = {
           payment_method_types: ["card"],
           line_items,
           mode: "payment",
-          success_url: `${url}/`,
+          success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${url}/`,
         });
 
         return { session: session.id };
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    search: async (parent, { name }) => {
+      try {
+        const subCategoryIds = [];
+        const categoryIds = [];
+
+        const products = await Product.find({
+          $text: { $search: `\"${name}\"` },
+        });
+
+        const categories = await Category.find({
+          $text: { $search: `\"${name}\"` },
+        });
+
+        const subCategories = await SubCategory.find({
+          $text: { $search: `\"${name}\"` },
+        }).populate("category");
+
+        subCategories.map((item) => {
+          if (item.category != null) {
+            subCategoryIds.push(item._id);
+          }
+        });
+        categories.map((item) => {
+          categoryIds.push(item._id);
+        });
+        const subCategoryByCategoryId = await SubCategory.find({
+          category: { $in: categoryIds },
+        });
+
+        subCategoryByCategoryId.map((item) => {
+          if (item.category != null) {
+            subCategoryIds.push(item._id);
+          }
+        });
+        const productsBySubCategoryIds = await Product.find({
+          subcategory: { $in: subCategoryIds },
+        });
+
+        if (products.length) return products;
+        return productsBySubCategoryIds;
       } catch (error) {
         console.log(error);
       }

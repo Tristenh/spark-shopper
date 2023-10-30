@@ -5,13 +5,15 @@ import { Box, MenuItem } from "@chakra-ui/react";
 import { useStoreContext } from "../../utils/GlobalState";
 // import query and action
 import { QUERY_SUBCATEGORIES } from "../../utils/queries";
+//import actions
 import {
   UPDATE_SUBCATEGORIES,
   UPDATE_CURRENT_SUBCATEGORY,
+  CLEAR_SEARCH,
+  CURRENT_SUBCATEGORY_NAME,
 } from "../../utils/actions";
 // import package
 import { useLazyQuery } from "@apollo/client";
-
 import { idbPromise } from "../../utils/helpers";
 
 const submenu = {
@@ -56,19 +58,30 @@ export default function Dropdown({ level, dropdown }) {
     }
   }, [dispatch, getSubCategories, currentCategory, loading]);
 
-  // update current subcategory state after click on subcategory
-  const handleItemClick = async (id) => {
+  // update current subcategory state after click on subcategory and set the subCategoryName to display in title
+  const handleItemClick = async (id, name) => {
     dispatch({
       type: UPDATE_CURRENT_SUBCATEGORY,
       currentSubCategory: id,
     });
+    dispatch({
+      type: CURRENT_SUBCATEGORY_NAME,
+      currentSubCategoryName: name,
+    });
   };
-
+  //clears the state search inside click event of link
+  const handleLinkClick = async () => {
+    dispatch({
+      type: CLEAR_SEARCH,
+    });
+  };
+  if (!state.subcategories.length) {
+    return;
+  }
   return (
-    
     <Box
       as="ul"
-      position="absolute"      
+      position="absolute"
       right={0}
       left="auto"
       border="2px solid white"
@@ -94,9 +107,13 @@ export default function Dropdown({ level, dropdown }) {
           color={"white"}
           bg={"back.900"}
           _hover={{ bg: "gray.400", color: "black" }}
-          onClick={() => handleItemClick(item._id)}
+          onClick={() => handleItemClick(item._id, item.name)}
         >
-          <Link style={{ textDecoration: "none" }} to={"/"}>
+          <Link
+            onClick={() => handleLinkClick}
+            style={{ textDecoration: "none" }}
+            to={"/"}
+          >
             {" "}
             {item.name}
           </Link>

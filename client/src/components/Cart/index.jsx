@@ -14,7 +14,6 @@ import {
   Heading,
   Flex,
   HStack,
-  Link,
   Drawer,
   DrawerBody,
   DrawerFooter,
@@ -26,10 +25,13 @@ import {
   Text,
   VStack,
   Button,
+  IconButton,
 } from "@chakra-ui/react";
+//import files
 
+import { Link } from "react-router-dom";
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
-
+import { BsFillCartCheckFill, BsCart } from "react-icons/bs";
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
@@ -82,16 +84,6 @@ const Cart = () => {
     });
   }
 
-  // if (!state.cartOpen) {
-  //   return (
-  //     <div className="cart-closed" onClick={toggleCart}>
-  //       <span role="img" aria-label="trash">
-  //         🛒
-  //       </span>
-  //     </div>
-  //   );
-  // }
-
   //if  cartOpen is true , then the cart is displayed
   if (state.cartOpen) {
     let totalQuantity = 0;
@@ -119,14 +111,17 @@ const Cart = () => {
               fontWeight="extrabold"
             />
             <DrawerHeader bgColor={"#51636C"}>
-              <Heading
-                fontSize="xl"
-                fontWeight="extrabold"
-                bgGradient="linear(to-r,yellow.400, orange.200, yellow.400)"
-                bgClip="text"
-              >
-                Shopping Cart ({totalQuantity} items)
-              </Heading>
+              <HStack>
+                <Heading
+                  fontSize="xl"
+                  fontWeight="extrabold"
+                  bgGradient="linear(to-r,yellow.400, orange.200, yellow.400)"
+                  bgClip="text"
+                >
+                  Shopping Cart ({totalQuantity} items)
+                </Heading>
+                <BsFillCartCheckFill color="#E6B712" />
+              </HStack>
             </DrawerHeader>
 
             <DrawerBody>
@@ -171,7 +166,9 @@ const Cart = () => {
                                     onClick={toggleCart}
                                     color={"black"}
                                   >
-                                    Continue shopping
+                                    <Text fontWeight="semibold">
+                                      Continue shopping
+                                    </Text>
                                   </Link>
                                 </center>
                                 <center>
@@ -216,10 +213,10 @@ const Cart = () => {
                           </Box>
                         </Box>
                       ) : (
-                        <Heading>
-                          <Text>😱</Text>
-                          You haven't added anything to your cart yet!
-                        </Heading>
+                        <HStack mt={10}>
+                          <Heading fontSize={20}>Your cart is empty !</Heading>
+                          <BsCart />
+                        </HStack>
                       )}
                     </Stack>
                   </Stack>
