@@ -254,6 +254,8 @@ function ProductItem(item) {
                     borderRadius="full"
                     _hover={{
                       bg: "gray.700",
+                      transform: "translateY(2px)",
+                      boxShadow: "lg",
                     }}
                     width={{
                       base: "150px",
