@@ -1,4 +1,4 @@
-# Spark Shopper
+[cartwishlist.webm](https://github.com/Tristenh/spark-shopper/assets/132193442/e593430d-54c1-410a-bfad-7729066a1a8a)# Spark Shopper
 
 ## Description
 Introducing SparkShopper, your one-stop shop for hassle free online shopping. Whether you're hunting for the latest gadgets or curating a wish list, we've got you covered. Here's what we offer:
@@ -60,10 +60,13 @@ The following images show the web application's appearance and functionality :
 ![Screenshot (184)](https://github.com/Tristenh/spark-shopper/assets/121472192/d895e5ae-8e9d-4050-948a-dece756deed4)
 
 **Search**
-![Screenshot (185)](https://github.com/Tristenh/spark-shopper/assets/121472192/7c807031-cf33-4dca-ab36-46c1e2d586ed)
+![searchapple](https://github.com/Tristenh/spark-shopper/assets/132193442/48800490-371d-400e-8573-ba484082c831)
+
+**Menu**
+![menu](https://github.com/Tristenh/spark-shopper/assets/132193442/8f0b427d-d346-43c1-a75e-31df005c862e)
 
 **Product Details**
-![Screenshot (186)](https://github.com/Tristenh/spark-shopper/assets/121472192/08a42d98-23d3-4a19-add0-287b432337ef)
+![details](https://github.com/Tristenh/spark-shopper/assets/132193442/42324b31-dc16-436d-bc05-2471b9b3008e)
 
 **Cart**
 ![Screenshot (187)](https://github.com/Tristenh/spark-shopper/assets/121472192/56666700-cf78-4305-8f7a-871b78a53242)
@@ -74,8 +77,8 @@ The following images show the web application's appearance and functionality :
 **Success page**
 ![Screenshot (189)](https://github.com/Tristenh/spark-shopper/assets/121472192/41c584be-2e23-450e-85f9-43bfeb0df0a4)
 
-**Wish list**
-![Screenshot (190)](https://github.com/Tristenh/spark-shopper/assets/121472192/0f717f99-ec13-4112-b20f-3f90c9f62352)
+**Wishlist**
+![wishlistcart](https://github.com/Tristenh/spark-shopper/assets/132193442/0e9c6160-a056-4f95-9d7d-370a4977e996)
 
 **Order History**
 ![Screenshot (191)](https://github.com/Tristenh/spark-shopper/assets/121472192/35434549-4c39-4b0c-bb19-d7554659fb6f)
