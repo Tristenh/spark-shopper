@@ -87,6 +87,8 @@ type Mutation {
     updateUser(username: String,email: String,password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth
+    removeComment(productId: ID!, commentId: ID!): Product
+
   }
 `;
 

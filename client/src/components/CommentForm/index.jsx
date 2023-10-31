@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 // import chakra components
 import {
   FormControl,
@@ -11,7 +11,6 @@ import {
   ModalFooter
 } from "@chakra-ui/react";
 // import actions
-import { ADD_COMMENT_TEXT } from "../../utils/actions";
 import { CURRENT_PRODUCT } from "../../utils/actions";
 
 import { useMutation } from "@apollo/client";
@@ -30,28 +29,7 @@ const CommentForm = ({ rating, setRating, close }) => {
   const [characterCount, setCharacterCount] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const productId = currentProduct._id;
-  const [addComment, { loading }] = useMutation(ADD_COMMENT);
-
-  useEffect(() => {
-    // store comments in state
-    if (currentProduct.comments) {
-      dispatch({
-        type: ADD_COMMENT_TEXT,
-        comments: currentProduct.comments,
-      });
-      // cache all comments
-      currentProduct.comments.forEach((comment) => {
-        idbPromise("comments", "put", comment);
-      });
-    } else {
-      idbPromise("comments", "get").then((indexedComment) => {
-        dispatch({
-          type: CURRENT_PRODUCT,
-          comments: indexedComment,
-        });
-      });
-    }
-  }, [currentProduct, dispatch]);
+  const [addComment, { loading }] = useMutation(ADD_COMMENT);  
  
 
   const handleFormSubmit = async (event) => {

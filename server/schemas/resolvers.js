@@ -238,6 +238,14 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
+    // remove comment
+    removeComment: async (parent, { productId, commentId }) => {
+      return Product.findOneAndUpdate(
+        { _id: productId },
+        { $pull: { comments: { _id: commentId } } },
+        { new: true }
+      );
+    },
     //signup
     addUser: async (parent, args) => {
       try {

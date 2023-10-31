@@ -183,3 +183,29 @@ export const ADD_WISHLIST = gql`
     }
   }
 `;
+// mutation to remove comment
+export const REMOVE_COMMENT = gql`
+  mutation removeComment($productId: ID!, $commentId: ID!) {
+    removeComment(productId: $productId, commentId: $commentId) {
+    _id
+    comments {
+      _id
+      commentDesc
+      dateCreated
+      rating
+      userName
+    }
+    description
+    features
+    image
+    name
+    price
+    quantity
+    subcategory {
+      _id
+      name
+    }
+  }
+  }
+`;
+

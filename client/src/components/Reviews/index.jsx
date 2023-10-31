@@ -1,6 +1,7 @@
 // import packages from react
 import React from "react";
 import { FaStar } from "react-icons/fa";
+
 // import chakra components
 import {
   Box,

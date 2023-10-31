@@ -1,14 +1,45 @@
 // import chakra components
 import { Stack, Text, Box, VStack, Flex, HStack } from "@chakra-ui/react";
 // import react icon
-import { AiFillStar } from "react-icons/ai";
+import { AiFillStar, AiFillDelete } from "react-icons/ai";
+import { idbPromise } from "../../utils/helpers";
 
 import { useStoreContext } from "../../utils/GlobalState";
-
+import { useMutation } from "@apollo/client";
+import { REMOVE_COMMENT } from "../../utils/mutations";
+import{CURRENT_PRODUCT} from "../../utils/actions"
 const CommentList = () => {
-  const [state] = useStoreContext();
+  const [state, dispatch] = useStoreContext();
   const { currentProduct } = state;
-  
+  const [removeComment, { loading }] = useMutation(REMOVE_COMMENT);
+
+ 
+  const removeCommentbyId = async (commentId) => {
+    const { data } = await removeComment({
+      variables: {
+        commentId,
+        productId: currentProduct._id,
+      },
+    });
+   
+    if(data){
+      dispatch({
+        type: CURRENT_PRODUCT,
+        currentProduct:{...data.removeComment},
+      
+      });
+      console.log(currentProduct.comments);
+      idbPromise("singleProduct", "put", data.removeComment);
+    } else if (!loading) {
+      idbPromise("singleProduct", "get").then((indexedProduct) => {
+        console.log(indexedProduct)
+        dispatch({
+          type: CURRENT_PRODUCT,
+          product: indexedProduct,
+        });
+      });
+    }
+  };
   return (
     <>
       <Stack>
@@ -17,9 +48,9 @@ const CommentList = () => {
         </Box>
       </Stack>
       <VStack alignItems={"flex-start"}>
-        
+        {/* {console.log(state.currentProduct,state.comments)} */}
         {currentProduct.comments &&
-         currentProduct.comments.map((comment) => (
+          currentProduct.comments.map((comment) => (
             <Box
               key={comment._id}
               w="90%"
@@ -38,8 +69,11 @@ const CommentList = () => {
                     {comment.userName}{" "}
                   </Text>
                   <Text fontSize={"xs"} color={"gray.500"}>
-                    {comment.dateCreated}
+                    {comment.dateCreated}                    
                   </Text>
+                  <Box onClick={() => removeCommentbyId(comment._id)}>
+                      <AiFillDelete />
+                    </Box>
                 </Stack>
               </Box>
               <HStack borderTop={"1px"} borderColor="gray.400" color="black">

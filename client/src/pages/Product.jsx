@@ -422,6 +422,7 @@ function Product() {
                     )}
                     {/* review component */}
                   </AccordionItem>
+                  
                   <Reviews averageRatingAmount={averageRatingAmount} />
                 </Accordion>
               </Stack>
