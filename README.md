@@ -23,24 +23,26 @@ At SparkShopper, we’re all about making  your shopping experience enjoyable an
   ```
   npm run seed
   ```
-## Usage
 
-#### Features
 
-User Authentication : Secure signup and login system.
-Search : by product name and category.
-Cart :  users to add products they are interested in purchasing.
-Checkout and Payment :  proceed to payment, providing their billing and shipping information.
-Product Details : product pages offer in-depth information about each item in the store.
-Review & Ratings : user engagement by allowing customers to provide reviews and ratings for products they have purchased or used.
-Wishlist : wishlist feature allows users to curate a list of their favorite products.
-Order History :  history section provides users with a complete record of their past purchases.
+
+## Features
+
+- User Authentication : Secure signup and login system.
+- Search : by product name and category.
+- Cart :  users to add products they are interested in purchasing.
+- Checkout and Payment :  proceed to payment, providing their billing and shipping information.
+- Product Details : product pages offer in-depth information about each item in the store.
+- Review & Ratings : user engagement by allowing customers to provide reviews and ratings for products they have purchased or used.
+- Wishlist : wishlist feature allows users to curate a list of their favorite products.
+- Order History :  history section provides users with a complete record of their past purchases.
 
 #### Deployment Link :
 
 https://spark-shopper-c35a92bbd283.herokuapp.com/
 
 # Usage
+
 The application can be invoked in the terminal by using the following command:
 
 ```
@@ -79,13 +81,14 @@ The following images show the web application's appearance and functionality :
 ![Screenshot (191)](https://github.com/Tristenh/spark-shopper/assets/121472192/35434549-4c39-4b0c-bb19-d7554659fb6f)
 
 ## Technologies And Tools Used
-* React
+
 * React JS
 * Chakra UI
 * Node
 * Express
 * Vite
 * JavaScript
+* Stripe
 
 ## Credits
 
@@ -101,8 +104,12 @@ https://www.digitalocean.com/community/tutorials/how-to-perform-full-text-search
 
 https://pro.chakra-ui.com/components/e-commerce/shopping-carts
 
-https://stackoverflow.com/questions/72561691/how-to-change-react-icons-while-clicking-it#:~:text=The%20answer%20for%20this%20is,isActive)%7D%3E%20%7BisActive%20%3F
+https://stackoverflow.com/questions/72561691/how-to-change-react-icons-while-clicking-it#:~:text=The%20answer%20for%20this%20is,isActive
 
 https://chakra-templates.dev/components/cards
 
 https://react-icons.github.io/react-icons/icons?name=fa
+
+https://blog.logrocket.com/how-create-multilevel-dropdown-menu-react/
+
+https://codesandbox.io/s/star-rating-using-react-and-chakra-ui-d67ft6?file=/src/components/StarRating.js
