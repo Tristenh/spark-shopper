@@ -7,10 +7,6 @@ import {
   Button,
   useDisclosure,
   Stack,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightAddon,
   Text,
   Image,
   Badge,
@@ -20,7 +16,7 @@ import {
 import { Link } from "react-router-dom";
 
 //import icons
-import { HamburgerIcon, CloseIcon, SearchIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { BsSuitHeart, BsCart4 } from "react-icons/bs";
 
 //import files

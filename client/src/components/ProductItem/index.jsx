@@ -80,7 +80,7 @@ function ProductItem(item) {
       const productIds = wish.map((item) => item._id);
 
       // const productIds = state.wishList.map((item) => item._id);
-      const { data } = await addWishList({
+       await addWishList({
         variables: { products: productIds },
       });
     }

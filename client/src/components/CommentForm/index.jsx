@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+// import chakra components
 import {
   FormControl,
   FormLabel,
@@ -7,51 +8,33 @@ import {
   Button,
   Text,
   Box,
+  ModalFooter
 } from "@chakra-ui/react";
+// import actions
+import { CURRENT_PRODUCT } from "../../utils/actions";
 
-import { ADD_COMMENT_TEXT } from "../../utils/actions";
 import { useMutation } from "@apollo/client";
 import { idbPromise } from "../../utils/helpers";
-
+// add comment mutation
 import { ADD_COMMENT } from "../../utils/mutations";
+// import global state
 import { useStoreContext } from "../../utils/GlobalState";
-import { CURRENT_PRODUCT } from "../../utils/actions";
 import Auth from "../../utils/auth";
 
 const CommentForm = ({ rating, setRating, close }) => {
   const [state, dispatch] = useStoreContext();
+  // get current product from state
   const { currentProduct } = state;
   const [commentDesc, setCommentDesc] = useState("");
   const [characterCount, setCharacterCount] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
-
-  useEffect(() => {
-    if(currentProduct.comments){
-      dispatch({
-        type:ADD_COMMENT_TEXT,
-        comments:currentProduct.comments
-      })
-      currentProduct.comments.forEach((comment)=>{
-        idbPromise("comments", "put", comment);
-      })
-      
-    }
-    else{
-      idbPromise("comments", "get").then((indexedComment) => {
-        dispatch({
-          type: CURRENT_PRODUCT,
-          comments: indexedComment,
-        });
-      });
-    }
-   
-  }, [currentProduct,dispatch]);
   const productId = currentProduct._id;
-  const [addComment, { loading }] = useMutation(ADD_COMMENT);
+  const [addComment, { loading }] = useMutation(ADD_COMMENT);  
+ 
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
+    // returns updated prodcust with all comments including new
     try {
       const { data } = await addComment({
         variables: {
@@ -61,7 +44,7 @@ const CommentForm = ({ rating, setRating, close }) => {
           userName: "Auth.getProfile().data.username",
         },
       });
-
+// set state with updated currentproduct
       if (data) {
         dispatch({
           type: CURRENT_PRODUCT,
@@ -76,12 +59,10 @@ const CommentForm = ({ rating, setRating, close }) => {
           });
         });
       }
-      console.log(state.currentProduct);
       if (!errorMessage) {
         console.log("Review Received");
         setRating(0);
         setCommentDesc("");
-        
       }
       close();
     } catch (err) {
@@ -91,7 +72,7 @@ const CommentForm = ({ rating, setRating, close }) => {
     setRating(0);
     setCommentDesc("");
   };
-  console.log(state.currentProduct);
+  // check characters are less than 280 
   const handleChange = (event) => {
     setErrorMessage("");
     const { name, value } = event.target;
@@ -100,7 +81,6 @@ const CommentForm = ({ rating, setRating, close }) => {
       setCharacterCount(value.length);
     }
   };
-
 
   return (
     <Stack
@@ -112,60 +92,59 @@ const CommentForm = ({ rating, setRating, close }) => {
       {/* modal to display comment form  */}
       {Auth.loggedIn ? (
         <>
-      <form
-        onSubmit={(e) => {
-          handleFormSubmit(e);
-        }}
-      >
-        <FormControl>
-          <FormLabel>Add a Comment</FormLabel>
+          <form
+            onSubmit={(e) => {
+              handleFormSubmit(e);
+            }}
+          >
+            <FormControl>
+              <FormLabel>Add a Comment</FormLabel>
+              <Textarea
+                width={"95%"}
+                name="commentDesc"
+                value={commentDesc}
+                onChange={handleChange}
+                placeholder="Write your valuable comment"
+              />
+              <Stack alignItems={"flex-end"} marginRight={"6"}>
+                <Box
+                  fontSize={"sm"}
+                  color={characterCount === 280 ? "orange" : "white"}
+                >
+                  Character Count: {characterCount}/280
+                </Box>
+              </Stack>
+            </FormControl>
 
-          <Textarea
-            width={"95%"}
-            name="commentDesc"
-            value={commentDesc}
-            onChange={handleChange}
-            placeholder="Write your valuable comment"
-          />
-          <Stack alignItems={"flex-end"} marginRight={"6"}>
-            <Box
-              fontSize={"sm"}
-              color={characterCount === 280 ? "orange" : "white"}
+            {/* if state of error message changes */}
+            {errorMessage && (
+              <Stack>
+                <Text fontSize={"1xl"} color={"orange"}>
+                  {errorMessage}
+                </Text>
+              </Stack>
+            )}
+
+            <ModalFooter>
+            <Button
+              _hover={{ bg: "gray.400" }}
+              mr={5}
+              onClick={() => {
+                close();
+              }}
             >
-              Character Count: {characterCount}/280
-            </Box>
-          </Stack>
-        </FormControl>
-
-        {/* if state of error message changes */}
-        {errorMessage && (
-          <Stack>
-            <Text fontSize={"1xl"} color={"orange"}>
-              {errorMessage}
-            </Text>
-          </Stack>
-        )}
-
-        {/* <ModalFooter> */}
-        <Button
-          _hover={{ bg: "gray.400" }}
-          mr={5}
-          onClick={() => {
-            close();
-          }}
-        >
-          Close
-        </Button>
-        <Button
-          type="submit"
-          // onClick={handleCommentClick}
-          _hover={{ bg: "gray.400" }}
-        >
-          Comment
-        </Button>
-        {/* </ModalFooter> */}
-      </form>
-      </>
+              Close
+            </Button>
+            <Button
+              type="submit"
+              // onClick={handleCommentClick}
+              _hover={{ bg: "gray.400" }}
+            >
+              Comment
+            </Button>
+            </ModalFooter>
+          </form>
+        </>
       ) : (
         ""
       )}

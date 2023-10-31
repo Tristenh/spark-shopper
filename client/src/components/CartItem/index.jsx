@@ -12,6 +12,7 @@ import {
   HStack,
   Text,
   Select,
+  Image
 } from "@chakra-ui/react";
 
 const CartItem = ({ item }) => {
@@ -65,7 +66,7 @@ const CartItem = ({ item }) => {
         >
           <VStack>
             <HStack>
-              <img
+              <Image
                 rounded="lg"
                 width="120px"
                 height="120px"
@@ -111,7 +112,7 @@ const CartItem = ({ item }) => {
         >
           <VStack>
             <HStack>
-              <img
+              <Image
                 rounded="lg"
                 width="120px"
                 height="120px"

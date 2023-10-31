@@ -1,19 +1,45 @@
-import {
-  Stack,
-  Text,
-  Box,
-  VStack,
-  Flex,
-  HStack,
-  Heading,
-} from "@chakra-ui/react";
+// import chakra components
+import { Stack, Text, Box, VStack, Flex, HStack } from "@chakra-ui/react";
+// import react icon
 import { AiFillStar } from "react-icons/ai";
-import { useStoreContext } from "../../utils/GlobalState";
-const CommentList = () => {
-  // const { id } = useParams();
-  const [state] = useStoreContext();
-  const { currentProduct } = state;
+import { RiDeleteBinLine } from "react-icons/ri";
 
+import { idbPromise } from "../../utils/helpers";
+import { useStoreContext } from "../../utils/GlobalState";
+import { useMutation } from "@apollo/client";
+// mutation to remove comment from database
+import { REMOVE_COMMENT } from "../../utils/mutations";
+import { CURRENT_PRODUCT } from "../../utils/actions";
+
+const CommentList = () => {
+  const [state, dispatch] = useStoreContext();
+  const { currentProduct } = state;
+  const [removeComment, { loading }] = useMutation(REMOVE_COMMENT);
+
+  const removeCommentbyId = async (commentId) => {
+    // comment remove from database
+    const { data } = await removeComment({
+      variables: {
+        commentId,
+        productId: currentProduct._id,
+      },
+    });
+// update current product state after comment remove
+    if (data) {
+      dispatch({
+        type: CURRENT_PRODUCT,
+        currentProduct: { ...data.removeComment },
+      });
+      idbPromise("singleProduct", "put", data.removeComment);
+    } else if (!loading) {
+      idbPromise("singleProduct", "get").then((indexedProduct) => {
+        dispatch({
+          type: CURRENT_PRODUCT,
+          product: indexedProduct,
+        });
+      });
+    }
+  };
   return (
     <>
       <Stack>
@@ -21,7 +47,7 @@ const CommentList = () => {
           <Text fontSize={{ base: "lg", lg: "xl" }}>Customer Reviews</Text>
         </Box>
       </Stack>
-      <VStack alignItems={"flex-start"}>
+      <VStack>
         {currentProduct.comments &&
           currentProduct.comments.map((comment) => (
             <Box
@@ -34,20 +60,27 @@ const CommentList = () => {
               bg="white"
               border={"1px"}
               borderColor="gray.400"
-
-              // // boxShadow={useColorModeValue(
-              //   "6px 6px 0 black",
-              //   "6px 6px 0 cyan"
-              // )}
             >
+              {/* displays user name, comment text, rating in numbers and date of comment */}
               <Box p={4}>
                 <Stack direction={"column"} spacing={0}>
-                  <Text fontSize={"md"} fontWeight={600}>
+                  <Text fontSize={"lg"} fontWeight={600}>
                     {comment.userName}{" "}
                   </Text>
-                  <Text fontSize={"xs"} color={"gray.500"}>
-                    {comment.dateCreated}
-                  </Text>
+                  <Flex justifyContent={"space-between"}>
+                    <Text fontSize={"sm"} color={"gray.500"}>
+                      {comment.dateCreated}
+                    </Text>
+                    {/* remove comment button */}
+                    <Text
+                      mt={0.5}
+                      ml={1}
+                      fontSize={"xl"}
+                      onClick={() => removeCommentbyId(comment._id)}
+                    >
+                      <RiDeleteBinLine />
+                    </Text>{" "}
+                  </Flex>
                 </Stack>
               </Box>
               <HStack borderTop={"1px"} borderColor="gray.400" color="black">
@@ -69,19 +102,20 @@ const CommentList = () => {
                       </Text>{" "}
                     </Flex>
                   </Box>
-                  <Text borderLeft={"1px"} borderColor="gray.600" pl={4} fontSize={"md"} fontWeight={"semibold"}>
+                  <Text
+                    borderLeft={"1px"}
+                    borderColor="gray.600"
+                    pl={4}
+                    fontSize={"md"}
+                    fontWeight={"semibold"}
+                  >
                     {comment.commentDesc}
                   </Text>
-                  {/* <BsArrowUpRight   /> */}
                 </Flex>
               </HStack>
             </Box>
-
-          
           ))}
       </VStack>
-
-     
     </>
   );
 };

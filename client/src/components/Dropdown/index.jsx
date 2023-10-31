@@ -46,7 +46,7 @@ export default function Dropdown({ level, dropdown }) {
         });
         sub.data.subcategories.forEach((subcategory) => {
           idbPromise("subcategories", "put", subcategory);
-        });
+        }); 
       });
     } else if (!loading) {
       idbPromise("subcategories", "get").then((subcategories) => {
