@@ -1,4 +1,4 @@
-[cartwishlist.webm](https://github.com/Tristenh/spark-shopper/assets/132193442/e593430d-54c1-410a-bfad-7729066a1a8a)# Spark Shopper
+# Spark Shopper
 
 ## Description
 Introducing SparkShopper, your one-stop shop for hassle free online shopping. Whether you're hunting for the latest gadgets or curating a wish list, we've got you covered. Here's what we offer:
@@ -66,10 +66,15 @@ The following images show the web application's appearance and functionality :
 ![menu](https://github.com/Tristenh/spark-shopper/assets/132193442/8f0b427d-d346-43c1-a75e-31df005c862e)
 
 **Product Details**
-![details](https://github.com/Tristenh/spark-shopper/assets/132193442/42324b31-dc16-436d-bc05-2471b9b3008e)
+![Screen Shot 2023-10-31 at 9 14 57 pm](https://github.com/Tristenh/spark-shopper/assets/132061805/3b32451e-8173-4389-85ca-465c63a1241c)
+![Screen Shot 2023-10-31 at 9 15 38 pm](https://github.com/Tristenh/spark-shopper/assets/132061805/618a9ed5-c5e6-4d7e-8132-07eaaa4cca27)
+![Screen Shot 2023-10-31 at 9 16 46 pm](https://github.com/Tristenh/spark-shopper/assets/132061805/88c60779-3b92-4a31-a877-e917d9ce8085)
+
+
 
 **Cart**
-![Screenshot (187)](https://github.com/Tristenh/spark-shopper/assets/121472192/56666700-cf78-4305-8f7a-871b78a53242)
+![cart](https://github.com/Tristenh/spark-shopper/assets/132061805/d8b4572a-f9cd-460b-a481-8f8bdcbe0ffb)
+
 
 **Checkout and Payment**
 ![Screenshot (188)](https://github.com/Tristenh/spark-shopper/assets/121472192/a657b7d3-a564-42cb-b2de-b6a1259a8b0f)
@@ -78,7 +83,9 @@ The following images show the web application's appearance and functionality :
 ![Screenshot (189)](https://github.com/Tristenh/spark-shopper/assets/121472192/41c584be-2e23-450e-85f9-43bfeb0df0a4)
 
 **Wishlist**
-![wishlistcart](https://github.com/Tristenh/spark-shopper/assets/132193442/0e9c6160-a056-4f95-9d7d-370a4977e996)
+![wishlist](https://github.com/Tristenh/spark-shopper/assets/132061805/c76d5025-19ad-495e-a598-b84c45b7dfb0)
+
+![Screen Shot 2023-10-31 at 9 20 35 pm](https://github.com/Tristenh/spark-shopper/assets/132061805/cc9405be-7a59-4c97-a32b-f11eb741d2c7)
 
 **Order History**
 ![Screenshot (191)](https://github.com/Tristenh/spark-shopper/assets/121472192/35434549-4c39-4b0c-bb19-d7554659fb6f)
