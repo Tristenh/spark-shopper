@@ -38,6 +38,10 @@ const startApolloServer = async () => {
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));
 
+    // API endpoint
+    app.get('/api/stripe-key', (req, res) => {
+      res.json({ apiKey: process.env.STRIPEKEY });
+    });
     app.get("*", (req, res) => {
       res.sendFile(path.join(__dirname, "../client/dist/index.html"));
     });
