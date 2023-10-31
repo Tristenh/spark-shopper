@@ -1,3 +1,4 @@
+// product details page function flows in order of following components- review, rating, commentform, commentlist
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 // import chakra components
@@ -47,6 +48,9 @@ import {
   CURRENT_PRODUCT,
   ADD_TO_WISHLIST,
   REMOVE_FROM_WISHLIST,
+  CLEAR_SEARCH,
+  CLEAR_CURRENT_SUBCATEGORY,
+  CURRENT_SUBCATEGORY_NAME,
 } from "../utils/actions";
 // import query and mutation
 import { QUERY_PRODUCTS, QUERY_USER } from "../utils/queries";
@@ -201,7 +205,13 @@ function Product() {
   !Auth.loggedIn()
     ? (tooTipText = "Login to add to Wish list")
     : (tooTipText = "Add to Wish list");
-
+    const handleLogoClick = async () => {
+      dispatch({
+        type: CLEAR_SEARCH,
+      });
+      dispatch({ type: CLEAR_CURRENT_SUBCATEGORY });
+      dispatch({ type: CURRENT_SUBCATEGORY_NAME, currentSubCategoryName: "" });
+    };
   return (
     <>
       {loading ? (
@@ -215,7 +225,8 @@ function Product() {
       ) : null}
       {currentProduct && cart ? (
         <Container maxW={"8xl"}>
-          <Link to="/">← Back to Products</Link>
+           <Box onClick={handleLogoClick}>  <Link to="/">← Back to Products</Link></Box>
+        
           <SimpleGrid
             columns={{ base: 1, lg: 2 }}
             spacing={{ base: 8, md: 10 }}
@@ -420,9 +431,8 @@ function Product() {
                         </AccordionPanel>
                       </>
                     )}
-                    {/* review component */}
                   </AccordionItem>
-                  
+                    {/* review component */}                  
                   <Reviews averageRatingAmount={averageRatingAmount} />
                 </Accordion>
               </Stack>
